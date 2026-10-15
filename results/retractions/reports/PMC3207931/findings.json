@@ -1,0 +1,1751 @@
+[
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig2#0",
+  "panel_b": "fig2#1",
+  "score": 1.0,
+  "inliers": 259,
+  "correlation": 1.0,
+  "detail": 1.0,
+  "texture": 1.0,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    1221.0,
+    1370.0
+   ],
+   [
+    1898.0,
+    1370.0
+   ],
+   [
+    1898.0,
+    1578.0
+   ],
+   [
+    1221.0,
+    1578.0
+   ]
+  ],
+  "region_b": [
+   [
+    1221.0,
+    1370.0
+   ],
+   [
+    1898.0,
+    1370.0
+   ],
+   [
+    1898.0,
+    1578.0
+   ],
+   [
+    1221.0,
+    1578.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig5#0",
+  "panel_b": "fig5#1",
+  "score": 1.0,
+  "inliers": 992,
+  "correlation": 1.0,
+  "detail": 1.0,
+  "texture": 1.0,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    227.0,
+    127.0
+   ],
+   [
+    647.0,
+    127.0
+   ],
+   [
+    647.0,
+    398.0
+   ],
+   [
+    227.0,
+    398.0
+   ]
+  ],
+  "region_b": [
+   [
+    227.0,
+    127.0
+   ],
+   [
+    647.0,
+    127.0
+   ],
+   [
+    647.0,
+    398.0
+   ],
+   [
+    227.0,
+    398.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig5#2",
+  "panel_b": "fig5#3",
+  "score": 1.0,
+  "inliers": 899,
+  "correlation": 1.0,
+  "detail": 1.0,
+  "texture": 1.0,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    664.0,
+    127.0
+   ],
+   [
+    1049.0,
+    127.0
+   ],
+   [
+    1049.0,
+    402.0
+   ],
+   [
+    664.0,
+    402.0
+   ]
+  ],
+  "region_b": [
+   [
+    664.0,
+    127.0
+   ],
+   [
+    1049.0,
+    127.0
+   ],
+   [
+    1049.0,
+    402.0
+   ],
+   [
+    664.0,
+    402.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig5#8",
+  "panel_b": "fig5#9",
+  "score": 1.0,
+  "inliers": 1322,
+  "correlation": 1.0,
+  "detail": 1.0,
+  "texture": 1.0,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    227.0,
+    664.0
+   ],
+   [
+    741.0,
+    664.0
+   ],
+   [
+    741.0,
+    918.0
+   ],
+   [
+    227.0,
+    918.0
+   ]
+  ],
+  "region_b": [
+   [
+    227.0,
+    664.0
+   ],
+   [
+    741.0,
+    664.0
+   ],
+   [
+    741.0,
+    918.0
+   ],
+   [
+    227.0,
+    918.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig5#10",
+  "panel_b": "fig5#11",
+  "score": 1.0,
+  "inliers": 1341,
+  "correlation": 1.0,
+  "detail": 1.0,
+  "texture": 1.0,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    767.0,
+    664.0
+   ],
+   [
+    1244.0,
+    664.0
+   ],
+   [
+    1244.0,
+    917.0
+   ],
+   [
+    767.0,
+    917.0
+   ]
+  ],
+  "region_b": [
+   [
+    767.0,
+    664.0
+   ],
+   [
+    1244.0,
+    664.0
+   ],
+   [
+    1244.0,
+    917.0
+   ],
+   [
+    767.0,
+    917.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig5#14",
+  "panel_b": "fig5#15",
+  "score": 1.0,
+  "inliers": 724,
+  "correlation": 1.0,
+  "detail": 1.0,
+  "texture": 1.0,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    926.0,
+    1092.0
+   ],
+   [
+    1316.0,
+    1092.0
+   ],
+   [
+    1316.0,
+    1342.0
+   ],
+   [
+    926.0,
+    1342.0
+   ]
+  ],
+  "region_b": [
+   [
+    926.0,
+    1092.0
+   ],
+   [
+    1316.0,
+    1092.0
+   ],
+   [
+    1316.0,
+    1342.0
+   ],
+   [
+    926.0,
+    1342.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig5#16",
+  "panel_b": "fig5#17",
+  "score": 1.0,
+  "inliers": 932,
+  "correlation": 1.0,
+  "detail": 1.0,
+  "texture": 1.0,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": -0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    1343.0,
+    1091.0
+   ],
+   [
+    1744.0,
+    1091.0
+   ],
+   [
+    1744.0,
+    1342.0
+   ],
+   [
+    1343.0,
+    1342.0
+   ]
+  ],
+  "region_b": [
+   [
+    1343.0,
+    1092.0
+   ],
+   [
+    1744.0,
+    1092.0
+   ],
+   [
+    1744.0,
+    1342.0
+   ],
+   [
+    1343.0,
+    1342.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig5#18",
+  "panel_b": "fig5#19",
+  "score": 1.0,
+  "inliers": 629,
+  "correlation": 1.0,
+  "detail": 1.0,
+  "texture": 1.0,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    544.0,
+    1361.0
+   ],
+   [
+    901.0,
+    1361.0
+   ],
+   [
+    901.0,
+    1601.0
+   ],
+   [
+    544.0,
+    1601.0
+   ]
+  ],
+  "region_b": [
+   [
+    544.0,
+    1361.0
+   ],
+   [
+    901.0,
+    1361.0
+   ],
+   [
+    901.0,
+    1601.0
+   ],
+   [
+    544.0,
+    1601.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig5#20",
+  "panel_b": "fig5#21",
+  "score": 1.0,
+  "inliers": 984,
+  "correlation": 1.0,
+  "detail": 1.0,
+  "texture": 1.0,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    926.0,
+    1361.0
+   ],
+   [
+    1321.0,
+    1361.0
+   ],
+   [
+    1321.0,
+    1602.0
+   ],
+   [
+    926.0,
+    1602.0
+   ]
+  ],
+  "region_b": [
+   [
+    926.0,
+    1361.0
+   ],
+   [
+    1321.0,
+    1361.0
+   ],
+   [
+    1321.0,
+    1602.0
+   ],
+   [
+    926.0,
+    1602.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig5#22",
+  "panel_b": "fig5#23",
+  "score": 1.0,
+  "inliers": 749,
+  "correlation": 1.0,
+  "detail": 1.0,
+  "texture": 1.0,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    1352.0,
+    1361.0
+   ],
+   [
+    1741.0,
+    1361.0
+   ],
+   [
+    1741.0,
+    1602.0
+   ],
+   [
+    1352.0,
+    1602.0
+   ]
+  ],
+  "region_b": [
+   [
+    1352.0,
+    1361.0
+   ],
+   [
+    1741.0,
+    1361.0
+   ],
+   [
+    1741.0,
+    1602.0
+   ],
+   [
+    1352.0,
+    1602.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig5#28",
+  "panel_b": "fig5#29",
+  "score": 1.0,
+  "inliers": 1616,
+  "correlation": 1.0,
+  "detail": 1.0,
+  "texture": 1.0,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    343.0,
+    1988.0
+   ],
+   [
+    633.0,
+    1988.0
+   ],
+   [
+    633.0,
+    2137.0
+   ],
+   [
+    343.0,
+    2137.0
+   ]
+  ],
+  "region_b": [
+   [
+    343.0,
+    1988.0
+   ],
+   [
+    633.0,
+    1988.0
+   ],
+   [
+    633.0,
+    2137.0
+   ],
+   [
+    343.0,
+    2137.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig6#0",
+  "panel_b": "fig6#1",
+  "score": 1.0,
+  "inliers": 586,
+  "correlation": 1.0,
+  "detail": 1.0,
+  "texture": 1.0,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    342.0,
+    118.0
+   ],
+   [
+    1139.0,
+    118.0
+   ],
+   [
+    1139.0,
+    276.0
+   ],
+   [
+    342.0,
+    276.0
+   ]
+  ],
+  "region_b": [
+   [
+    342.0,
+    118.0
+   ],
+   [
+    1139.0,
+    118.0
+   ],
+   [
+    1139.0,
+    276.0
+   ],
+   [
+    342.0,
+    276.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig6#4",
+  "panel_b": "fig6#5",
+  "score": 1.0,
+  "inliers": 1180,
+  "correlation": 1.0,
+  "detail": 1.0,
+  "texture": 1.0,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    342.0,
+    304.0
+   ],
+   [
+    1139.0,
+    304.0
+   ],
+   [
+    1139.0,
+    461.0
+   ],
+   [
+    342.0,
+    461.0
+   ]
+  ],
+  "region_b": [
+   [
+    342.0,
+    304.0
+   ],
+   [
+    1139.0,
+    304.0
+   ],
+   [
+    1139.0,
+    461.0
+   ],
+   [
+    342.0,
+    461.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig6#6",
+  "panel_b": "fig6#7",
+  "score": 1.0,
+  "inliers": 267,
+  "correlation": 1.0,
+  "detail": 1.0,
+  "texture": 1.0,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    1264.0,
+    303.0
+   ],
+   [
+    2000.0,
+    303.0
+   ],
+   [
+    2000.0,
+    461.0
+   ],
+   [
+    1264.0,
+    461.0
+   ]
+  ],
+  "region_b": [
+   [
+    1264.0,
+    303.0
+   ],
+   [
+    2000.0,
+    303.0
+   ],
+   [
+    2000.0,
+    461.0
+   ],
+   [
+    1264.0,
+    461.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig6#8",
+  "panel_b": "fig6#9",
+  "score": 1.0,
+  "inliers": 1628,
+  "correlation": 1.0,
+  "detail": 1.0,
+  "texture": 1.0,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    341.0,
+    488.0
+   ],
+   [
+    1142.0,
+    488.0
+   ],
+   [
+    1142.0,
+    611.0
+   ],
+   [
+    341.0,
+    611.0
+   ]
+  ],
+  "region_b": [
+   [
+    341.0,
+    488.0
+   ],
+   [
+    1142.0,
+    488.0
+   ],
+   [
+    1142.0,
+    611.0
+   ],
+   [
+    341.0,
+    611.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig6#10",
+  "panel_b": "fig6#11",
+  "score": 1.0,
+  "inliers": 745,
+  "correlation": 1.0,
+  "detail": 1.0,
+  "texture": 1.0,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    1264.0,
+    487.0
+   ],
+   [
+    2002.0,
+    487.0
+   ],
+   [
+    2002.0,
+    614.0
+   ],
+   [
+    1264.0,
+    614.0
+   ]
+  ],
+  "region_b": [
+   [
+    1264.0,
+    487.0
+   ],
+   [
+    2002.0,
+    487.0
+   ],
+   [
+    2002.0,
+    614.0
+   ],
+   [
+    1264.0,
+    614.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig7#0",
+  "panel_b": "fig7#1",
+  "score": 1.0,
+  "inliers": 870,
+  "correlation": 1.0,
+  "detail": 1.0,
+  "texture": 1.0,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    21.0,
+    31.0
+   ],
+   [
+    352.0,
+    31.0
+   ],
+   [
+    352.0,
+    435.0
+   ],
+   [
+    21.0,
+    435.0
+   ]
+  ],
+  "region_b": [
+   [
+    21.0,
+    31.0
+   ],
+   [
+    352.0,
+    31.0
+   ],
+   [
+    352.0,
+    435.0
+   ],
+   [
+    21.0,
+    435.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig7#10",
+  "panel_b": "fig7#11",
+  "score": 1.0,
+  "inliers": 1323,
+  "correlation": 1.0,
+  "detail": 1.0,
+  "texture": 1.0,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    835.0,
+    1138.0
+   ],
+   [
+    1955.0,
+    1138.0
+   ],
+   [
+    1955.0,
+    1332.0
+   ],
+   [
+    835.0,
+    1332.0
+   ]
+  ],
+  "region_b": [
+   [
+    835.0,
+    1138.0
+   ],
+   [
+    1955.0,
+    1138.0
+   ],
+   [
+    1955.0,
+    1332.0
+   ],
+   [
+    835.0,
+    1332.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig8#0",
+  "panel_b": "fig8#1",
+  "score": 1.0,
+  "inliers": 1259,
+  "correlation": 1.0,
+  "detail": 1.0,
+  "texture": 1.0,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    150.0,
+    183.0
+   ],
+   [
+    1242.0,
+    183.0
+   ],
+   [
+    1242.0,
+    1268.0
+   ],
+   [
+    150.0,
+    1268.0
+   ]
+  ],
+  "region_b": [
+   [
+    150.0,
+    183.0
+   ],
+   [
+    1242.0,
+    183.0
+   ],
+   [
+    1242.0,
+    1268.0
+   ],
+   [
+    150.0,
+    1268.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig8#4",
+  "panel_b": "fig8#5",
+  "score": 1.0,
+  "inliers": 1597,
+  "correlation": 1.0,
+  "detail": 1.0,
+  "texture": 1.0,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    142.0,
+    1380.0
+   ],
+   [
+    714.0,
+    1380.0
+   ],
+   [
+    714.0,
+    1838.0
+   ],
+   [
+    142.0,
+    1838.0
+   ]
+  ],
+  "region_b": [
+   [
+    142.0,
+    1380.0
+   ],
+   [
+    714.0,
+    1380.0
+   ],
+   [
+    714.0,
+    1838.0
+   ],
+   [
+    142.0,
+    1838.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig8#6",
+  "panel_b": "fig8#7",
+  "score": 1.0,
+  "inliers": 1411,
+  "correlation": 1.0,
+  "detail": 1.0,
+  "texture": 1.0,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    737.0,
+    1378.0
+   ],
+   [
+    1309.0,
+    1378.0
+   ],
+   [
+    1309.0,
+    1836.0
+   ],
+   [
+    737.0,
+    1836.0
+   ]
+  ],
+  "region_b": [
+   [
+    737.0,
+    1378.0
+   ],
+   [
+    1309.0,
+    1378.0
+   ],
+   [
+    1309.0,
+    1836.0
+   ],
+   [
+    737.0,
+    1836.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig8#8",
+  "panel_b": "fig8#9",
+  "score": 1.0,
+  "inliers": 1435,
+  "correlation": 1.0,
+  "detail": 1.0,
+  "texture": 1.0,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    1354.0,
+    1378.0
+   ],
+   [
+    1858.0,
+    1378.0
+   ],
+   [
+    1858.0,
+    1835.0
+   ],
+   [
+    1354.0,
+    1835.0
+   ]
+  ],
+  "region_b": [
+   [
+    1354.0,
+    1378.0
+   ],
+   [
+    1858.0,
+    1378.0
+   ],
+   [
+    1858.0,
+    1835.0
+   ],
+   [
+    1354.0,
+    1835.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig8#2",
+  "panel_b": "fig8#3",
+  "score": 0.998,
+  "inliers": 1157,
+  "correlation": 0.999,
+  "detail": 0.996,
+  "texture": 0.995,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    1314.0,
+    183.0
+   ],
+   [
+    2032.0,
+    183.0
+   ],
+   [
+    2032.0,
+    1268.0
+   ],
+   [
+    1314.0,
+    1268.0
+   ]
+  ],
+  "region_b": [
+   [
+    1314.1,
+    183.0
+   ],
+   [
+    2018.0,
+    183.0
+   ],
+   [
+    2018.0,
+    1268.0
+   ],
+   [
+    1314.0,
+    1268.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig5#4",
+  "panel_b": "fig5#5",
+  "score": 0.938,
+  "inliers": 716,
+  "correlation": 0.983,
+  "detail": 0.893,
+  "texture": 0.976,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    1081.0,
+    127.0
+   ],
+   [
+    1476.0,
+    127.0
+   ],
+   [
+    1476.0,
+    405.0
+   ],
+   [
+    1081.0,
+    405.0
+   ]
+  ],
+  "region_b": [
+   [
+    1081.0,
+    127.0
+   ],
+   [
+    1476.0,
+    127.0
+   ],
+   [
+    1476.0,
+    405.0
+   ],
+   [
+    1081.0,
+    405.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig7#6",
+  "panel_b": "fig7#7",
+  "score": 0.925,
+  "inliers": 1296,
+  "correlation": 0.997,
+  "detail": 0.854,
+  "texture": 0.983,
+  "extent": 0.995,
+  "overlap_frac": 0.995,
+  "rotation_deg": -0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    144.0,
+    897.0
+   ],
+   [
+    331.0,
+    897.0
+   ],
+   [
+    331.0,
+    1153.0
+   ],
+   [
+    144.0,
+    1153.0
+   ]
+  ],
+  "region_b": [
+   [
+    144.0,
+    934.0
+   ],
+   [
+    331.0,
+    934.0
+   ],
+   [
+    331.0,
+    1152.0
+   ],
+   [
+    144.0,
+    1152.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig5#6",
+  "panel_b": "fig5#7",
+  "score": 0.916,
+  "inliers": 777,
+  "correlation": 0.994,
+  "detail": 0.839,
+  "texture": 0.973,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    1555.0,
+    127.0
+   ],
+   [
+    1972.0,
+    127.0
+   ],
+   [
+    1972.0,
+    404.0
+   ],
+   [
+    1555.0,
+    404.0
+   ]
+  ],
+  "region_b": [
+   [
+    1555.0,
+    127.0
+   ],
+   [
+    1972.0,
+    127.0
+   ],
+   [
+    1972.0,
+    404.0
+   ],
+   [
+    1555.0,
+    404.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig5#12",
+  "panel_b": "fig5#13",
+  "score": 0.877,
+  "inliers": 528,
+  "correlation": 0.997,
+  "detail": 0.758,
+  "texture": 0.951,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": -0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    540.0,
+    1091.0
+   ],
+   [
+    902.0,
+    1091.0
+   ],
+   [
+    902.0,
+    1315.0
+   ],
+   [
+    540.0,
+    1315.0
+   ]
+  ],
+  "region_b": [
+   [
+    540.0,
+    1091.0
+   ],
+   [
+    902.0,
+    1091.0
+   ],
+   [
+    902.0,
+    1314.9
+   ],
+   [
+    540.0,
+    1315.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig5#24",
+  "panel_b": "fig5#25",
+  "score": 0.855,
+  "inliers": 155,
+  "correlation": 0.996,
+  "detail": 0.714,
+  "texture": 0.944,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": -0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    241.0,
+    1798.0
+   ],
+   [
+    650.0,
+    1798.0
+   ],
+   [
+    650.0,
+    1925.0
+   ],
+   [
+    241.0,
+    1925.0
+   ]
+  ],
+  "region_b": [
+   [
+    241.0,
+    1798.1
+   ],
+   [
+    650.0,
+    1797.9
+   ],
+   [
+    650.0,
+    1924.9
+   ],
+   [
+    241.0,
+    1925.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig7#4",
+  "panel_b": "fig7#5",
+  "score": 0.831,
+  "inliers": 454,
+  "correlation": 0.992,
+  "detail": 0.669,
+  "texture": 0.936,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": -0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    841.0,
+    786.0
+   ],
+   [
+    1935.0,
+    786.0
+   ],
+   [
+    1935.0,
+    982.0
+   ],
+   [
+    841.0,
+    982.0
+   ]
+  ],
+  "region_b": [
+   [
+    841.0,
+    786.1
+   ],
+   [
+    1935.0,
+    786.0
+   ],
+   [
+    1935.0,
+    982.1
+   ],
+   [
+    841.0,
+    982.1
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig6#2",
+  "panel_b": "fig6#3",
+  "score": 0.688,
+  "inliers": 333,
+  "correlation": 0.918,
+  "detail": 0.458,
+  "texture": 0.942,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    1264.0,
+    118.0
+   ],
+   [
+    2002.0,
+    118.0
+   ],
+   [
+    2002.0,
+    276.0
+   ],
+   [
+    1264.0,
+    276.0
+   ]
+  ],
+  "region_b": [
+   [
+    1264.0,
+    118.0
+   ],
+   [
+    2002.0,
+    118.0
+   ],
+   [
+    2002.0,
+    276.1
+   ],
+   [
+    1264.0,
+    276.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig5#26",
+  "panel_b": "fig5#27",
+  "score": 0.68,
+  "inliers": 342,
+  "correlation": 0.996,
+  "detail": 0.364,
+  "texture": 0.927,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": -0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    663.0,
+    1800.0
+   ],
+   [
+    928.0,
+    1800.0
+   ],
+   [
+    928.0,
+    1927.0
+   ],
+   [
+    663.0,
+    1927.0
+   ]
+  ],
+  "region_b": [
+   [
+    663.0,
+    1800.0
+   ],
+   [
+    928.0,
+    1800.0
+   ],
+   [
+    928.0,
+    1927.0
+   ],
+   [
+    663.0,
+    1927.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig6#0",
+  "panel_b": "fig6#3",
+  "score": 0.311,
+  "inliers": 22,
+  "correlation": 0.613,
+  "detail": 0.01,
+  "texture": 0.039,
+  "extent": 0.992,
+  "overlap_frac": 0.992,
+  "rotation_deg": 1.2,
+  "scale": 1.06,
+  "mirrored": false,
+  "region_a": [
+   [
+    342.0,
+    118.0
+   ],
+   [
+    1139.0,
+    118.0
+   ],
+   [
+    1139.0,
+    276.0
+   ],
+   [
+    342.0,
+    276.0
+   ]
+  ],
+  "region_b": [
+   [
+    1266.2,
+    118.0
+   ],
+   [
+    2002.0,
+    126.0
+   ],
+   [
+    2002.0,
+    277.0
+   ],
+   [
+    1264.0,
+    275.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig6#1",
+  "panel_b": "fig6#3",
+  "score": 0.311,
+  "inliers": 22,
+  "correlation": 0.613,
+  "detail": 0.01,
+  "texture": 0.039,
+  "extent": 0.992,
+  "overlap_frac": 0.992,
+  "rotation_deg": 1.2,
+  "scale": 1.06,
+  "mirrored": false,
+  "region_a": [
+   [
+    342.0,
+    118.0
+   ],
+   [
+    1139.0,
+    118.0
+   ],
+   [
+    1139.0,
+    276.0
+   ],
+   [
+    342.0,
+    276.0
+   ]
+  ],
+  "region_b": [
+   [
+    1266.2,
+    118.0
+   ],
+   [
+    2002.0,
+    126.0
+   ],
+   [
+    2002.0,
+    277.0
+   ],
+   [
+    1264.0,
+    275.0
+   ]
+  ],
+  "method": "keypoints"
+ }
+]
