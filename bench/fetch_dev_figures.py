@@ -11,6 +11,7 @@ licence and what was found. Used by .github/workflows/devdata.yml.
 import argparse
 import json
 import random
+import re
 from pathlib import Path
 
 import httpx
@@ -70,6 +71,11 @@ def main():
                 (d / "metadata.json").write_text(json.dumps(meta, indent=1))
                 entry["license"] = meta.get("license_code")
                 media = meta.get("media_urls") or []
+                # what the bucket actually holds under this version, listed or not
+                listing = client.get(PMC_S3 + "/", {"list-type": "2", "prefix": f"{version}/"}).decode()
+                entry["bucket_keys"] = re.findall(r"<Key>([^<]+)</Key>", listing)
+                if not media:
+                    media = [f"s3://pmc-oa-opendata/{k}" for k in entry["bucket_keys"]]
                 entry["media"] = [u.split("?")[0].rsplit("/", 1)[-1] for u in media]
                 for u in media:
                     name = u.split("?")[0].rsplit("/", 1)[-1]
