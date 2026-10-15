@@ -163,8 +163,13 @@ def test_validate_end_to_end(tmp_path):
             assert b"PMC900" not in f.read_bytes(), f
     # second run is served from the cache
     n = len(calls)
-    rv.validate(tmp_path / "out", "me@example.org", http=http, min_interval=0, cache_dir=tmp_path / "cache")
-    assert len(calls) == n
+    again = rv.validate(tmp_path / "out", "me@example.org", http=http, min_interval=0, cache_dir=tmp_path / "cache")
+    assert len(calls) == n and again == summary
+    # parallel workers make their own clients; with a warm cache they need no network
+    par = rv.validate(tmp_path / "out", "me@example.org", min_interval=0, cache_dir=tmp_path / "cache", workers=2)
+    assert par == summary
+    found = json.loads((tmp_path / "out" / "reports" / "PMC100" / "findings.json").read_text())
+    assert found[0]["category"] == "same image reused"
 
 
 def test_missing_article_is_skipped_not_fatal(tmp_path):

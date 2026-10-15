@@ -1,0 +1,50 @@
+name: Retraction check
+
+# Runs dupscope on neuroscience papers retracted for image problems (public record)
+# and on matched control papers (reported as counts only), then commits the
+# results to results/retractions/. Started by hand from the Actions tab.
+
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Retracted papers to check (0 = all)"
+        default: "0"
+      controls:
+        description: "Control papers per retracted paper"
+        default: "1"
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - run: pip install -e .
+      - name: Retraction Watch data (Crossref)
+        run: |
+          git clone --depth 1 https://gitlab.com/crossref/retraction-watch-data rw || true
+          ls -la rw || true
+      - name: Check papers
+        run: |
+          CSV=$(ls rw/*.csv 2>/dev/null | head -1)
+          dupscope validate-retractions \
+            --mailto "${{ github.repository_owner }}@users.noreply.github.com" \
+            ${CSV:+--csv-path "$CSV"} \
+            --limit "${{ inputs.limit }}" --controls "${{ inputs.controls }}" \
+            --workers 4 --cache-dir "$RUNNER_TEMP/dupscope-cache" \
+            --out results/retractions
+      - name: Commit results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add results/retractions
+          git commit -m "Retraction check results" || exit 0
+          git pull --rebase
+          git push

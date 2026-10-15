@@ -79,23 +79,25 @@ def template_search(
     fa = BASE / max(ga.shape)
     a_s = cv2.resize(ga, None, fx=fa, fy=fa, interpolation=cv2.INTER_AREA)
     best = None  # (peak, M_full)
+    b_scaled = []
+    for r in SCALES:
+        fb = fa * r
+        if max(gb.shape) * fb >= 24:
+            b_scaled.append((fb, cv2.resize(gb, None, fx=fb, fy=fb, interpolation=cv2.INTER_AREA)))
+    S_a = np.diag([fa, fa, 1.0])
     for k in range(4):
         for flip in (False, True):
             a_o, R = _orient(a_s, k, flip)
-            for r in SCALES:
-                fb = fa * r
-                if max(gb.shape) * fb < 24:
-                    continue
-                b_s = cv2.resize(gb, None, fx=fb, fy=fb, interpolation=cv2.INTER_AREA)
-                for x, y, w, h in _patches(a_o):
-                    patch = a_o[y : y + h, x : x + w]
-                    if patch.std() < 4 or patch.shape[0] > b_s.shape[0] or patch.shape[1] > b_s.shape[1]:
+            patches = [(x, y, a_o[y : y + h, x : x + w]) for x, y, w, h in _patches(a_o)]
+            patches = [(x, y, pt) for x, y, pt in patches if pt.std() >= 4]
+            for fb, b_s in b_scaled:
+                for x, y, patch in patches:
+                    if patch.shape[0] > b_s.shape[0] or patch.shape[1] > b_s.shape[1]:
                         continue
                     res = cv2.matchTemplate(b_s, patch, cv2.TM_CCOEFF_NORMED)
                     _, peak, _, loc = cv2.minMaxLoc(res)
                     if peak >= min_peak and (best is None or peak > best[0]):
                         # a (full) -> a_s -> oriented -> b_s (shift by loc - patch origin) -> b (full)
-                        S_a = np.diag([fa, fa, 1.0])
                         T = np.array([[1, 0, loc[0] - x], [0, 1, loc[1] - y], [0, 0, 1]], np.float64)
                         S_b = np.diag([1 / fb, 1 / fb, 1.0])
                         best = (peak, (S_b @ T @ R @ S_a)[:2])
