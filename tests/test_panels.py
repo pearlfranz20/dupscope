@@ -34,3 +34,12 @@ def test_chart_is_not_photographic():
 
 def test_flat_fill_is_not_photographic():
     assert not is_photographic(np.full((120, 120), 180, np.uint8))
+
+
+def test_box_inside_separate_frame_is_one_panel():
+    # an outline frame and a filled box inside it, not touching: two components whose
+    # bounding boxes nest, which used to give two panels for one region
+    fig = np.full((300, 400), 255, np.uint8)
+    cv2.rectangle(fig, (40, 40), (360, 260), 0, 3)
+    cv2.rectangle(fig, (52, 52), (348, 248), 120, -1)
+    assert len(extract_panels(fig, "f", classify=False)) == 1

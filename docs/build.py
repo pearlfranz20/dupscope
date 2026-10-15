@@ -104,6 +104,10 @@ def build(inline: bool = False) -> str:
     s = json.loads((ROOT / "results" / "benchmark" / "summary.json").read_text())
     ex = json.loads((DOCS / "img" / "examples.json").read_text())
     ms = json.loads((ROOT / "results" / "benchmark" / "misses.json").read_text())
+    cv = json.loads((ROOT / "results" / "panel_classifier" / "cv.json").read_text())
+    cv_old_kept = cv["old_rules_graphics_kept"]
+    real_before, real_after = cv["example_paper_findings_before"], cv["example_paper_findings_after"]
+    n_feat = len(json.loads((ROOT / "src" / "dupscope" / "classifier.json").read_text())["features"])
     wg = json.loads((ROOT / "results" / "benchmark" / "summary_wider_grid.json").read_text())
     test, dev = s["test"], s["dev"]
     found = sum(v["found"] for v in test["recall_by_kind"].values())
@@ -213,8 +217,8 @@ figcaption {{ color: var(--muted); font-size: 0.86rem; max-width: 68ch; }}
   <h2>How it works</h2>
   <ol>
     <li><strong>Split figures into panels.</strong> Labels are removed, then each figure is cut along its white
-    gutters. Each panel is classed as an image (microscopy, blots) or a graphic (charts, diagrams). Only images are
-    compared.</li>
+    gutters. A small trained classifier marks each panel as a photograph (microscopy, blots, gels) or a graphic
+    (bars, fill patterns, plots, text, diagrams). Only photographs are compared.</li>
     <li><strong>Compare every pair of image panels.</strong> Distinctive points are matched between the two panels
     (SIFT features). A geometric check keeps only matches that agree on one rotation, mirroring and resizing.</li>
     <li><strong>Check the pixels.</strong> The second panel is warped onto the first, and the overlapping pixels are
@@ -296,6 +300,19 @@ figcaption {{ color: var(--muted); font-size: 0.86rem; max-width: 68ch; }}
     <li><strong>Synthetic papers are not real papers.</strong> Real figures have insets, arrows, scale bars,
     composite colour images and stranger layouts. The retracted-paper check below is the test on real figures.</li>
   </ul>
+</section>
+<section id="real-figures">
+  <h2>What real figures taught it</h2>
+  <p>The first run on real papers went badly. Real figures are full of bar charts with hatched or checkered fills,
+  text and line plots, and the hand-written rules that worked on the synthetic papers read many of these as
+  photographs. Two hatched bars match each other perfectly, so one retracted paper made of bar charts produced
+  {real_before} findings.</p>
+  <p>The fix was a small classifier (gradient-boosted trees on {n_feat} simple image measurements), trained on
+  {cv["labelled_panels"]} panels from {cv["papers"]} retracted papers that I labelled by eye as photograph or
+  graphic, plus synthetic panels. Tested with whole papers held out, it keeps
+  {cv["photo_recall"]:.1%} of photographs and lets through {cv["graphics_kept"]} of {cv["graphics"]} graphics. The
+  old rules let through {cv_old_kept} of the same {cv["graphics"]}. The bar-chart paper went to {real_after}
+  findings, one of which is a cartoon rat used twice in a study diagram: real reuse, and harmless.</p>
 </section>
 {retraction_section(inline)}
 <section id="use">
