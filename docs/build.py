@@ -13,6 +13,8 @@ import json
 import sys
 from pathlib import Path
 
+from dupscope.bench.run import GRID
+
 ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
 KIND_NAMES = {
@@ -102,6 +104,7 @@ def build(inline: bool = False) -> str:
     s = json.loads((ROOT / "results" / "benchmark" / "summary.json").read_text())
     ex = json.loads((DOCS / "img" / "examples.json").read_text())
     ms = json.loads((ROOT / "results" / "benchmark" / "misses.json").read_text())
+    wg = json.loads((ROOT / "results" / "benchmark" / "summary_wider_grid.json").read_text())
     test, dev = s["test"], s["dev"]
     found = sum(v["found"] for v in test["recall_by_kind"].values())
     planted = sum(v["planted"] for v in test["recall_by_kind"].values())
@@ -260,28 +263,34 @@ figcaption {{ color: var(--muted); font-size: 0.86rem; max-width: 68ch; }}
     <tbody>{kind_rows}</tbody>
   </table></div>
   <p class="sub">Counts are small, so a few cases move each rate a lot. On the development papers the same
-  thresholds flagged {dev["clean_papers_flagged"]} of {dev["clean_papers"]} clean papers.</p>
+  thresholds found {dev["found"]} of {dev["planted"]} and flagged {dev["clean_papers_flagged"]} of
+  {dev["clean_papers"]} clean papers. The threshold search was widened once after an independent review, and its
+  correlation floor is {min(GRID["dup_min_correlation"])} because below that a reviewer cannot see the match. With a
+  floor of 0.3 the search would pick {wg["thresholds"]["dup_min_correlation"]}, which finds
+  {wg["dev"]["found"]} of {wg["dev"]["planted"]} on the development papers and, on the test papers,
+  {wg["test"]["found"]} of {wg["test"]["planted"]} while flagging {wg["test"]["clean_papers_flagged"]} of
+  {wg["test"]["clean_papers"]} clean papers.</p>
 </section>
 
 <section id="limits">
   <h2>Where it falls short</h2>
   <ul>
-    <li><strong>Mostly dark images.</strong> Of the {ms["missed"]} reuses the test missed,
-    {ms["missed_microscopy"]} were microscopy panels in which at most
+    <li><strong>Mostly dark images.</strong> {"All" if ms["missed_microscopy"] == ms["missed"] else f"Of the {ms['missed']} reuses the test missed,"}
+    {ms["missed_microscopy"]} {"missed reuses" if ms["missed_microscopy"] == ms["missed"] else ""} were microscopy panels in which at most
     {ms["max_bright_fraction_microscopy"]:.1%} of pixels rose above the dark background. A field with a few nuclei
     on black has little to match, and after JPEG compression the background is mostly noise.
     <figure>{img("missed.png", "Two mostly dark panels that are the same image, missed", inline)}<figcaption>A missed copy: the same image in two panels. Shown six times brighter than in the figure.</figcaption></figure></li>
     <li><strong>Small overlaps.</strong> Two crops that share a strip of their area are the hardest case
     ({test["recall_by_kind"].get("overlap_crop", {}).get("found", 0)} of {test["recall_by_kind"].get("overlap_crop", {}).get("planted", 0)} found).</li>
-    <li><strong>Blots with the same layout.</strong> The one false alarm in the test was two different western
-    blots with the same pair of bands in every lane, matched after turning one upside down and mirroring it
+    <li><strong>Blots with a similar layout.</strong> The one false alarm in the test was two different western
+    blots with a similar two-band layout, matched after turning one upside down and mirroring it
     (pixel correlation {fa["correlation"]:.2f}). Blots are simple patterns, so a reviewer should look closely at
     any blot finding with a modest score.
     <figure>{img("false_alarm_0.png", "Two different blots, wrongly flagged", inline)}<figcaption>Two different blots, wrongly flagged.</figcaption></figure></li>
     <li><strong>Copies within one panel are not searched by default.</strong> The tool can look for a region pasted
     elsewhere in the same image, but on the benchmark it could not tell real pastes from natural repetition (similar
     nuclei, evenly spaced blot lanes). At its strictest it found {cl_strict["clone_found"]} of
-    {cl_strict["clone_planted"]} pastes and still flagged {cl_strict["clean_flag_rate"]:.0%} of clean papers. At
+    {cl_strict["clone_planted"]} pastes and still flagged {cl_strict["clean_flag_rate"]:.1%} of clean papers. At
     its loosest it found {cl_loose["clone_found"]} of {cl_loose["clone_planted"]} and flagged
     {cl_loose["clean_flag_rate"]:.0%}. It is available as an experimental option.</li>
     <li><strong>Synthetic papers are not real papers.</strong> Real figures have insets, arrows, scale bars,
