@@ -13,8 +13,8 @@ authors = [{ name = "Pearl Franz" }]
 dependencies = ["opencv-python-headless>=4.8", "numpy>=1.24", "typer>=0.12", "httpx>=0.27"]
 
 [project.optional-dependencies]
-bench = ["scikit-image>=0.22"]
-dev = ["pytest>=8", "ruff>=0.5", "scikit-image>=0.22"]
+bench = ["scikit-image>=0.22", "matplotlib>=3.7"]
+dev = ["pytest>=8", "ruff>=0.5", "scikit-image>=0.22", "matplotlib>=3.7"]
 
 [project.scripts]
 dupscope = "dupscope.cli:app"
@@ -29,6 +29,9 @@ target-version = "py310"
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP"]
 ignore = ["B008"]
+
+[tool.ruff.lint.per-file-ignores]
+"src/dupscope/report.py" = ["E501"]  # inline CSS
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

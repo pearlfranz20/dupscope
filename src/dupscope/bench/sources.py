@@ -29,8 +29,8 @@ def _gray(a: np.ndarray) -> np.ndarray:
 
 def load_pool(dsb_dir: str | Path) -> list[tuple[str, np.ndarray]]:
     """All usable source images as (name, grayscale uint8)."""
-    from skimage import io
     import skimage.data
+    from skimage import io
 
     pool = []
     for f in sorted(glob.glob(os.path.join(str(dsb_dir), "**", "images", "*.tif"), recursive=True)):
@@ -63,7 +63,6 @@ def dedupe(pool: list[tuple[str, np.ndarray]], workers: int = 8) -> tuple[list[t
     so only genuine shared pixels remove an image."""
     from concurrent.futures import ProcessPoolExecutor
 
-    names = [n for n, _ in pool]
     with ProcessPoolExecutor(max_workers=workers) as ex:
         dupes = [d for chunk in ex.map(_dedupe_chunk, [(pool, i, workers) for i in range(workers)]) for d in chunk]
     drop = {b for a, b, _ in dupes}

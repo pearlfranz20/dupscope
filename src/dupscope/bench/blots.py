@@ -31,8 +31,15 @@ def make_blot(rng: np.random.Generator, n_lanes: int | None = None, lane_w: int 
             curve = smile * (((lane + 0.5) / n_lanes) - 0.5) ** 2 * 4
             cy = r + curve + rng.normal(0, 0.6)
             cv2.ellipse(
-                band, (int(cx), int(cy)), (int(lane_w / 2 - rng.uniform(0, 3)), int(thickness / 2) + 1),
-                0, 0, 360, float(strength), -1, cv2.LINE_AA,
+                band,
+                (int(cx), int(cy)),
+                (int(lane_w / 2 - rng.uniform(0, 3)), int(thickness / 2) + 1),
+                0,
+                0,
+                360,
+                float(strength),
+                -1,
+                cv2.LINE_AA,
             )
             img = np.maximum(img, band)
     img = cv2.GaussianBlur(img, (0, 0), sigmaX=rng.uniform(1.2, 2.2), sigmaY=rng.uniform(1.5, 3.0))

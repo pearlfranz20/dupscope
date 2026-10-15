@@ -15,11 +15,11 @@ from __future__ import annotations
 import itertools
 import json
 from concurrent.futures import ProcessPoolExecutor
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from pathlib import Path
 
 from ..detect import Thresholds
-from .compose import make_paper
+from .compose import PAIR_KINDS, make_paper
 from .evaluate import run_paper, score
 
 _POOL = None
@@ -61,24 +61,32 @@ def generate_and_run(seeds, dsb_dir: str, pool_names: list[str] | None, workers:
 GRID = {
     "dup_min_inliers": [8, 10, 12, 16],
     "dup_min_correlation": [0.7, 0.8, 0.85, 0.9],
+    "min_detail": [0.0, 0.3, 0.5, 0.6, 0.7],
+    "template": [False, True],
+}
+
+CLONE_GRID = {
     "clone_min_inliers": [8, 12, 20, 30],
     "clone_min_correlation": [0.8, 0.85, 0.9, 0.95],
-    "min_detail": [0.0, 0.3, 0.5, 0.6, 0.7],
+    "dense_min_blocks": [40, 80, 160, 320],
 }
 
 
 def choose_thresholds(dev: list[dict], max_clean_flag_rate: float = 0.05) -> tuple[Thresholds, dict]:
+    """Duplicate-search thresholds with the most recall inside the false-alarm budget.
+    Within-panel clone search stays off (see `clone_tradeoff`)."""
     best, best_key = None, None
     keys = list(GRID)
     for values in itertools.product(*(GRID[k] for k in keys)):
         params = dict(zip(keys, values, strict=True))
-        t = Thresholds(dup_min_overlap=0.1, dense_min_blocks=params["clone_min_inliers"], **params)
+        t = Thresholds(dup_min_overlap=0.1, clones=False, **params)
         s = score(dev, t)
         rate = s["clean_papers_flagged"] / max(1, s["clean_papers"])
         if rate > max_clean_flag_rate:
             continue
         # recall first, then fewer false positives, then stricter (safer) settings
-        key = (s["recall"], -s["false_positives"] - s["hard_negative_hits"], sum(values))
+        strict = (params["dup_min_inliers"], params["dup_min_correlation"], params["min_detail"], -params["template"])
+        key = (s["recall"], -s["false_positives"] - s["hard_negative_hits"], strict)
         if best_key is None or key > best_key:
             best, best_key = (t, s), key
     if best is None:
@@ -86,19 +94,51 @@ def choose_thresholds(dev: list[dict], max_clean_flag_rate: float = 0.05) -> tup
     return best
 
 
-def main(dsb_dir: str, out_dir: str = "bench_out", n_dev: int = 200, n_test: int = 200, workers: int = 2,
-         dedupe_file: str | None = None, max_clean_flag_rate: float = 0.05) -> dict:
+def clone_tradeoff(results: list[dict], base: Thresholds) -> list[dict]:
+    """What turning on within-panel clone search costs: for each clone setting, the
+    clone recall and the share of clean papers flagged (by anything)."""
+    rows = []
+    for values in itertools.product(*CLONE_GRID.values()):
+        params = dict(zip(CLONE_GRID, values, strict=True))
+        t = replace(base, clones=True, **params)
+        s = score(results, t)
+        single = {k: v for k, v in s["recall_by_kind"].items() if k not in PAIR_KINDS}
+        found = sum(v["found"] for v in single.values())
+        planted = sum(v["planted"] for v in single.values())
+        rows.append(
+            {
+                **params,
+                "clone_recall": round(found / max(1, planted), 3),
+                "clone_found": found,
+                "clone_planted": planted,
+                "clean_flag_rate": round(s["clean_papers_flagged"] / max(1, s["clean_papers"]), 3),
+            }
+        )
+    return rows
+
+
+def main(
+    dsb_dir: str,
+    out_dir: str = "bench_out",
+    n_dev: int = 200,
+    n_test: int = 200,
+    workers: int = 2,
+    dedupe_file: str | None = None,
+    max_clean_flag_rate: float = 0.05,
+) -> dict:
     out = Path(out_dir)
     pool_names = json.loads(Path(dedupe_file).read_text())["kept"] if dedupe_file else None
     dev = generate_and_run(range(0, n_dev), dsb_dir, pool_names, workers, out / "dev")
     test = generate_and_run(range(n_dev, n_dev + n_test), dsb_dir, pool_names, workers, out / "test")
     t, dev_score = choose_thresholds(dev, max_clean_flag_rate)
     test_score = score(test, t)
+    clones = clone_tradeoff(test, t)
     summary = {
         "thresholds": asdict(t),
         "max_clean_flag_rate": max_clean_flag_rate,
         "dev": dev_score,
         "test": test_score,
+        "clone_search_experimental_test": clones,
         "n_dev": n_dev,
         "n_test": n_test,
         "pool_size": len(pool_names) if pool_names else None,

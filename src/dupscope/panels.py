@@ -81,6 +81,11 @@ def is_photographic(gray: np.ndarray) -> bool:
     small = cv2.resize(gray, (min(256, gray.shape[1]), min(256, gray.shape[0])), interpolation=cv2.INTER_AREA)
     if float((small >= 245).mean()) > 0.35:
         return False
+    # a flat fill (a bar, a shaded box) is not a photograph; a nearly empty dark
+    # fluorescence field is, so only light or mid-grey flat fills are excluded
+    med = float(np.median(small))
+    if med > 40 and float((np.abs(small.astype(np.int16) - med) <= 6).mean()) > 0.92:
+        return False
     hist = np.bincount(small.ravel(), minlength=256).astype(np.float64)
     smooth = np.convolve(hist, np.ones(9), mode="same")  # +-4 levels of JPEG wobble
     p1 = int(np.argmax(smooth))

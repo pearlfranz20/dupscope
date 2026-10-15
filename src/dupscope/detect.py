@@ -12,6 +12,7 @@ import numpy as np
 from .dense import find_dense_clones
 from .match import Match, compare_panels, find_clones, load_panel
 from .panels import Panel, extract_panels, to_gray
+from .template import template_search
 
 
 @dataclass
@@ -21,7 +22,15 @@ class Thresholds:
     dup_min_overlap: float = 0.1
     clone_min_inliers: int = 8
     clone_min_correlation: float = 0.8
-    dense_min_blocks: int = 12
+    dense_min_blocks: int = 60
+    # Within-panel clone search is experimental: in compressed, resampled figures
+    # the benchmark cannot separate real clones from natural repetition (similar
+    # nuclei, regularly spaced blot lanes), so it is off unless asked for.
+    clones: bool = False
+    # when keypoint matching finds nothing, search one panel's patches directly in
+    # the other (all 8 rotations/mirrorings, several scales); helps sparse, low-texture
+    # fluorescence images
+    template: bool = True
     min_detail: float = 0.0  # band-pass correlation floor, applied to every finding
 
 
@@ -43,6 +52,7 @@ class Finding:
     mirrored: bool
     region_a: list  # quad in figure pixel coords
     region_b: list
+    method: str = "keypoints"
 
 
 def categorise(m: Match) -> str:
@@ -73,9 +83,7 @@ def load_figure(path: str | Path) -> np.ndarray:
     return img
 
 
-def analyse(
-    figures: dict[str, np.ndarray], thresholds: Thresholds | None = None
-) -> tuple[list[Panel], list[Finding]]:
+def analyse(figures: dict[str, np.ndarray], thresholds: Thresholds | None = None) -> tuple[list[Panel], list[Finding]]:
     """`figures` maps a figure id to its image. Returns all panels and the findings,
     strongest first."""
     t = thresholds or Thresholds()
@@ -93,9 +101,23 @@ def analyse(
     def add(m: Match, pa: Panel, pb: Panel):
         findings.append(
             Finding(
-                m.kind, categorise(m), m.a, m.b, m.score, m.inliers, m.correlation, m.detail, m.texture, m.extent, m.overlap_frac,
-                m.rotation_deg, m.scale, m.mirrored,
-                _to_figure_coords(m.region_a, pa), _to_figure_coords(m.region_b, pb),
+                m.kind,
+                categorise(m),
+                m.a,
+                m.b,
+                m.score,
+                m.inliers,
+                m.correlation,
+                m.detail,
+                m.texture,
+                m.extent,
+                m.overlap_frac,
+                m.rotation_deg,
+                m.scale,
+                m.mirrored,
+                _to_figure_coords(m.region_a, pa),
+                _to_figure_coords(m.region_b, pb),
+                m.method,
             )
         )
 
@@ -106,9 +128,15 @@ def analyse(
             m2 = compare_panels(ib, ia, t.dup_min_inliers, t.dup_min_correlation, t.dup_min_overlap)
             if m2 is not None:
                 add(m2, pb, pa)
+            elif t.template:
+                m3 = template_search(ia, ib, min_correlation=t.dup_min_correlation, min_overlap=t.dup_min_overlap)
+                if m3 is not None:
+                    add(m3, pa, pb)
         else:
             add(m, pa, pb)
     for p, img in loaded.values():
+        if not t.clones:
+            break
         clones = find_clones(img, t.clone_min_inliers, t.clone_min_correlation)
         clones += find_dense_clones(img, t.dense_min_blocks, t.clone_min_correlation)
         # the two clone finders often report the same copy; keep the stronger one
@@ -131,9 +159,7 @@ def findings_to_dicts(findings: list[Finding]) -> list[dict]:
 COLOURS = [(0, 0, 230), (0, 140, 255), (200, 0, 160), (0, 160, 0), (200, 120, 0), (120, 60, 200)]
 
 
-def draw_overlay(
-    figures: dict[str, np.ndarray], panels: list[Panel], findings: list[Finding]
-) -> dict[str, np.ndarray]:
+def draw_overlay(figures: dict[str, np.ndarray], panels: list[Panel], findings: list[Finding]) -> dict[str, np.ndarray]:
     """Copies of each figure with panel boxes and numbered finding regions drawn on."""
     out = {}
     for fig_id, img in figures.items():
@@ -153,5 +179,7 @@ def draw_overlay(
             pts = np.array(quad, np.int32).reshape(-1, 1, 2)
             cv2.polylines(canvas, [pts], True, colour, 2, cv2.LINE_AA)
             x, y = pts[:, 0, 0].min(), pts[:, 0, 1].min()
-            cv2.putText(canvas, str(n), (int(x) + 3, int(y) + 16), cv2.FONT_HERSHEY_SIMPLEX, 0.55, colour, 2, cv2.LINE_AA)
+            cv2.putText(
+                canvas, str(n), (int(x) + 3, int(y) + 16), cv2.FONT_HERSHEY_SIMPLEX, 0.55, colour, 2, cv2.LINE_AA
+            )
     return out
