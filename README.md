@@ -30,43 +30,48 @@ This writes `report/report.html` (each finding with the two regions side by side
 
 Real manipulated papers have no answer key, so the benchmark generates synthetic papers: 2 to 3 figures of real
 microscopy crops (DSB2018 nuclei and scikit-image samples), generated western blots and charts, saved as JPEG and
-often shrunk. Half the papers get planted reuse. All get look-alikes (different regions of the same sample).
-Thresholds are chosen on 200 development papers so that at most 5% of clean
-papers are flagged. Results on 200 held-out test papers:
+often shrunk. Some papers get planted reuse, and most get look-alikes (different regions of one sample that share
+no pixels). Thresholds are chosen on 200 development papers so that at most
+5% of clean papers are flagged, then applied once to 200 held-out test
+papers. Of those, 70 have planted reuse between panels and 99 have no
+reuse. 14 more contain an accidental real duplicate from the generator and
+are scored separately (the detector flagged 6). The rest only have a paste
+within one panel, which the default search does not cover.
 
-| | |
+| Test split | |
 |---|---|
-| Planted reuses found | 59 of 80 |
-| Clean papers wrongly flagged | 3 of 111 |
-| Look-alike pairs wrongly flagged | 0 of 181 |
-| Findings that were real reuse | 94% |
+| Planted reuses found | 58 of 80 |
+| Clean papers wrongly flagged | 1 of 99 |
+| Look-alike pairs wrongly flagged | 0 of 178 |
+| Findings that were real reuse | 72 of 73 |
 
 | Kind of reuse | Found |
 |---|---|
+| Same western blot strip twice | 9 of 9 |
 | Same image, rotated or mirrored | 17 of 17 |
-| Same western blot strip twice | 8 of 9 |
-| Same image in two panels | 17 of 20 |
-| Same image, brightness or contrast changed | 15 of 26 |
-| Two crops of one image that partly overlap | 2 of 8 |
+| Same image in two panels | 16 of 20 |
+| Same image, brightness or contrast changed | 13 of 26 |
+| Two crops of one image that partly overlap | 3 of 8 |
 
-Full numbers: `results/benchmark/summary.json`.
+Full numbers, including the development split: `results/benchmark/summary.json`.
 
 ### Limits
 
-- 20 of the 21 missed reuses were mostly dark microscopy panels (at most
-  10% of pixels above background), where there is little to match.
+- All 22 missed reuses were mostly dark microscopy panels (at most
+  11.1% of pixels above background), where there is little to match.
 - Partly overlapping crops are the hardest case.
-- Bar charts can be cut into bars that look like reused images. This caused the worst false alarm.
+- The one test false alarm was two different western blots with the same band layout, matched after flipping one.
 - Searching for a region pasted within one panel (`--clones`) is experimental and off by default. On the benchmark
   it could not separate real pastes from natural repetition such as similar nuclei or evenly spaced blot lanes.
-  See `clone_search_experimental_test` in the summary.
+  See `clone_search_experimental_dev` and `clone_search_experimental_test` in the summary.
 - A template-matching fallback for low-texture panels exists (`Thresholds.template`) but is off, because on the
   benchmark it added more false alarms than finds.
-- Synthetic papers are simpler than real ones.
+- Synthetic papers are simpler than real ones, and the development and test papers draw on the same image pool.
 
 Reproduce: download the StarDist `dsb2018.zip` release asset, then
 `pip install -e ".[bench]"` and
 `dupscope bench --dsb path/to/dsb2018 --out bench_out --dedupe-file results/benchmark/pool_dedupe.json`.
+`dupscope bench --out bench_out --rescore` re-scores saved output without rerunning the detector.
 
 ## Retracted papers
 
@@ -85,7 +90,8 @@ outside what this tool checks, so the share of retracted papers flagged is not a
 ```
 pip install -e ".[dev]"
 pytest
-ruff check src tests
+ruff check src tests bench docs
+ruff format --check src tests bench docs
 ```
 
 MIT licence.

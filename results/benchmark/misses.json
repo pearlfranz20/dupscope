@@ -1,134 +1,360 @@
 {
- "missed": 21,
- "missed_microscopy": 20,
- "max_bright_fraction_microscopy": 0.101,
+ "missed": 22,
+ "missed_microscopy": 22,
+ "max_bright_fraction_microscopy": 0.111,
  "bright_threshold": 40,
  "rows": [
   {
    "paper_id": "paper0203",
    "kind": "reuse_contrast",
    "content": "micro",
+   "panels": [
+    [
+     "fig1",
+     6
+    ],
+    [
+     "fig1",
+     7
+    ]
+   ],
    "bright_fraction": 0.0
   },
   {
    "paper_id": "paper0213",
    "kind": "reuse_contrast",
    "content": "micro",
-   "bright_fraction": 0.007
+   "panels": [
+    [
+     "fig1",
+     0
+    ],
+    [
+     "fig2",
+     5
+    ]
+   ],
+   "bright_fraction": 0.014
   },
   {
    "paper_id": "paper0221",
    "kind": "reuse_exact",
    "content": "micro",
+   "panels": [
+    [
+     "fig2",
+     2
+    ],
+    [
+     "fig2",
+     7
+    ]
+   ],
    "bright_fraction": 0.033
   },
   {
    "paper_id": "paper0223",
    "kind": "reuse_exact",
    "content": "micro",
+   "panels": [
+    [
+     "fig1",
+     0
+    ],
+    [
+     "fig2",
+     1
+    ]
+   ],
    "bright_fraction": 0.033
   },
   {
    "paper_id": "paper0225",
    "kind": "reuse_contrast",
    "content": "micro",
-   "bright_fraction": 0.094
+   "panels": [
+    [
+     "fig1",
+     0
+    ],
+    [
+     "fig2",
+     2
+    ]
+   ],
+   "bright_fraction": 0.04
   },
   {
    "paper_id": "paper0239",
    "kind": "reuse_contrast",
    "content": "micro",
+   "panels": [
+    [
+     "fig2",
+     6
+    ],
+    [
+     "fig3",
+     4
+    ]
+   ],
    "bright_fraction": 0.0
+  },
+  {
+   "paper_id": "paper0241",
+   "kind": "reuse_contrast",
+   "content": "micro",
+   "panels": [
+    [
+     "fig1",
+     1
+    ],
+    [
+     "fig2",
+     1
+    ]
+   ],
+   "bright_fraction": 0.111
   },
   {
    "paper_id": "paper0245",
    "kind": "overlap_crop",
    "content": "micro",
-   "bright_fraction": 0.013
+   "panels": [
+    [
+     "fig3",
+     1
+    ],
+    [
+     "fig3",
+     2
+    ]
+   ],
+   "bright_fraction": 0.003
   },
   {
    "paper_id": "paper0265",
    "kind": "overlap_crop",
    "content": "micro",
+   "panels": [
+    [
+     "fig2",
+     1
+    ],
+    [
+     "fig2",
+     2
+    ]
+   ],
    "bright_fraction": 0.066
   },
   {
    "paper_id": "paper0267",
    "kind": "overlap_crop",
    "content": "micro",
-   "bright_fraction": 0.008
+   "panels": [
+    [
+     "fig3",
+     3
+    ],
+    [
+     "fig3",
+     7
+    ]
+   ],
+   "bright_fraction": 0.052
   },
   {
    "paper_id": "paper0269",
    "kind": "reuse_exact",
    "content": "micro",
-   "bright_fraction": 0.014
+   "panels": [
+    [
+     "fig1",
+     0
+    ],
+    [
+     "fig3",
+     5
+    ]
+   ],
+   "bright_fraction": 0.015
   },
   {
    "paper_id": "paper0271",
    "kind": "reuse_contrast",
    "content": "micro",
+   "panels": [
+    [
+     "fig1",
+     11
+    ],
+    [
+     "fig2",
+     2
+    ]
+   ],
    "bright_fraction": 0.021
   },
   {
    "paper_id": "paper0279",
    "kind": "reuse_contrast",
    "content": "micro",
-   "bright_fraction": 0.044
+   "panels": [
+    [
+     "fig1",
+     2
+    ],
+    [
+     "fig3",
+     1
+    ]
+   ],
+   "bright_fraction": 0.006
   },
   {
    "paper_id": "paper0287",
    "kind": "overlap_crop",
    "content": "micro",
+   "panels": [
+    [
+     "fig1",
+     2
+    ],
+    [
+     "fig2",
+     7
+    ]
+   ],
    "bright_fraction": 0.07
+  },
+  {
+   "paper_id": "paper0295",
+   "kind": "reuse_contrast",
+   "content": "micro",
+   "panels": [
+    [
+     "fig1",
+     3
+    ],
+    [
+     "fig2",
+     2
+    ]
+   ],
+   "bright_fraction": 0.037
   },
   {
    "paper_id": "paper0311",
    "kind": "reuse_contrast",
    "content": "micro",
+   "panels": [
+    [
+     "fig1",
+     0
+    ],
+    [
+     "fig2",
+     1
+    ]
+   ],
    "bright_fraction": 0.076
   },
   {
-   "paper_id": "paper0331",
+   "paper_id": "paper0313",
    "kind": "reuse_contrast",
    "content": "micro",
-   "bright_fraction": 0.101
+   "panels": [
+    [
+     "fig1",
+     4
+    ],
+    [
+     "fig2",
+     1
+    ]
+   ],
+   "bright_fraction": 0.1
   },
   {
    "paper_id": "paper0335",
    "kind": "overlap_crop",
    "content": "micro",
-   "bright_fraction": 0.006
+   "panels": [
+    [
+     "fig1",
+     3
+    ],
+    [
+     "fig2",
+     0
+    ]
+   ],
+   "bright_fraction": 0.007
   },
   {
    "paper_id": "paper0337",
    "kind": "reuse_contrast",
    "content": "micro",
+   "panels": [
+    [
+     "fig2",
+     1
+    ],
+    [
+     "fig2",
+     5
+    ]
+   ],
    "bright_fraction": 0.018
   },
   {
    "paper_id": "paper0339",
    "kind": "reuse_contrast",
    "content": "micro",
+   "panels": [
+    [
+     "fig2",
+     6
+    ],
+    [
+     "fig2",
+     8
+    ]
+   ],
    "bright_fraction": 0.0
+  },
+  {
+   "paper_id": "paper0347",
+   "kind": "reuse_exact",
+   "content": "micro",
+   "panels": [
+    [
+     "fig2",
+     5
+    ],
+    [
+     "fig3",
+     3
+    ]
+   ],
+   "bright_fraction": 0.007
   },
   {
    "paper_id": "paper0381",
    "kind": "reuse_contrast",
    "content": "micro",
-   "bright_fraction": 0.01
-  },
-  {
-   "paper_id": "paper0383",
-   "kind": "overlap_crop",
-   "content": "micro",
-   "bright_fraction": 0.057
-  },
-  {
-   "paper_id": "paper0399",
-   "kind": "blot_reuse",
-   "content": "blot",
-   "bright_fraction": 1.0
+   "panels": [
+    [
+     "fig1",
+     3
+    ],
+    [
+     "fig3",
+     2
+    ]
+   ],
+   "bright_fraction": 0.0
   }
  ]
 }

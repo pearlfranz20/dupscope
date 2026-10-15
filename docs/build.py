@@ -238,17 +238,22 @@ figcaption {{ color: var(--muted); font-size: 0.86rem; max-width: 68ch; }}
   2 to 3 figures built from real microscopy images (the
   <a href="https://github.com/stardist/stardist/releases">Data Science Bowl 2018 nuclei set</a> and scikit-image
   samples), generated western blots and charts. Figures are saved as compressed JPEG, and half are shrunk, as
-  happens in a real PDF. Half the papers get planted reuse. Every paper also gets look-alikes: two different
-  regions of the same sample, which look similar but share no pixels. Those are the cases a careless detector
-  flags.</p>
+  happens in a real PDF. Some papers get planted reuse. Most also get look-alikes: two different regions of the
+  same sample, which look similar but share no pixels. Those are the cases a careless detector flags.</p>
   <p>Thresholds were chosen on {s["n_dev"]} development papers, with a rule that at most
   {s["max_clean_flag_rate"]:.0%} of clean papers may be flagged. Wrongly flagging an honest paper is the costly
-  mistake. The numbers below are from {s["n_test"]} separate test papers that played no part in tuning.</p>
+  mistake. The numbers below are from {s["n_test"]} separate test papers that played no part in tuning. Of
+  those, {test["manipulated_papers"]} have planted reuse between panels and {test["clean_papers"]} have no reuse
+  at all. Another {test["papers_with_unplanted_duplicates"]} ended up with a real duplicate the generator did not
+  mean to make (two random crops of one image that overlap). They are scored apart from both groups, and the
+  detector flagged {test["unplanted_duplicate_papers_flagged"]} of them. The remaining
+  {test["papers"] - test["manipulated_papers"] - test["clean_papers"] - test["papers_with_unplanted_duplicates"]}
+  only have a region pasted within one panel, which the default search does not look for.</p>
   <div class="stats">
     <div class="stat"><div class="big">{found} of {planted}</div><div>planted reuses found ({pct(found, planted)})</div></div>
     <div class="stat"><div class="big">{test["clean_papers_flagged"]} of {test["clean_papers"]}</div><div>clean papers wrongly flagged ({pct(test["clean_papers_flagged"], test["clean_papers"])})</div></div>
     <div class="stat"><div class="big">{test["hard_negative_hits"]} of {test["hard_negatives_total"]}</div><div>look-alike pairs wrongly flagged</div></div>
-    <div class="stat"><div class="big">{test["precision"]:.0%}</div><div>of findings were real reuse</div></div>
+    <div class="stat"><div class="big">{test["real_findings"]} of {test["findings"]}</div><div>findings were real reuse</div></div>
   </div>
   <div class="table-wrap"><table>
     <thead><tr><th>Kind of reuse</th><th class="num">Found</th><th></th></tr></thead>
@@ -263,15 +268,16 @@ figcaption {{ color: var(--muted); font-size: 0.86rem; max-width: 68ch; }}
   <ul>
     <li><strong>Mostly dark images.</strong> Of the {ms["missed"]} reuses the test missed,
     {ms["missed_microscopy"]} were microscopy panels in which at most
-    {ms["max_bright_fraction_microscopy"]:.0%} of pixels rose above the dark background. A field with a few nuclei
+    {ms["max_bright_fraction_microscopy"]:.1%} of pixels rose above the dark background. A field with a few nuclei
     on black has little to match, and after JPEG compression the background is mostly noise.
-    <figure>{img("missed.png", "Two mostly dark panels that are the same image, missed", inline)}<figcaption>A missed copy, rotated 180° and mirrored. Shown six times brighter than in the figure.</figcaption></figure></li>
+    <figure>{img("missed.png", "Two mostly dark panels that are the same image, missed", inline)}<figcaption>A missed copy: the same image in two panels. Shown six times brighter than in the figure.</figcaption></figure></li>
     <li><strong>Small overlaps.</strong> Two crops that share a strip of their area are the hardest case
     ({test["recall_by_kind"].get("overlap_crop", {}).get("found", 0)} of {test["recall_by_kind"].get("overlap_crop", {}).get("planted", 0)} found).</li>
-    <li><strong>Bar charts.</strong> The panel splitter can cut a bar chart into bars, and two plain grey bars can
-    look like a reused image. This caused the test's worst false alarm, two bars from one chart (correlation
-    {fa["correlation"]:.2f}).
-    <figure>{img("false_alarm_0.png", "Two bars from one chart, wrongly flagged", inline)}<figcaption>Two bars from one chart, wrongly flagged.</figcaption></figure></li>
+    <li><strong>Blots with the same layout.</strong> The one false alarm in the test was two different western
+    blots with the same pair of bands in every lane, matched after turning one upside down and mirroring it
+    (pixel correlation {fa["correlation"]:.2f}). Blots are simple patterns, so a reviewer should look closely at
+    any blot finding with a modest score.
+    <figure>{img("false_alarm_0.png", "Two different blots, wrongly flagged", inline)}<figcaption>Two different blots, wrongly flagged.</figcaption></figure></li>
     <li><strong>Copies within one panel are not searched by default.</strong> The tool can look for a region pasted
     elsewhere in the same image, but on the benchmark it could not tell real pastes from natural repetition (similar
     nuclei, evenly spaced blot lanes). At its strictest it found {cl_strict["clone_found"]} of

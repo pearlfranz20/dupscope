@@ -21,8 +21,8 @@ from dupscope.panels import to_gray
 from dupscope.report import _crop_quad
 
 SHOWCASE = 387  # a manipulated test paper: one contrast-adjusted reuse, one rotated reuse
-FALSE_ALARM = 299  # a clean test paper the detector wrongly flags
-MISSED = 9  # a dev paper whose reuse is a near-empty dark field
+FALSE_ALARM = 354  # the clean test paper the detector wrongly flags
+MISSED = 269  # a test paper whose reuse is missed: a mostly dark field
 
 
 def pair(fig_a, quad_a, fig_b, quad_b, h=220):
@@ -69,7 +69,7 @@ def main(dsb, dedupe, out):
             ],
         }
     paper = make_paper(MISSED, pool, manipulated=True)
-    pl = next(p for p in paper.planted if p.kind == "reuse_rotflip")
+    pl = next(p for p in paper.planted if p.kind == "reuse_exact")
     gt = {(g.figure, g.index): g for g in paper.panels}
     crops = []
     for f, i in pl.panels:

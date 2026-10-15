@@ -29,24 +29,24 @@
   ]
  },
  "false_alarm": {
-  "seed": 299,
+  "seed": 354,
   "planted": [],
   "findings": [
    {
-    "category": "same image reused",
-    "panel_a": "fig3#8",
-    "panel_b": "fig3#9",
-    "correlation": 0.906,
-    "detail": 0.704,
-    "rotation_deg": 0.0,
-    "mirrored": false,
-    "scale": 1.078
+    "category": "same image, rotated or mirrored",
+    "panel_a": "fig2#7",
+    "panel_b": "fig2#12",
+    "correlation": 0.569,
+    "detail": 0.329,
+    "rotation_deg": -179.4,
+    "mirrored": true,
+    "scale": 0.993
    }
   ]
  },
  "missed": {
-  "seed": 9,
-  "kind": "reuse_rotflip",
-  "detail": "rot180+mirror"
+  "seed": 269,
+  "kind": "reuse_exact",
+  "detail": ""
  }
 }

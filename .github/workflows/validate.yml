@@ -3,6 +3,7 @@ name: Retraction check
 # Runs dupscope on neuroscience papers retracted for image problems (public record)
 # and on matched control papers (reported as counts only), then commits the
 # results to results/retractions/. Started by hand from the Actions tab.
+# Set a repository variable CONTACT_EMAIL to give NCBI and Crossref a real contact.
 
 on:
   workflow_dispatch:
@@ -17,10 +18,18 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: retraction-check
+  cancel-in-progress: false
+
 jobs:
   validate:
     runs-on: ubuntu-latest
     timeout-minutes: 340
+    env:
+      LIMIT: ${{ inputs.limit }}
+      CONTROLS: ${{ inputs.controls }}
+      CONTACT: ${{ vars.CONTACT_EMAIL || format('{0}@users.noreply.github.com', github.repository_owner) }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v7
@@ -34,14 +43,17 @@ jobs:
       - name: Check papers
         run: |
           CSV=$(ls rw/*.csv 2>/dev/null | head -1)
+          if [ -n "$CSV" ] && head -c 100 "$CSV" | grep -q "git-lfs"; then CSV=""; fi
           dupscope validate-retractions \
-            --mailto "${{ github.repository_owner }}@users.noreply.github.com" \
+            --mailto "$CONTACT" \
             ${CSV:+--csv-path "$CSV"} \
-            --limit "${{ inputs.limit }}" --controls "${{ inputs.controls }}" \
+            --limit "$LIMIT" --controls "$CONTROLS" \
             --workers 4 --cache-dir "$RUNNER_TEMP/dupscope-cache" \
             --out results/retractions
       - name: Commit results
+        if: always()
         run: |
+          [ -d results/retractions ] || exit 0
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add results/retractions
