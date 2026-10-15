@@ -55,7 +55,7 @@ IMAGE_REASONS = (
     "Manipulation of Images",
     "Concerns/Issues About Image",
 )
-RATE_LIMITED = ("ncbi.nlm.nih.gov", "ebi.ac.uk")
+RATE_LIMITED = ("ncbi.nlm.nih.gov", "ebi.ac.uk", "plos.org", "springernature.com")
 FIGURE_EXT = (".jpg", ".jpeg", ".png", ".tif", ".tiff", ".gif")
 
 
@@ -227,28 +227,94 @@ def figure_urls(client: Client, version: str) -> list[str]:
     return [u for u in urls if u.lower().endswith(FIGURE_EXT) and not re.search(r"-s\d+\.\w+$", u)]
 
 
-def fetch_figures(client: Client, pmcid: str, max_figures: int = 40) -> dict[str, np.ndarray] | None:
+PLOS_JOURNALS = {
+    "pone": "plosone",
+    "pbio": "plosbiology",
+    "pcbi": "ploscompbiol",
+    "pgen": "plosgenetics",
+    "ppat": "plospathogens",
+    "pmed": "plosmedicine",
+    "pntd": "plosntds",
+}
+
+
+def _figure_hrefs(xml: str) -> list[str]:
+    """Image references of the figures (not inline formulas) in a JATS article."""
+    hrefs = []
+    for fig in re.findall(r"<fig[ >].*?</fig>", xml, flags=re.S):
+        hrefs += re.findall(r'<graphic[^>]*xlink:href="([^"]+)"', fig)
+    return hrefs
+
+
+def publisher_figure_urls(doi: str, xml: str) -> list[list[str]]:
+    """Candidate figure URLs on the publisher's site, for articles whose images PMC
+    withholds (it does for retracted ones). Each entry lists alternatives to try in
+    order. Covers PLOS and Springer Nature, which publish most of the open-access
+    retractions in neuroscience, and returns nothing for other publishers."""
+    doi = doi.strip().lower()
+    hrefs = _figure_hrefs(xml)
+    out = []
+    if doi.startswith("10.1371/journal."):
+        code = doi.split("journal.", 1)[1].split(".", 1)[0]
+        site = PLOS_JOURNALS.get(code)
+        if site:
+            for h in hrefs:
+                fig_id = h if h.startswith("10.1371/") else f"10.1371/journal.{h.removeprefix('journal.')}"
+                out.append([f"https://journals.plos.org/{site}/article/figure/image?size=large&id={fig_id}"])
+    elif doi.startswith(("10.1186/", "10.1038/", "10.1007/")):
+        art = "art%3A" + doi.replace("/", "%2F")
+        for h in hrefs:
+            stem = re.sub(r"\.(gif|jpe?g|png|tiff?)$", "", h)
+            base = f"https://media.springernature.com/full/springer-static/image/{art}/MediaObjects/{stem}"
+            out.append([base + ".png", base + ".jpg"])
+    return out
+
+
+def _decode(data: bytes) -> np.ndarray | None:
+    return cv2.imdecode(np.frombuffer(data, np.uint8), cv2.IMREAD_GRAYSCALE)
+
+
+def fetch_figures(client: Client, pmcid: str, max_figures: int = 40, doi: str = "") -> dict[str, np.ndarray] | None:
     """Figure images of an open-access article, or None if it is not in the dataset.
-    Thumbnails and small inline graphics (formulas, icons) are skipped by size."""
+    Images come from PMC when it provides them, else from the publisher (PMC holds
+    back the images of retracted articles). Thumbnails and small inline graphics
+    (formulas, icons) are skipped by size."""
     version = latest_version(client, pmcid)
     if version is None:
         return None
-    figs = {}
-    for url in figure_urls(client, version):
-        img = cv2.imdecode(np.frombuffer(client.get(url), np.uint8), cv2.IMREAD_GRAYSCALE)
-        if img is None or min(img.shape) < 150:
-            continue
-        figs[Path(url).stem] = img
-        if len(figs) >= max_figures:
-            break
+    figs: dict[str, np.ndarray] = {}
+
+    def keep(name: str, img: np.ndarray | None) -> bool:
+        if img is not None and min(img.shape) >= 150:
+            figs[name] = img
+        return len(figs) >= max_figures
+
+    urls = figure_urls(client, version)
+    for url in urls:
+        if keep(Path(url).stem, _decode(client.get(url))):
+            return figs
+    if not urls and doi:
+        xml = client.get(f"{PMC_S3}/{version}/{version}.xml").decode("utf-8", errors="replace")
+        for n, options in enumerate(publisher_figure_urls(doi, xml), start=1):
+            for url in options:
+                try:
+                    img = _decode(client.get(url))
+                except httpx.HTTPError:
+                    continue
+                if img is not None:
+                    if keep(f"fig{n}", img):
+                        return figs
+                    break
     return figs
 
 
-def run_on_pmcid(client: Client, pmcid: str, thresholds: Thresholds, report_dir: Path | None = None) -> PaperResult:
+def run_on_pmcid(
+    client: Client, pmcid: str, thresholds: Thresholds, report_dir: Path | None = None, doi: str = ""
+) -> PaperResult:
     """Analyse one article. With `report_dir`, a review report is written when there
     are findings (only ever used for retracted papers)."""
     try:
-        figures = fetch_figures(client, pmcid)
+        figures = fetch_figures(client, pmcid, doi=doi)
         if figures is None:
             return PaperResult(pmcid, 0, 0, 0, 0.0, error="not in the PMC open-access dataset")
         if not figures:
@@ -297,10 +363,10 @@ def _init_worker(cache: str, mailto: str, min_interval: float, t: Thresholds):
     _WORKER = (Client(Path(cache), mailto, min_interval), t)
 
 
-def _job(job: tuple[str, str | None]) -> PaperResult:
+def _job(job: tuple[str, str | None, str]) -> PaperResult:
     client, t = _WORKER
-    pmcid, report_dir = job
-    return run_on_pmcid(client, pmcid, t, Path(report_dir) if report_dir else None)
+    pmcid, report_dir, doi = job
+    return run_on_pmcid(client, pmcid, t, Path(report_dir) if report_dir else None, doi)
 
 
 def validate(
@@ -344,7 +410,10 @@ def validate(
         for pmcid in control_pmcids(client, c.journal, c.original_year, seen, controls_per_paper, seed):
             seen.add(pmcid)
             controls.append(pmcid)
-    jobs = [(c.pmcid, str(out / "reports" / c.pmcid)) for c in cases] + [(pmcid, None) for pmcid in controls]
+    # the DOI lets retracted papers fall back to the publisher's images; controls are
+    # not retracted, so PMC provides their images
+    jobs = [(c.pmcid, str(out / "reports" / c.pmcid), c.original_doi) for c in cases]
+    jobs += [(pmcid, None, "") for pmcid in controls]
     if workers > 1:
         import multiprocessing
         from concurrent.futures import ProcessPoolExecutor
@@ -357,7 +426,7 @@ def validate(
         ) as ex:
             results = list(ex.map(_job, jobs))
     else:
-        results = [run_on_pmcid(client, pmcid, t, Path(rd) if rd else None) for pmcid, rd in jobs]
+        results = [run_on_pmcid(client, pmcid, t, Path(rd) if rd else None, doi) for pmcid, rd, doi in jobs]
     retracted = [{"retraction": asdict(c), "result": asdict(r)} for c, r in zip(cases, results, strict=False)]
     control_results = [{k: v for k, v in asdict(r).items() if k != "pmcid"} for r in results[len(cases) :]]
 

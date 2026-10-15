@@ -11,16 +11,16 @@ licence and what was found. Used by .github/workflows/devdata.yml.
 import argparse
 import json
 import random
-import re
 from pathlib import Path
 
+import cv2
 import httpx
 
 from dupscope.validate.retractions import (
-    FIGURE_EXT,
     PMC_S3,
     Client,
     download_retraction_watch,
+    fetch_figures,
     latest_version,
     map_pmcids,
     parse_retractions,
@@ -70,20 +70,11 @@ def main():
                 d.mkdir(exist_ok=True)
                 (d / "metadata.json").write_text(json.dumps(meta, indent=1))
                 entry["license"] = meta.get("license_code")
-                media = meta.get("media_urls") or []
-                # what the bucket actually holds under this version, listed or not
-                listing = client.get(PMC_S3 + "/", {"list-type": "2", "prefix": f"{version}/"}).decode()
-                entry["bucket_keys"] = re.findall(r"<Key>([^<]+)</Key>", listing)
-                if not media:
-                    media = [f"s3://pmc-oa-opendata/{k}" for k in entry["bucket_keys"]]
-                entry["media"] = [u.split("?")[0].rsplit("/", 1)[-1] for u in media]
-                for u in media:
-                    name = u.split("?")[0].rsplit("/", 1)[-1]
-                    if name.lower().endswith(FIGURE_EXT):
-                        url = u.split("?")[0].replace("s3://pmc-oa-opendata", PMC_S3)
-                        data = client.get(url)
-                        if len(data) < 6_000_000:
-                            (d / name).write_bytes(data)
+                d = out / c.pmcid
+                figs = fetch_figures(client, c.pmcid, doi=c.original_doi)
+                entry["figures"] = len(figs or {})
+                for name, img in (figs or {}).items():
+                    cv2.imwrite(str(d / f"{name}.png"), img)
         except (httpx.HTTPError, ValueError) as exc:
             entry["error"] = f"{type(exc).__name__}: {exc}"
         manifest["papers"].append(entry)
