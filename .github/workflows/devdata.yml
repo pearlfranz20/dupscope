@@ -9,6 +9,9 @@ on:
       limit:
         description: "Retracted papers to fetch"
         default: "40"
+      doi_prefix:
+        description: "Only papers whose DOI starts with this (optional)"
+        default: ""
 
 permissions:
   contents: write
@@ -19,6 +22,7 @@ jobs:
     timeout-minutes: 60
     env:
       LIMIT: ${{ inputs.limit }}
+      DOI_PREFIX: ${{ inputs.doi_prefix }}
       CONTACT: ${{ vars.CONTACT_EMAIL || format('{0}@users.noreply.github.com', github.repository_owner) }}
     steps:
       - uses: actions/checkout@v7
@@ -30,7 +34,7 @@ jobs:
       - name: Fetch
         run: |
           CSV=$(ls rw/*.csv 2>/dev/null | head -1)
-          python bench/fetch_dev_figures.py --mailto "$CONTACT" ${CSV:+--csv-path "$CSV"} --limit "$LIMIT" --out "$RUNNER_TEMP/devdata"
+          python bench/fetch_dev_figures.py --mailto "$CONTACT" ${CSV:+--csv-path "$CSV"} --limit "$LIMIT" --only-doi-prefix "$DOI_PREFIX" --out "$RUNNER_TEMP/devdata"
       - name: Push to devdata branch
         run: |
           cd "$RUNNER_TEMP/devdata"

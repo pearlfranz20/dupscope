@@ -274,7 +274,9 @@ def _decode(data: bytes) -> np.ndarray | None:
     return cv2.imdecode(np.frombuffer(data, np.uint8), cv2.IMREAD_GRAYSCALE)
 
 
-def fetch_figures(client: Client, pmcid: str, max_figures: int = 40, doi: str = "") -> dict[str, np.ndarray] | None:
+def fetch_figures(
+    client: Client, pmcid: str, max_figures: int = 40, doi: str = "", errors: list | None = None
+) -> dict[str, np.ndarray] | None:
     """Figure images of an open-access article, or None if it is not in the dataset.
     Images come from PMC when it provides them, else from the publisher (PMC holds
     back the images of retracted articles). Thumbnails and small inline graphics
@@ -299,7 +301,9 @@ def fetch_figures(client: Client, pmcid: str, max_figures: int = 40, doi: str = 
             for url in options:
                 try:
                     img = _decode(client.get(url))
-                except httpx.HTTPError:
+                except httpx.HTTPError as exc:
+                    if errors is not None:
+                        errors.append(f"{url}: {type(exc).__name__}: {exc}"[:300])
                     continue
                 if img is not None:
                     if keep(f"fig{n}", img):

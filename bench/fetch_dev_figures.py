@@ -34,6 +34,7 @@ def main():
     ap.add_argument("--subject", default="Neuroscience,Neurology,Psychiatry")
     ap.add_argument("--limit", type=int, default=40)
     ap.add_argument("--csv-path")
+    ap.add_argument("--only-doi-prefix", default="")
     ap.add_argument("--cache-dir", default=str(Path.home() / ".cache" / "dupscope"))
     a = ap.parse_args()
     out = Path(a.out)
@@ -52,6 +53,8 @@ def main():
         "with_pmcid": len(cases),
         "papers": [],
     }
+    if a.only_doi_prefix:
+        cases = [c for c in cases if c.original_doi.startswith(a.only_doi_prefix)]
     for c in cases[: a.limit]:
         entry = {
             "pmcid": c.pmcid,
@@ -71,7 +74,9 @@ def main():
                 (d / "metadata.json").write_text(json.dumps(meta, indent=1))
                 entry["license"] = meta.get("license_code")
                 d = out / c.pmcid
-                figs = fetch_figures(client, c.pmcid, doi=c.original_doi)
+                errs: list = []
+                figs = fetch_figures(client, c.pmcid, doi=c.original_doi, errors=errs)
+                entry["fetch_errors"] = errs[:3]
                 entry["figures"] = len(figs or {})
                 for name, img in (figs or {}).items():
                     cv2.imwrite(str(d / f"{name}.png"), img)
