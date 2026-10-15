@@ -259,6 +259,7 @@ def publisher_figure_urls(doi: str, xml: str) -> list[list[str]]:
         site = PLOS_JOURNALS.get(code)
         if site:
             for h in hrefs:
+                h = re.sub(r"\.(gif|jpe?g|png|tiff?)$", "", h)
                 fig_id = h if h.startswith("10.1371/") else f"10.1371/journal.{h.removeprefix('journal.')}"
                 out.append([f"https://journals.plos.org/{site}/article/figure/image?size=large&id={fig_id}"])
     elif doi.startswith(("10.1186/", "10.1038/", "10.1007/")):

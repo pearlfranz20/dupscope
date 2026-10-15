@@ -183,7 +183,7 @@ def test_publisher_figure_urls():
     xml = (
         '<article><fig id="f1"><graphic xlink:href="pone.0123456.g001"/></fig>'
         '<disp-formula><graphic xlink:href="pone.0123456.e001"/></disp-formula>'
-        '<fig id="f2"><graphic xlink:href="pone.0123456.g002"/></fig></article>'
+        '<fig id="f2"><graphic xlink:href="pone.0123456.g002.jpg"/></fig></article>'
     )
     urls = rv.publisher_figure_urls("10.1371/journal.pone.0123456", xml)
     assert urls == [
