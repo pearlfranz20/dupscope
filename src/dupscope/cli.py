@@ -84,6 +84,8 @@ def bench(
         n = len(json.loads(dedupe_file.read_text())["kept"]) if dedupe_file else None
         summary = rescore(str(out), pool_size=n)
     else:
+        if dsb is None:
+            raise typer.BadParameter("--dsb is required unless --rescore is given", param_hint="--dsb")
         summary = run_bench(str(dsb), str(out), n_dev, n_test, workers, str(dedupe_file) if dedupe_file else None)
     typer.echo(json.dumps(summary["test"], indent=1))
 

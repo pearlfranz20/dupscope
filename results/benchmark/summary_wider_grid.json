@@ -1,0 +1,1263 @@
+{
+  "thresholds": {
+    "dup_min_inliers": 10,
+    "dup_min_correlation": 0.4,
+    "dup_min_overlap": 0.1,
+    "clone_min_inliers": 8,
+    "clone_min_correlation": 0.8,
+    "dense_min_blocks": 60,
+    "clones": false,
+    "template": false,
+    "min_detail": 0.0
+  },
+  "max_clean_flag_rate": 0.05,
+  "dev": {
+    "found": 58,
+    "planted": 84,
+    "recall": 0.69,
+    "recall_by_kind": {
+      "blot_reuse": {
+        "found": 9,
+        "planted": 9,
+        "recall": 1.0
+      },
+      "overlap_crop": {
+        "found": 5,
+        "planted": 14,
+        "recall": 0.357
+      },
+      "reuse_contrast": {
+        "found": 15,
+        "planted": 20,
+        "recall": 0.75
+      },
+      "reuse_exact": {
+        "found": 12,
+        "planted": 14,
+        "recall": 0.857
+      },
+      "reuse_rotflip": {
+        "found": 17,
+        "planted": 27,
+        "recall": 0.63
+      }
+    },
+    "findings": 87,
+    "real_findings": 80,
+    "precision": 0.92,
+    "false_positives": 7,
+    "hard_negative_hits": 0,
+    "hard_negatives_total": 187,
+    "clean_papers": 89,
+    "clean_papers_flagged": 3,
+    "manipulated_papers": 69,
+    "manipulated_papers_caught": 51,
+    "papers_with_unplanted_duplicates": 21,
+    "unplanted_duplicate_papers_flagged": 14,
+    "papers": 200
+  },
+  "test": {
+    "found": 63,
+    "planted": 80,
+    "recall": 0.787,
+    "recall_by_kind": {
+      "blot_reuse": {
+        "found": 9,
+        "planted": 9,
+        "recall": 1.0
+      },
+      "overlap_crop": {
+        "found": 4,
+        "planted": 8,
+        "recall": 0.5
+      },
+      "reuse_contrast": {
+        "found": 15,
+        "planted": 26,
+        "recall": 0.577
+      },
+      "reuse_exact": {
+        "found": 18,
+        "planted": 20,
+        "recall": 0.9
+      },
+      "reuse_rotflip": {
+        "found": 17,
+        "planted": 17,
+        "recall": 1.0
+      }
+    },
+    "findings": 87,
+    "real_findings": 79,
+    "precision": 0.908,
+    "false_positives": 8,
+    "hard_negative_hits": 0,
+    "hard_negatives_total": 178,
+    "clean_papers": 99,
+    "clean_papers_flagged": 4,
+    "manipulated_papers": 70,
+    "manipulated_papers_caught": 56,
+    "papers_with_unplanted_duplicates": 14,
+    "unplanted_duplicate_papers_flagged": 8,
+    "papers": 200
+  },
+  "clone_search_experimental_dev": [
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.95,
+      "clone_found": 38,
+      "clone_planted": 40,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.8,
+      "clone_found": 32,
+      "clone_planted": 40,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.425,
+      "clone_found": 17,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.831
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.175,
+      "clone_found": 7,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.225
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.825,
+      "clone_found": 33,
+      "clone_planted": 40,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.675,
+      "clone_found": 27,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.989
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.375,
+      "clone_found": 15,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.764
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.175,
+      "clone_found": 7,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.191
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.575,
+      "clone_found": 23,
+      "clone_planted": 40,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.475,
+      "clone_found": 19,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.989
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.275,
+      "clone_found": 11,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.652
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.15,
+      "clone_found": 6,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.135
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.325,
+      "clone_found": 13,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.978
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.25,
+      "clone_found": 10,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.798
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.175,
+      "clone_found": 7,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.247
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.125,
+      "clone_found": 5,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.045
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.95,
+      "clone_found": 38,
+      "clone_planted": 40,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.775,
+      "clone_found": 31,
+      "clone_planted": 40,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.4,
+      "clone_found": 16,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.831
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.15,
+      "clone_found": 6,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.225
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.8,
+      "clone_found": 32,
+      "clone_planted": 40,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.65,
+      "clone_found": 26,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.989
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.35,
+      "clone_found": 14,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.764
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.15,
+      "clone_found": 6,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.191
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.55,
+      "clone_found": 22,
+      "clone_planted": 40,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.45,
+      "clone_found": 18,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.989
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.25,
+      "clone_found": 10,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.652
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.125,
+      "clone_found": 5,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.135
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.3,
+      "clone_found": 12,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.978
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.225,
+      "clone_found": 9,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.798
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.15,
+      "clone_found": 6,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.247
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.1,
+      "clone_found": 4,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.045
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.925,
+      "clone_found": 37,
+      "clone_planted": 40,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.75,
+      "clone_found": 30,
+      "clone_planted": 40,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.375,
+      "clone_found": 15,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.831
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.125,
+      "clone_found": 5,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.225
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.775,
+      "clone_found": 31,
+      "clone_planted": 40,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.625,
+      "clone_found": 25,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.989
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.325,
+      "clone_found": 13,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.764
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.125,
+      "clone_found": 5,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.191
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.525,
+      "clone_found": 21,
+      "clone_planted": 40,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.425,
+      "clone_found": 17,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.989
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.225,
+      "clone_found": 9,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.652
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.1,
+      "clone_found": 4,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.135
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.275,
+      "clone_found": 11,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.978
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.2,
+      "clone_found": 8,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.798
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.125,
+      "clone_found": 5,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.247
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.075,
+      "clone_found": 3,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.045
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.925,
+      "clone_found": 37,
+      "clone_planted": 40,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.75,
+      "clone_found": 30,
+      "clone_planted": 40,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.35,
+      "clone_found": 14,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.831
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.1,
+      "clone_found": 4,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.225
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.775,
+      "clone_found": 31,
+      "clone_planted": 40,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.625,
+      "clone_found": 25,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.989
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.3,
+      "clone_found": 12,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.764
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.1,
+      "clone_found": 4,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.191
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.525,
+      "clone_found": 21,
+      "clone_planted": 40,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.425,
+      "clone_found": 17,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.989
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.2,
+      "clone_found": 8,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.652
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.075,
+      "clone_found": 3,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.135
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.25,
+      "clone_found": 10,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.978
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.175,
+      "clone_found": 7,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.798
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.1,
+      "clone_found": 4,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.247
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.05,
+      "clone_found": 2,
+      "clone_planted": 40,
+      "clean_flag_rate": 0.045
+    }
+  ],
+  "clone_search_experimental_test": [
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.6,
+      "clone_found": 21,
+      "clone_planted": 35,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.543,
+      "clone_found": 19,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.98
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.257,
+      "clone_found": 9,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.707
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.114,
+      "clone_found": 4,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.182
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.571,
+      "clone_found": 20,
+      "clone_planted": 35,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.514,
+      "clone_found": 18,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.98
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.257,
+      "clone_found": 9,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.707
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.114,
+      "clone_found": 4,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.182
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.571,
+      "clone_found": 20,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.99
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.457,
+      "clone_found": 16,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.939
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.229,
+      "clone_found": 8,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.576
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.114,
+      "clone_found": 4,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.141
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.343,
+      "clone_found": 12,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.949
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.257,
+      "clone_found": 9,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.768
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.171,
+      "clone_found": 6,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.303
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.086,
+      "clone_found": 3,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.081
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.6,
+      "clone_found": 21,
+      "clone_planted": 35,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.543,
+      "clone_found": 19,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.98
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.257,
+      "clone_found": 9,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.707
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.114,
+      "clone_found": 4,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.182
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.571,
+      "clone_found": 20,
+      "clone_planted": 35,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.514,
+      "clone_found": 18,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.98
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.257,
+      "clone_found": 9,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.707
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.114,
+      "clone_found": 4,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.182
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.571,
+      "clone_found": 20,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.99
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.457,
+      "clone_found": 16,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.939
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.229,
+      "clone_found": 8,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.576
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.114,
+      "clone_found": 4,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.141
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.343,
+      "clone_found": 12,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.949
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.257,
+      "clone_found": 9,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.768
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.171,
+      "clone_found": 6,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.303
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.086,
+      "clone_found": 3,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.081
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.6,
+      "clone_found": 21,
+      "clone_planted": 35,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.543,
+      "clone_found": 19,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.98
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.229,
+      "clone_found": 8,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.707
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.086,
+      "clone_found": 3,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.182
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.571,
+      "clone_found": 20,
+      "clone_planted": 35,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.514,
+      "clone_found": 18,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.98
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.229,
+      "clone_found": 8,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.707
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.086,
+      "clone_found": 3,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.182
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.571,
+      "clone_found": 20,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.99
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.429,
+      "clone_found": 15,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.939
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.2,
+      "clone_found": 7,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.576
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.086,
+      "clone_found": 3,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.141
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.343,
+      "clone_found": 12,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.949
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.229,
+      "clone_found": 8,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.768
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.143,
+      "clone_found": 5,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.303
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.057,
+      "clone_found": 2,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.081
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.6,
+      "clone_found": 21,
+      "clone_planted": 35,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.543,
+      "clone_found": 19,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.98
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.229,
+      "clone_found": 8,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.707
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.086,
+      "clone_found": 3,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.182
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.571,
+      "clone_found": 20,
+      "clone_planted": 35,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.514,
+      "clone_found": 18,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.98
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.229,
+      "clone_found": 8,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.707
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.086,
+      "clone_found": 3,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.182
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.571,
+      "clone_found": 20,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.99
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.429,
+      "clone_found": 15,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.939
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.2,
+      "clone_found": 7,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.576
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.086,
+      "clone_found": 3,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.141
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.343,
+      "clone_found": 12,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.949
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.229,
+      "clone_found": 8,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.768
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.143,
+      "clone_found": 5,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.303
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.057,
+      "clone_found": 2,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.081
+    }
+  ],
+  "n_dev": 200,
+  "n_test": 200,
+  "pool_size": 506
+}

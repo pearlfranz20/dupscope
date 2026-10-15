@@ -60,6 +60,9 @@ def generate_and_run(seeds, dsb_dir: str, pool_names: list[str] | None, workers:
 
 GRID = {
     "dup_min_inliers": [6, 8, 10, 12, 16],
+    # floor of 0.5: below that, the two regions' pixels barely agree and a reviewer
+    # cannot see the match (results/benchmark/summary_wider_grid.json shows what a
+    # floor of 0.3 would have chosen)
     "dup_min_correlation": [0.5, 0.6, 0.7, 0.8, 0.85, 0.9],
     "min_detail": [-1.0, 0.0, 0.3, 0.5, 0.6, 0.7],
     "template": [False, True],

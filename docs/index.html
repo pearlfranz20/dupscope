@@ -130,28 +130,34 @@ figcaption { color: var(--muted); font-size: 0.86rem; max-width: 68ch; }
     <tbody><tr><td>Same western blot strip twice</td><td class="num">9 of 9</td><td class="bar-cell"><span class="bar" style="width:100%"></span></td></tr><tr><td>Same image, rotated or mirrored</td><td class="num">17 of 17</td><td class="bar-cell"><span class="bar" style="width:100%"></span></td></tr><tr><td>Same image in two panels</td><td class="num">16 of 20</td><td class="bar-cell"><span class="bar" style="width:80%"></span></td></tr><tr><td>Same image, brightness or contrast changed</td><td class="num">13 of 26</td><td class="bar-cell"><span class="bar" style="width:50%"></span></td></tr><tr><td>Two crops of one image that partly overlap</td><td class="num">3 of 8</td><td class="bar-cell"><span class="bar" style="width:38%"></span></td></tr></tbody>
   </table></div>
   <p class="sub">Counts are small, so a few cases move each rate a lot. On the development papers the same
-  thresholds flagged 2 of 89 clean papers.</p>
+  thresholds found 57 of 84 and flagged 2 of
+  89 clean papers. The threshold search was widened once after an independent review, and its
+  correlation floor is 0.5 because below that a reviewer cannot see the match. With a
+  floor of 0.3 the search would pick 0.4, which finds
+  58 of 84 on the development papers and, on the test papers,
+  63 of 80 while flagging 4 of
+  99 clean papers.</p>
 </section>
 
 <section id="limits">
   <h2>Where it falls short</h2>
   <ul>
-    <li><strong>Mostly dark images.</strong> Of the 22 reuses the test missed,
-    22 were microscopy panels in which at most
+    <li><strong>Mostly dark images.</strong> All
+    22 missed reuses were microscopy panels in which at most
     11.1% of pixels rose above the dark background. A field with a few nuclei
     on black has little to match, and after JPEG compression the background is mostly noise.
     <figure><img src="img/missed.png" alt="Two mostly dark panels that are the same image, missed" loading="lazy"><figcaption>A missed copy: the same image in two panels. Shown six times brighter than in the figure.</figcaption></figure></li>
     <li><strong>Small overlaps.</strong> Two crops that share a strip of their area are the hardest case
     (3 of 8 found).</li>
-    <li><strong>Blots with the same layout.</strong> The one false alarm in the test was two different western
-    blots with the same pair of bands in every lane, matched after turning one upside down and mirroring it
+    <li><strong>Blots with a similar layout.</strong> The one false alarm in the test was two different western
+    blots with a similar two-band layout, matched after turning one upside down and mirroring it
     (pixel correlation 0.57). Blots are simple patterns, so a reviewer should look closely at
     any blot finding with a modest score.
     <figure><img src="img/false_alarm_0.png" alt="Two different blots, wrongly flagged" loading="lazy"><figcaption>Two different blots, wrongly flagged.</figcaption></figure></li>
     <li><strong>Copies within one panel are not searched by default.</strong> The tool can look for a region pasted
     elsewhere in the same image, but on the benchmark it could not tell real pastes from natural repetition (similar
     nuclei, evenly spaced blot lanes). At its strictest it found 3 of
-    35 pastes and still flagged 5% of clean papers. At
+    35 pastes and still flagged 5.1% of clean papers. At
     its loosest it found 21 of 35 and flagged
     100%. It is available as an experimental option.</li>
     <li><strong>Synthetic papers are not real papers.</strong> Real figures have insets, arrows, scale bars,

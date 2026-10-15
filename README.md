@@ -54,6 +54,11 @@ within one panel, which the default search does not cover.
 | Two crops of one image that partly overlap | 3 of 8 |
 
 Full numbers, including the development split: `results/benchmark/summary.json`.
+The threshold search was widened once after an independent review. Its correlation floor is 0.5, because below
+that a reviewer cannot see the match. With a floor of 0.3 it would pick 0.4,
+finding 63 of 80 test reuses but flagging
+4 of 99 clean papers
+(`results/benchmark/summary_wider_grid.json`).
 
 ### Limits
 
