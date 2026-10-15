@@ -94,7 +94,9 @@ def bench(
 def validate_retractions(
     mailto: str = typer.Option(..., help="Your email; Crossref and NCBI ask API users for one."),
     out: Path = typer.Option(Path("retraction_check")),
-    subject: str = typer.Option("Neuroscience", help="Retraction Watch subject filter; empty for all."),
+    subject: str = typer.Option(
+        "Neuroscience,Neurology,Psychiatry", help="Retraction Watch subjects, comma-separated; empty for all."
+    ),
     limit: int = typer.Option(0, help="Check at most this many retracted papers (0 = all)."),
     controls: int = typer.Option(1, help="Matched non-retracted papers per retracted one."),
     csv_path: Path | None = typer.Option(None, exists=True, help="Use a downloaded Retraction Watch CSV."),

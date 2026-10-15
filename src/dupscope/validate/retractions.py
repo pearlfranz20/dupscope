@@ -50,11 +50,10 @@ IDCONV_URL = "https://pmc.ncbi.nlm.nih.gov/tools/idconv/api/v1/articles/"
 PMC_S3 = "https://pmc-oa-opendata.s3.amazonaws.com"
 EPMC_SEARCH_URL = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
 
-IMAGE_REASONS = (
-    "Duplication of Image",
-    "Manipulation of Images",
-    "Concerns/Issues About Image",
-)
+# Retraction Watch reason labels about images, matched case-insensitively as
+# substrings ("Duplication of/in Image", "Manipulation of Images",
+# "Concerns/Issues about Image", ...)
+IMAGE_REASONS = ("image",)
 RATE_LIMITED = ("ncbi.nlm.nih.gov", "ebi.ac.uk", "plos.org", "springernature.com")
 FIGURE_EXT = (".jpg", ".jpeg", ".png", ".tif", ".tiff", ".gif")
 

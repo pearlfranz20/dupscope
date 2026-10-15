@@ -1,0 +1,9 @@
+{
+ "labelled_panels": 768,
+ "photographs": 352,
+ "papers": 60,
+ "photo_recall": 0.974,
+ "graphics_kept": 36,
+ "graphics": 416,
+ "threshold": 0.3
+}
