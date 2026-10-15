@@ -88,12 +88,22 @@ def validate_retractions(
     limit: int = typer.Option(0, help="Check at most this many retracted papers (0 = all)."),
     controls: int = typer.Option(1, help="Matched non-retracted papers per retracted one."),
     csv_path: Path | None = typer.Option(None, exists=True, help="Use a downloaded Retraction Watch CSV."),
+    workers: int = typer.Option(1, help="Papers analysed in parallel."),
+    cache_dir: Path | None = typer.Option(None, help="HTTP cache (default ~/.cache/dupscope). Do not publish it."),
 ):
     """Run on papers retracted for image problems and on matched controls (counts only)."""
     from .validate.retractions import validate
 
     summary = validate(
-        out, mailto, subject or None, limit or None, controls, default_thresholds(), str(csv_path) if csv_path else None
+        out,
+        mailto,
+        subject or None,
+        limit or None,
+        controls,
+        default_thresholds(),
+        str(csv_path) if csv_path else None,
+        cache_dir=cache_dir,
+        workers=workers,
     )
     typer.echo(json.dumps(summary, indent=1))
 
