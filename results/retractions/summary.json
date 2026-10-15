@@ -1,0 +1,26 @@
+{
+ "subject": "Neuroscience",
+ "thresholds": {
+  "dup_min_inliers": 12,
+  "dup_min_correlation": 0.5,
+  "dup_min_overlap": 0.1,
+  "clone_min_inliers": 8,
+  "clone_min_correlation": 0.8,
+  "dense_min_blocks": 60,
+  "clones": false,
+  "template": false,
+  "min_detail": 0.0
+ },
+ "retracted": {
+  "analysed": 1,
+  "flagged": 1,
+  "skipped": 28,
+  "flag_rate": 1.0
+ },
+ "controls": {
+  "analysed": 17,
+  "flagged": 11,
+  "skipped": 8,
+  "flag_rate": 0.647
+ }
+}
