@@ -1,0 +1,11 @@
+{
+ "dup_min_inliers": 8,
+ "dup_min_correlation": 0.7,
+ "dup_min_overlap": 0.1,
+ "clone_min_inliers": 8,
+ "clone_min_correlation": 0.8,
+ "dense_min_blocks": 60,
+ "clones": false,
+ "template": false,
+ "min_detail": 0.0
+}

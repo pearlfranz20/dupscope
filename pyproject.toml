@@ -32,6 +32,7 @@ ignore = ["B008"]
 
 [tool.ruff.lint.per-file-ignores]
 "src/dupscope/report.py" = ["E501"]  # inline CSS
+"docs/build.py" = ["E501"]  # HTML template
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

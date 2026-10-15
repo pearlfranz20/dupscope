@@ -29,8 +29,9 @@ class Thresholds:
     clones: bool = False
     # when keypoint matching finds nothing, search one panel's patches directly in
     # the other (all 8 rotations/mirrorings, several scales); helps sparse, low-texture
-    # fluorescence images
-    template: bool = True
+    # fluorescence images, but on the benchmark it added more false alarms than finds,
+    # so it is off by default
+    template: bool = False
     min_detail: float = 0.0  # band-pass correlation floor, applied to every finding
 
 

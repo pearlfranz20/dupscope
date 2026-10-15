@@ -4,3 +4,4 @@ __pycache__/
 bench_out/
 *.png
 !docs/**/*.png
+docs/dupscope-inline.html
