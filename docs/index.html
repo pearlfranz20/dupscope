@@ -108,44 +108,50 @@ figcaption { color: var(--muted); font-size: 0.86rem; max-width: 68ch; }
   2 to 3 figures built from real microscopy images (the
   <a href="https://github.com/stardist/stardist/releases">Data Science Bowl 2018 nuclei set</a> and scikit-image
   samples), generated western blots and charts. Figures are saved as compressed JPEG, and half are shrunk, as
-  happens in a real PDF. Half the papers get planted reuse. Every paper also gets look-alikes: two different
-  regions of the same sample, which look similar but share no pixels. Those are the cases a careless detector
-  flags.</p>
+  happens in a real PDF. Some papers get planted reuse. Most also get look-alikes: two different regions of the
+  same sample, which look similar but share no pixels. Those are the cases a careless detector flags.</p>
   <p>Thresholds were chosen on 200 development papers, with a rule that at most
   5% of clean papers may be flagged. Wrongly flagging an honest paper is the costly
-  mistake. The numbers below are from 200 separate test papers that played no part in tuning.</p>
+  mistake. The numbers below are from 200 separate test papers that played no part in tuning. Of
+  those, 70 have planted reuse between panels and 99 have no reuse
+  at all. Another 14 ended up with a real duplicate the generator did not
+  mean to make (two random crops of one image that overlap). They are scored apart from both groups, and the
+  detector flagged 6 of them. The remaining
+  17
+  only have a region pasted within one panel, which the default search does not look for.</p>
   <div class="stats">
-    <div class="stat"><div class="big">59 of 80</div><div>planted reuses found (74%)</div></div>
-    <div class="stat"><div class="big">3 of 111</div><div>clean papers wrongly flagged (3%)</div></div>
-    <div class="stat"><div class="big">0 of 181</div><div>look-alike pairs wrongly flagged</div></div>
-    <div class="stat"><div class="big">94%</div><div>of findings were real reuse</div></div>
+    <div class="stat"><div class="big">58 of 80</div><div>planted reuses found (72%)</div></div>
+    <div class="stat"><div class="big">1 of 99</div><div>clean papers wrongly flagged (1%)</div></div>
+    <div class="stat"><div class="big">0 of 178</div><div>look-alike pairs wrongly flagged</div></div>
+    <div class="stat"><div class="big">72 of 73</div><div>findings were real reuse</div></div>
   </div>
   <div class="table-wrap"><table>
     <thead><tr><th>Kind of reuse</th><th class="num">Found</th><th></th></tr></thead>
-    <tbody><tr><td>Same image, rotated or mirrored</td><td class="num">17 of 17</td><td class="bar-cell"><span class="bar" style="width:100%"></span></td></tr><tr><td>Same western blot strip twice</td><td class="num">8 of 9</td><td class="bar-cell"><span class="bar" style="width:89%"></span></td></tr><tr><td>Same image in two panels</td><td class="num">17 of 20</td><td class="bar-cell"><span class="bar" style="width:85%"></span></td></tr><tr><td>Same image, brightness or contrast changed</td><td class="num">15 of 26</td><td class="bar-cell"><span class="bar" style="width:58%"></span></td></tr><tr><td>Two crops of one image that partly overlap</td><td class="num">2 of 8</td><td class="bar-cell"><span class="bar" style="width:25%"></span></td></tr></tbody>
+    <tbody><tr><td>Same western blot strip twice</td><td class="num">9 of 9</td><td class="bar-cell"><span class="bar" style="width:100%"></span></td></tr><tr><td>Same image, rotated or mirrored</td><td class="num">17 of 17</td><td class="bar-cell"><span class="bar" style="width:100%"></span></td></tr><tr><td>Same image in two panels</td><td class="num">16 of 20</td><td class="bar-cell"><span class="bar" style="width:80%"></span></td></tr><tr><td>Same image, brightness or contrast changed</td><td class="num">13 of 26</td><td class="bar-cell"><span class="bar" style="width:50%"></span></td></tr><tr><td>Two crops of one image that partly overlap</td><td class="num">3 of 8</td><td class="bar-cell"><span class="bar" style="width:38%"></span></td></tr></tbody>
   </table></div>
   <p class="sub">Counts are small, so a few cases move each rate a lot. On the development papers the same
-  thresholds flagged 4 of 109 clean papers.</p>
+  thresholds flagged 2 of 89 clean papers.</p>
 </section>
 
 <section id="limits">
   <h2>Where it falls short</h2>
   <ul>
-    <li><strong>Mostly dark images.</strong> Of the 21 reuses the test missed,
-    20 were microscopy panels in which at most
-    10% of pixels rose above the dark background. A field with a few nuclei
+    <li><strong>Mostly dark images.</strong> Of the 22 reuses the test missed,
+    22 were microscopy panels in which at most
+    11.1% of pixels rose above the dark background. A field with a few nuclei
     on black has little to match, and after JPEG compression the background is mostly noise.
-    <figure><img src="img/missed.png" alt="Two mostly dark panels that are the same image, missed" loading="lazy"><figcaption>A missed copy, rotated 180° and mirrored. Shown six times brighter than in the figure.</figcaption></figure></li>
+    <figure><img src="img/missed.png" alt="Two mostly dark panels that are the same image, missed" loading="lazy"><figcaption>A missed copy: the same image in two panels. Shown six times brighter than in the figure.</figcaption></figure></li>
     <li><strong>Small overlaps.</strong> Two crops that share a strip of their area are the hardest case
-    (2 of 8 found).</li>
-    <li><strong>Bar charts.</strong> The panel splitter can cut a bar chart into bars, and two plain grey bars can
-    look like a reused image. This caused the test's worst false alarm, two bars from one chart (correlation
-    0.91).
-    <figure><img src="img/false_alarm_0.png" alt="Two bars from one chart, wrongly flagged" loading="lazy"><figcaption>Two bars from one chart, wrongly flagged.</figcaption></figure></li>
+    (3 of 8 found).</li>
+    <li><strong>Blots with the same layout.</strong> The one false alarm in the test was two different western
+    blots with the same pair of bands in every lane, matched after turning one upside down and mirroring it
+    (pixel correlation 0.57). Blots are simple patterns, so a reviewer should look closely at
+    any blot finding with a modest score.
+    <figure><img src="img/false_alarm_0.png" alt="Two different blots, wrongly flagged" loading="lazy"><figcaption>Two different blots, wrongly flagged.</figcaption></figure></li>
     <li><strong>Copies within one panel are not searched by default.</strong> The tool can look for a region pasted
     elsewhere in the same image, but on the benchmark it could not tell real pastes from natural repetition (similar
     nuclei, evenly spaced blot lanes). At its strictest it found 3 of
-    35 pastes and still flagged 6% of clean papers. At
+    35 pastes and still flagged 5% of clean papers. At
     its loosest it found 21 of 35 and flagged
     100%. It is available as an experimental option.</li>
     <li><strong>Synthetic papers are not real papers.</strong> Real figures have insets, arrows, scale bars,
@@ -168,8 +174,8 @@ figcaption { color: var(--muted); font-size: 0.86rem; max-width: 68ch; }
 <pre><code>pip install git+https://github.com/pearlfranz20/dupscope
 dupscope scan fig1.png fig2.png fig3.png --out report/</code></pre>
   <p>Open <code>report/report.html</code>. Every finding is a lead for a person to check, not a verdict.
-  Benchmark thresholds: at least 8 geometrically consistent matched points, pixel
-  correlation of at least 0.7, and at least 10% of a panel
+  Benchmark thresholds: at least 12 geometrically consistent matched points, pixel
+  correlation of at least 0.5, and at least 10% of a panel
   overlapping. Code, benchmark generator and tests are on
   <a href="https://github.com/pearlfranz20/dupscope">GitHub</a>.</p>
 </section>

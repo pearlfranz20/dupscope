@@ -35,6 +35,8 @@ def default_thresholds() -> Thresholds:
 @app.callback()
 def _main(verbose: bool = typer.Option(False, "--verbose", "-v")):
     logging.basicConfig(level=logging.DEBUG if verbose else logging.INFO, format="%(levelname)s %(message)s")
+    # httpx logs every request URL at INFO, which would print control papers' IDs
+    logging.getLogger("httpx").setLevel(logging.WARNING)
 
 
 @app.command()
@@ -66,17 +68,23 @@ def scan(
 
 @app.command()
 def bench(
-    dsb: Path = typer.Option(..., exists=True, file_okay=False, help="Unpacked StarDist dsb2018 folder."),
+    dsb: Path | None = typer.Option(None, exists=True, file_okay=False, help="Unpacked StarDist dsb2018 folder."),
     out: Path = typer.Option(Path("bench_out")),
     n_dev: int = typer.Option(200),
     n_test: int = typer.Option(200),
     workers: int = typer.Option(2),
     dedupe_file: Path | None = typer.Option(None, help="JSON from the pool de-duplication step."),
+    rescore_only: bool = typer.Option(False, "--rescore", help="Re-score saved results in --out without rerunning."),
 ):
     """Generate synthetic papers, choose thresholds on the dev split, score the test split."""
     from .bench.run import main as run_bench
+    from .bench.run import rescore
 
-    summary = run_bench(str(dsb), str(out), n_dev, n_test, workers, str(dedupe_file) if dedupe_file else None)
+    if rescore_only:
+        n = len(json.loads(dedupe_file.read_text())["kept"]) if dedupe_file else None
+        summary = rescore(str(out), pool_size=n)
+    else:
+        summary = run_bench(str(dsb), str(out), n_dev, n_test, workers, str(dedupe_file) if dedupe_file else None)
     typer.echo(json.dumps(summary["test"], indent=1))
 
 

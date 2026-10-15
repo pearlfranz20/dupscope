@@ -8,7 +8,7 @@ split.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
 
 from ..detect import Thresholds, analyse
 from .compose import PAIR_KINDS, Paper
@@ -51,6 +51,52 @@ class Candidate:
     method: str = "keypoints"
 
 
+def _shares_pixels(pa: dict, pb: dict) -> bool:
+    """Two ground-truth panels show overlapping pixels of the same original."""
+    if pa["content"] == "chart" or pa["source"] != pb["source"]:
+        return False
+    if pa["content"] == "blot":
+        return True
+    ax, ay, aw, ah = pa["crop"]
+    bx, by, bw, bh = pb["crop"]
+    ix = max(0, min(ax + aw, bx + bw) - max(ax, bx))
+    iy = max(0, min(ay + ah, by + bh) - max(ay, by))
+    return ix * iy > 0.05 * min(aw * ah, bw * bh)
+
+
+def annotate(result: dict, truth: dict) -> dict:
+    """Add ground truth that scoring needs, judged from the pixels' provenance rather
+    than from what the generator meant to do:
+
+    - planted_pairs: each planted between-panel reuse, scored on its own (a kind can
+      be planted twice in one paper)
+    - valid_hard_negatives: look-alike pairs that really are two regions of one
+      original sharing no pixels (a planted reuse can overwrite one side of a pair)
+    - incidental_pairs: panel pairs that share pixels without a plant (two random
+      crops of one original can overlap); such a paper is not clean
+    """
+    panels = {(p["figure"], p["index"]): p for p in truth["panels"]}
+    planted = [(pl["kind"], sorted(tuple(k) for k in pl["panels"])) for pl in truth["planted"]]
+    pair_sets = {frozenset(ks) for kind, ks in planted if kind in PAIR_KINDS}
+    hard = []
+    for a, b in truth["hard_negatives"]:
+        pa, pb = panels[tuple(a)], panels[tuple(b)]
+        if pa["source"] == pb["source"] and not _shares_pixels(pa, pb):
+            hard.append([list(a), list(b)])
+    keys = sorted(panels)
+    incidental = [
+        [list(a), list(b)]
+        for n, a in enumerate(keys)
+        for b in keys[n + 1 :]
+        if frozenset((a, b)) not in pair_sets and _shares_pixels(panels[a], panels[b])
+    ]
+    result = dict(result)
+    result["planted_pairs"] = [[kind, [list(k) for k in ks]] for kind, ks in planted if kind in PAIR_KINDS]
+    result["valid_hard_negatives"] = hard
+    result["incidental_pairs"] = incidental
+    return result
+
+
 def run_paper(paper: Paper) -> dict:
     panels, findings = analyse(paper.figures, PERMISSIVE)
     # map each detected panel to the ground-truth panel it covers best
@@ -78,19 +124,10 @@ def run_paper(paper: Paper) -> dict:
     # Ground truth by content: two panels are a true duplicate pair whenever they show
     # overlapping pixels of the same source (planted or not, e.g. when two planted
     # reuses share an original), or the same blot.
-    by_key = {(p.figure, p.index): p for p in paper.panels}
+    by_key = {(p.figure, p.index): asdict(p) for p in paper.panels}
 
     def shares_pixels(a, b) -> bool:
-        pa, pb = by_key[a], by_key[b]
-        if pa.content == "chart" or pa.source != pb.source:
-            return False
-        if pa.content == "blot":
-            return True
-        ax, ay, aw, ah = pa.crop
-        bx, by, bw, bh = pb.crop
-        ix = max(0, min(ax + aw, bx + bw) - max(ax, bx))
-        iy = max(0, min(ay + ah, by + bh) - max(ay, by))
-        return ix * iy > 0.05 * min(aw * ah, bw * bh)
+        return _shares_pixels(by_key[a], by_key[b])
 
     cands = []
     for f in findings:
@@ -122,17 +159,20 @@ def run_paper(paper: Paper) -> dict:
             ).__dict__
         )
     detected_panels = sum(1 for v in det_to_gt.values() if v is not None)
-    return {
-        "paper_id": paper.paper_id,
-        "manipulated": bool(paper.planted),
-        "planted": [p.kind for p in paper.planted],
-        "n_hard_negatives": len(paper.hard_negatives),
-        "n_gt_panels": len(paper.panels),
-        "n_gt_photo_panels": sum(p.content != "chart" for p in paper.panels),
-        "n_detected_panels": len(panels),
-        "n_matched_panels": detected_panels,
-        "candidates": cands,
-    }
+    return annotate(
+        {
+            "paper_id": paper.paper_id,
+            "manipulated": bool(paper.planted),
+            "planted": [p.kind for p in paper.planted],
+            "n_hard_negatives": len(paper.hard_negatives),
+            "n_gt_panels": len(paper.panels),
+            "n_gt_photo_panels": sum(p.content != "chart" for p in paper.panels),
+            "n_detected_panels": len(panels),
+            "n_matched_panels": detected_panels,
+            "candidates": cands,
+        },
+        paper.truth(),
+    )
 
 
 def passes(c: dict, t: Thresholds) -> bool:
@@ -151,52 +191,72 @@ def passes(c: dict, t: Thresholds) -> bool:
     return c["inliers"] >= need and c["correlation"] >= t.clone_min_correlation
 
 
-def score(results: list[dict], t: Thresholds) -> dict:
-    """Recall per planted kind, false positives, and paper-level rates.
+REAL = ("none", "hard_negative")
 
-    With within-panel clone search off, planted clones are outside what is searched:
-    they are left out of recall, and papers whose only manipulation is a clone count
-    as neither clean nor manipulated."""
+
+def score(results: list[dict], t: Thresholds) -> dict:
+    """Recall per planted reuse, false alarms and paper-level rates. Results must be
+    annotated with ground truth (see `annotate`).
+
+    A planted between-panel reuse counts as found when a kept finding links exactly
+    its two panels. With within-panel clone search off, planted clones are outside
+    what is searched, so papers whose only manipulation is a clone are left out.
+    Papers that contain an unplanted real duplicate are reported separately, not as
+    clean. Findings on such duplicates count as real in precision."""
     per_kind: dict[str, list[int]] = {}
-    fp = hard_fp = flagged_clean = flagged_manip = n_clean = n_manip = hard_total = 0
-    tp_findings = 0
+    fp = hard_fp = tp = 0
+    clean = clean_flagged = manip = manip_caught = hard_total = 0
+    incidental_papers = incidental_found = 0
     for r in results:
         kept = [c for c in r["candidates"] if passes(c, t)]
-        hits = {c["label"] for c in kept}
-        searched = [k for k in r["planted"] if t.clones or k in PAIR_KINDS]
-        for kind in searched:
+        kept_pairs = {frozenset((tuple(c["gt_a"]), tuple(c["gt_b"]))) for c in kept if c["gt_a"] and c["gt_b"]}
+        for kind, ks in r["planted_pairs"]:
             per_kind.setdefault(kind, [0, 0])
             per_kind[kind][1] += 1
-        # a kind planted twice in one paper is rare; count it found if any hit has that label
-        for kind in set(searched):
-            if kind in hits:
-                per_kind[kind][0] += searched.count(kind)
+            per_kind[kind][0] += frozenset(tuple(k) for k in ks) in kept_pairs
+        singles = [k for k in r["planted"] if k not in PAIR_KINDS]
+        if t.clones:
+            hits = {c["label"] for c in kept}
+            for kind in singles:
+                per_kind.setdefault(kind, [0, 0])
+                per_kind[kind][1] += 1
+            for kind in set(singles):
+                per_kind[kind][0] += singles.count(kind) * (kind in hits)
         fp += sum(c["label"] == "none" for c in kept)
-        # duplicates that genuinely share pixels are neither hits nor false alarms
         hard_fp += sum(c["label"] == "hard_negative" for c in kept)
-        tp_findings += sum(c["label"] not in ("none", "hard_negative", "incidental_duplicate") for c in kept)
-        hard_total += r["n_hard_negatives"]
+        tp += sum(c["label"] not in REAL for c in kept)
+        hard_total += len(r["valid_hard_negatives"])
+        searched = bool(r["planted_pairs"]) or (t.clones and bool(singles))
         if searched:
-            n_manip += 1
-            flagged_manip += any(c["label"] not in ("none", "hard_negative") for c in kept)
-        elif not r["manipulated"]:
-            n_clean += 1
-            flagged_clean += any(c["label"] != "incidental_duplicate" for c in kept)
+            manip += 1
+            manip_caught += any(c["label"] not in REAL and c["label"] != "incidental_duplicate" for c in kept)
+        elif r["incidental_pairs"]:
+            incidental_papers += 1
+            incidental_found += any(c["label"] == "incidental_duplicate" for c in kept)
+        elif not singles:
+            clean += 1
+            clean_flagged += bool(kept)
     planted_total = sum(v[1] for v in per_kind.values())
     planted_found = sum(v[0] for v in per_kind.values())
-    total_kept = tp_findings + fp + hard_fp
     return {
+        "found": planted_found,
+        "planted": planted_total,
         "recall": round(planted_found / max(1, planted_total), 3),
         "recall_by_kind": {
             k: {"found": v[0], "planted": v[1], "recall": round(v[0] / max(1, v[1]), 3)}
             for k, v in sorted(per_kind.items())
         },
-        "precision": round(tp_findings / max(1, total_kept), 3),
+        "findings": tp + fp + hard_fp,
+        "real_findings": tp,
+        "precision": round(tp / max(1, tp + fp + hard_fp), 3),
         "false_positives": fp,
         "hard_negative_hits": hard_fp,
         "hard_negatives_total": hard_total,
-        "clean_papers": n_clean,
-        "clean_papers_flagged": flagged_clean,
-        "manipulated_papers": n_manip,
-        "manipulated_papers_caught": flagged_manip,
+        "clean_papers": clean,
+        "clean_papers_flagged": clean_flagged,
+        "manipulated_papers": manip,
+        "manipulated_papers_caught": manip_caught,
+        "papers_with_unplanted_duplicates": incidental_papers,
+        "unplanted_duplicate_papers_flagged": incidental_found,
+        "papers": len(results),
     }

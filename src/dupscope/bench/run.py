@@ -20,7 +20,7 @@ from pathlib import Path
 
 from ..detect import Thresholds
 from .compose import PAIR_KINDS, make_paper
-from .evaluate import run_paper, score
+from .evaluate import annotate, run_paper, score
 
 _POOL = None
 
@@ -59,9 +59,9 @@ def generate_and_run(seeds, dsb_dir: str, pool_names: list[str] | None, workers:
 
 
 GRID = {
-    "dup_min_inliers": [8, 10, 12, 16],
-    "dup_min_correlation": [0.7, 0.8, 0.85, 0.9],
-    "min_detail": [0.0, 0.3, 0.5, 0.6, 0.7],
+    "dup_min_inliers": [6, 8, 10, 12, 16],
+    "dup_min_correlation": [0.5, 0.6, 0.7, 0.8, 0.85, 0.9],
+    "min_detail": [-1.0, 0.0, 0.3, 0.5, 0.6, 0.7],
     "template": [False, True],
 }
 
@@ -117,6 +117,35 @@ def clone_tradeoff(results: list[dict], base: Thresholds) -> list[dict]:
     return rows
 
 
+def summarise(dev: list[dict], test: list[dict], max_clean_flag_rate: float, pool_size: int | None) -> dict:
+    t, dev_score = choose_thresholds(dev, max_clean_flag_rate)
+    return {
+        "thresholds": asdict(t),
+        "max_clean_flag_rate": max_clean_flag_rate,
+        "dev": dev_score,
+        "test": score(test, t),
+        "clone_search_experimental_dev": clone_tradeoff(dev, t),
+        "clone_search_experimental_test": clone_tradeoff(test, t),
+        "n_dev": len(dev),
+        "n_test": len(test),
+        "pool_size": pool_size,
+    }
+
+
+def _load(split_dir: Path) -> list[dict]:
+    results = [json.loads(line) for line in open(split_dir / "results.jsonl")]
+    truths = {json.loads(line)["paper_id"]: json.loads(line) for line in open(split_dir / "truth.jsonl")}
+    return [annotate(r, truths[r["paper_id"]]) for r in results]
+
+
+def rescore(out_dir: str, max_clean_flag_rate: float = 0.05, pool_size: int | None = None) -> dict:
+    """Re-score saved detector output (results.jsonl, truth.jsonl) without rerunning."""
+    out = Path(out_dir)
+    summary = summarise(_load(out / "dev"), _load(out / "test"), max_clean_flag_rate, pool_size)
+    (out / "summary.json").write_text(json.dumps(summary, indent=2))
+    return summary
+
+
 def main(
     dsb_dir: str,
     out_dir: str = "bench_out",
@@ -128,20 +157,6 @@ def main(
 ) -> dict:
     out = Path(out_dir)
     pool_names = json.loads(Path(dedupe_file).read_text())["kept"] if dedupe_file else None
-    dev = generate_and_run(range(0, n_dev), dsb_dir, pool_names, workers, out / "dev")
-    test = generate_and_run(range(n_dev, n_dev + n_test), dsb_dir, pool_names, workers, out / "test")
-    t, dev_score = choose_thresholds(dev, max_clean_flag_rate)
-    test_score = score(test, t)
-    clones = clone_tradeoff(test, t)
-    summary = {
-        "thresholds": asdict(t),
-        "max_clean_flag_rate": max_clean_flag_rate,
-        "dev": dev_score,
-        "test": test_score,
-        "clone_search_experimental_test": clones,
-        "n_dev": n_dev,
-        "n_test": n_test,
-        "pool_size": len(pool_names) if pool_names else None,
-    }
-    (out / "summary.json").write_text(json.dumps(summary, indent=2))
-    return summary
+    generate_and_run(range(0, n_dev), dsb_dir, pool_names, workers, out / "dev")
+    generate_and_run(range(n_dev, n_dev + n_test), dsb_dir, pool_names, workers, out / "test")
+    return rescore(out_dir, max_clean_flag_rate, len(pool_names) if pool_names else None)

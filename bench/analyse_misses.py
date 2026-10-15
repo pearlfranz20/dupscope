@@ -10,8 +10,8 @@ import json
 import sys
 from pathlib import Path
 
-from dupscope.bench.compose import PAIR_KINDS, make_paper
-from dupscope.bench.evaluate import passes
+from dupscope.bench.compose import make_paper
+from dupscope.bench.evaluate import annotate, passes
 from dupscope.bench.sources import load_pool
 from dupscope.cli import default_thresholds
 from dupscope.panels import to_gray
@@ -24,24 +24,29 @@ def main(dsb, dedupe, bench_out, out):
     keep = set(json.loads(Path(dedupe).read_text())["kept"])
     pool = [(n, a) for n, a in load_pool(dsb) if n in keep]
     rows = []
-    for line in open(Path(bench_out) / "test" / "results.jsonl"):
-        r = json.loads(line)
-        hits = {c["label"] for c in r["candidates"] if passes(c, t)}
-        missed = {k for k in r["planted"] if k in PAIR_KINDS and k not in hits}
+    split = Path(bench_out) / "test"
+    truths = {json.loads(line)["paper_id"]: json.loads(line) for line in open(split / "truth.jsonl")}
+    for line in open(split / "results.jsonl"):
+        r = annotate(json.loads(line), truths[json.loads(line)["paper_id"]])
+        kept = {
+            frozenset((tuple(c["gt_a"]), tuple(c["gt_b"])))
+            for c in r["candidates"]
+            if passes(c, t) and c["gt_a"] and c["gt_b"]
+        }
+        missed = [(kind, ks) for kind, ks in r["planted_pairs"] if frozenset(tuple(k) for k in ks) not in kept]
         if not missed:
             continue
         paper = make_paper(int(r["paper_id"][5:]), pool, manipulated=True)
         gt = {(g.figure, g.index): g for g in paper.panels}
-        for pl in paper.planted:
-            if pl.kind not in missed:
-                continue
-            g = gt[tuple(pl.panels[0])]
+        for kind, ks in missed:
+            g = gt[tuple(ks[0])]
             panel = to_gray(paper.figures[g.figure])[g.y : g.y + g.h, g.x : g.x + g.w]
             rows.append(
                 {
                     "paper_id": r["paper_id"],
-                    "kind": pl.kind,
+                    "kind": kind,
                     "content": g.content,
+                    "panels": ks,
                     "bright_fraction": round(float((panel > BRIGHT).mean()), 3),
                 }
             )

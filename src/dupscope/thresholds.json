@@ -1,6 +1,6 @@
 {
- "dup_min_inliers": 8,
- "dup_min_correlation": 0.7,
+ "dup_min_inliers": 12,
+ "dup_min_correlation": 0.5,
  "dup_min_overlap": 0.1,
  "clone_min_inliers": 8,
  "clone_min_correlation": 0.8,
