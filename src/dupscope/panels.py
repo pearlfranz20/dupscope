@@ -92,18 +92,27 @@ def is_photographic(gray: np.ndarray) -> bool:
             return False
     hist = np.bincount(small.ravel(), minlength=256).astype(np.float64)
     smooth = np.convolve(hist, np.ones(9), mode="same")  # +-4 levels of JPEG wobble
-    p1 = int(np.argmax(smooth))
     rest = smooth.copy()
-    rest[max(0, p1 - 8) : p1 + 9] = 0
-    p2 = int(np.argmax(rest))
-    near = np.zeros(256, bool)
-    for p in (p1, p2):
-        near[max(0, p - 4) : p + 5] = True
-    peak_mass = float(hist[near].sum() / hist.sum())
+    peaks = []
+    for _ in range(3):
+        p = int(np.argmax(rest))
+        peaks.append(p)
+        rest[max(0, p - 8) : p + 9] = 0
+
+    def mass(ps) -> float:
+        near = np.zeros(256, bool)
+        for p in ps:
+            near[max(0, p - 4) : p + 5] = True
+        return float(hist[near].sum() / hist.sum())
+
     # blots and gels also sit on a light background, but it is grey with grain, not
-    # paper white; only flat fills on paper white count as graphics
-    paper = max(p1, p2) >= 245
-    return not (peak_mass > 0.8 and paper)
+    # paper white; only flat fills on paper white count as graphics. Two tones (white
+    # and a fill), or three (white, a fill and black outlines, as in a bar chart).
+    if max(peaks[:2]) >= 245 and mass(peaks[:2]) > 0.8:
+        return False
+    if max(peaks) >= 245 and mass(peaks) > 0.88:
+        return False
+    return True
 
 
 def _xy_cut(mask: np.ndarray, x0: int, y0: int, min_side: int, min_gap: int, out: list) -> None:
@@ -152,6 +161,10 @@ def extract_panels(
     gray = to_gray(image)
     h, w = gray.shape
     bg = _background(gray)
+    if 40 < bg < 225:
+        # a figure whose border is mid-grey is one photograph (an uncropped blot or gel
+        # scan), not a layout on paper; cutting it into bands makes look-alikes
+        return [Panel(figure_id, 0, 0, 0, w, h, is_photographic(gray))]
     raw = (np.abs(gray.astype(np.int16) - bg) > tol).astype(np.uint8)
     # 1. drop text-sized blobs (panel letters, axis labels outside panels) so they
     #    cannot bridge the gutter between neighbouring panels

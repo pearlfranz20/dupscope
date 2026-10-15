@@ -1,0 +1,42 @@
+name: Fetch development figures
+
+# Downloads figures of papers retracted for image problems (public record) into the
+# devdata branch, for developing panel splitting on real figures. Started by hand.
+
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Retracted papers to fetch"
+        default: "40"
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      LIMIT: ${{ inputs.limit }}
+      CONTACT: ${{ vars.CONTACT_EMAIL || format('{0}@users.noreply.github.com', github.repository_owner) }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - run: pip install -e .
+      - run: git clone --depth 1 https://gitlab.com/crossref/retraction-watch-data rw || true
+      - name: Fetch
+        run: |
+          CSV=$(ls rw/*.csv 2>/dev/null | head -1)
+          python bench/fetch_dev_figures.py --mailto "$CONTACT" ${CSV:+--csv-path "$CSV"} --limit "$LIMIT" --out "$RUNNER_TEMP/devdata"
+      - name: Push to devdata branch
+        run: |
+          cd "$RUNNER_TEMP/devdata"
+          git init -q -b devdata
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -qm "Development figures from retracted papers"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" devdata
