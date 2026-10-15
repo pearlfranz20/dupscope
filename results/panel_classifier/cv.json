@@ -5,5 +5,10 @@
  "photo_recall": 0.974,
  "graphics_kept": 36,
  "graphics": 416,
- "threshold": 0.3
+ "threshold": 0.3,
+ "old_rules_graphics_kept": 234,
+ "example_paper": "PMC10409850",
+ "example_paper_findings_before": 92,
+ "example_paper_findings_after": 3,
+ "note": "old_rules_graphics_kept: labelled graphics the earlier hand-written rules called photographs; example paper findings with the old rules and with the classifier, same thresholds"
 }

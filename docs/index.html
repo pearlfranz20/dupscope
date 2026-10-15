@@ -80,8 +80,8 @@ figcaption { color: var(--muted); font-size: 0.86rem; max-width: 68ch; }
   <h2>How it works</h2>
   <ol>
     <li><strong>Split figures into panels.</strong> Labels are removed, then each figure is cut along its white
-    gutters. Each panel is classed as an image (microscopy, blots) or a graphic (charts, diagrams). Only images are
-    compared.</li>
+    gutters. A small trained classifier marks each panel as a photograph (microscopy, blots, gels) or a graphic
+    (bars, fill patterns, plots, text, diagrams). Only photographs are compared.</li>
     <li><strong>Compare every pair of image panels.</strong> Distinctive points are matched between the two panels
     (SIFT features). A geometric check keeps only matches that agree on one rotation, mirroring and resizing.</li>
     <li><strong>Check the pixels.</strong> The second panel is warped onto the first, and the overlapping pixels are
@@ -130,12 +130,12 @@ figcaption { color: var(--muted); font-size: 0.86rem; max-width: 68ch; }
     <tbody><tr><td>Same western blot strip twice</td><td class="num">9 of 9</td><td class="bar-cell"><span class="bar" style="width:100%"></span></td></tr><tr><td>Same image, rotated or mirrored</td><td class="num">17 of 17</td><td class="bar-cell"><span class="bar" style="width:100%"></span></td></tr><tr><td>Same image in two panels</td><td class="num">16 of 20</td><td class="bar-cell"><span class="bar" style="width:80%"></span></td></tr><tr><td>Same image, brightness or contrast changed</td><td class="num">13 of 26</td><td class="bar-cell"><span class="bar" style="width:50%"></span></td></tr><tr><td>Two crops of one image that partly overlap</td><td class="num">3 of 8</td><td class="bar-cell"><span class="bar" style="width:38%"></span></td></tr></tbody>
   </table></div>
   <p class="sub">Counts are small, so a few cases move each rate a lot. On the development papers the same
-  thresholds found 57 of 84 and flagged 2 of
+  thresholds found 57 of 84 and flagged 1 of
   89 clean papers. The threshold search was widened once after an independent review, and its
   correlation floor is 0.5 because below that a reviewer cannot see the match. With a
   floor of 0.3 the search would pick 0.4, which finds
   58 of 84 on the development papers and, on the test papers,
-  63 of 80 while flagging 4 of
+  63 of 80 while flagging 2 of
   99 clean papers.</p>
 </section>
 
@@ -163,6 +163,19 @@ figcaption { color: var(--muted); font-size: 0.86rem; max-width: 68ch; }
     <li><strong>Synthetic papers are not real papers.</strong> Real figures have insets, arrows, scale bars,
     composite colour images and stranger layouts. The retracted-paper check below is the test on real figures.</li>
   </ul>
+</section>
+<section id="real-figures">
+  <h2>What real figures taught it</h2>
+  <p>The first run on real papers went badly. Real figures are full of bar charts with hatched or checkered fills,
+  text and line plots, and the hand-written rules that worked on the synthetic papers read many of these as
+  photographs. Two hatched bars match each other perfectly, so one retracted paper made of bar charts produced
+  92 findings.</p>
+  <p>The fix was a small classifier (gradient-boosted trees on 20 simple image measurements), trained on
+  768 panels from 60 retracted papers that I labelled by eye as photograph or
+  graphic, plus synthetic panels. Tested with whole papers held out, it keeps
+  97.4% of photographs and lets through 36 of 416 graphics. The
+  old rules let through 234 of the same 416. The bar-chart paper went to 3
+  findings, one of which is a cartoon rat used twice in a study diagram: real reuse, and harmless.</p>
 </section>
 
 <section id="retracted">

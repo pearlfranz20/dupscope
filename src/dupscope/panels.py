@@ -150,6 +150,13 @@ def _xy_cut(mask: np.ndarray, x0: int, y0: int, min_side: int, min_gap: int, out
         out.append((x0 + int(xs.min()), y0 + int(ys.min()), int(xs.max() - xs.min() + 1), int(ys.max() - ys.min() + 1)))
 
 
+def _inside(a, b) -> float:
+    """Share of box a's area that lies inside box b."""
+    ix = max(0, min(a[0] + a[2], b[0] + b[2]) - max(a[0], b[0]))
+    iy = max(0, min(a[1] + a[3], b[1] + b[3]) - max(a[1], b[1]))
+    return ix * iy / max(1, a[2] * a[3])
+
+
 def _classifier():
     from .classifier import is_photo
 
@@ -201,6 +208,14 @@ def extract_panels(
             px, py, pw, ph = _trim(gray, (px, py, pw, ph), bg, tol)
             if max(pw, ph) >= min_side and min(pw, ph) >= min_short_side:
                 boxes.append((px, py, pw, ph))
+    # separate components can have overlapping bounding boxes (a frame and the text
+    # inside it); a box mostly inside a larger one is the same panel, not a second one
+    boxes.sort(key=lambda b: -b[2] * b[3])
+    kept: list = []
+    for b in boxes:
+        if not any(_inside(b, k) > 0.6 for k in kept):
+            kept.append(b)
+    boxes = kept
     # reading order: rows top to bottom, then left to right
     boxes.sort(key=lambda b: (round(b[1] / max(1, h * 0.05)), b[0]))
     panels = []
