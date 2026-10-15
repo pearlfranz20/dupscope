@@ -177,3 +177,24 @@ def test_missing_article_is_skipped_not_fatal(tmp_path):
     client = rv.Client(tmp_path, "me@example.org", 0, http)
     r = rv.run_on_pmcid(client, "PMC555", rv.Thresholds())
     assert r.error == "not in the PMC open-access dataset"
+
+
+def test_publisher_figure_urls():
+    xml = (
+        '<article><fig id="f1"><graphic xlink:href="pone.0123456.g001"/></fig>'
+        '<disp-formula><graphic xlink:href="pone.0123456.e001"/></disp-formula>'
+        '<fig id="f2"><graphic xlink:href="pone.0123456.g002"/></fig></article>'
+    )
+    urls = rv.publisher_figure_urls("10.1371/journal.pone.0123456", xml)
+    assert urls == [
+        ["https://journals.plos.org/plosone/article/figure/image?size=large&id=10.1371/journal.pone.0123456.g001"],
+        ["https://journals.plos.org/plosone/article/figure/image?size=large&id=10.1371/journal.pone.0123456.g002"],
+    ]
+    sn = rv.publisher_figure_urls(
+        "10.1186/s12951-020-00626-1", '<fig><graphic xlink:href="12951_2020_626_Fig1_HTML.jpg"/></fig>'
+    )
+    base = "https://media.springernature.com/full/springer-static/image/art%3A10.1186%2Fs12951-020-00626-1"
+    assert sn == [
+        [f"{base}/MediaObjects/12951_2020_626_Fig1_HTML.png", f"{base}/MediaObjects/12951_2020_626_Fig1_HTML.jpg"]
+    ]
+    assert rv.publisher_figure_urls("10.1016/j.x.2020.1", xml) == []
