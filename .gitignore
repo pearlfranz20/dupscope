@@ -1,0 +1,6 @@
+__pycache__/
+*.egg-info/
+.venv/
+bench_out/
+*.png
+!docs/**/*.png
