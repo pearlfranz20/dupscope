@@ -151,9 +151,11 @@ def parse_retractions(csv_bytes: bytes, subject: str | None = "Neuroscience") ->
         if row.get("RetractionNature", "").strip() != "Retraction":
             continue
         reasons = [r.strip("+ ").strip() for r in row.get("Reason", "").split(";") if r.strip("+ ").strip()]
-        if not any(any(key in r for key in IMAGE_REASONS) for r in reasons):
+        if not any(any(key.lower() in r.lower() for key in IMAGE_REASONS) for r in reasons):
             continue
-        if subject and subject.lower() not in row.get("Subject", "").lower():
+        # several subjects may be given, comma-separated; a paper matches any of them
+        wanted = [x.strip().lower() for x in (subject or "").split(",") if x.strip()]
+        if wanted and not any(w in row.get("Subject", "").lower() for w in wanted):
             continue
         pmid = (row.get("OriginalPaperPubMedID") or "").strip()
         if not pmid or pmid == "0":
