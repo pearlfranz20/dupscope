@@ -83,9 +83,13 @@ def is_photographic(gray: np.ndarray) -> bool:
         return False
     # a flat fill (a bar, a shaded box) is not a photograph; a nearly empty dark
     # fluorescence field is, so only light or mid-grey flat fills are excluded
+    # (a bar slice with an error bar through it is still mostly one noise-free tone;
+    # bright-field micrographs keep camera grain even in their background)
     med = float(np.median(small))
-    if med > 40 and float((np.abs(small.astype(np.int16) - med) <= 6).mean()) > 0.92:
-        return False
+    if med > 40:
+        flat = np.abs(small.astype(np.int16) - med) <= 6
+        if flat.mean() > 0.6 and float(small[flat].std()) < 1.65:
+            return False
     hist = np.bincount(small.ravel(), minlength=256).astype(np.float64)
     smooth = np.convolve(hist, np.ones(9), mode="same")  # +-4 levels of JPEG wobble
     p1 = int(np.argmax(smooth))
