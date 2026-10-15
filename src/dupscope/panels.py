@@ -150,6 +150,12 @@ def _xy_cut(mask: np.ndarray, x0: int, y0: int, min_side: int, min_gap: int, out
         out.append((x0 + int(xs.min()), y0 + int(ys.min()), int(xs.max() - xs.min() + 1), int(ys.max() - ys.min() + 1)))
 
 
+def _classifier():
+    from .classifier import is_photo
+
+    return is_photo
+
+
 def extract_panels(
     image: np.ndarray,
     figure_id: str = "fig",
@@ -157,14 +163,18 @@ def extract_panels(
     min_short_side: int = 24,
     min_area_frac: float = 0.002,
     tol: int = 10,
+    classify: bool = True,
 ) -> list[Panel]:
+    """Split a figure into panels in reading order. With `classify`, each panel is
+    marked photographic or not by the learned classifier (classifier.py)."""
+    photo = _classifier() if classify else (lambda g: True)
     gray = to_gray(image)
     h, w = gray.shape
     bg = _background(gray)
     if 40 < bg < 225:
         # a figure whose border is mid-grey is one photograph (an uncropped blot or gel
         # scan), not a layout on paper; cutting it into bands makes look-alikes
-        return [Panel(figure_id, 0, 0, 0, w, h, is_photographic(gray))]
+        return [Panel(figure_id, 0, 0, 0, w, h, photo(gray))]
     raw = (np.abs(gray.astype(np.int16) - bg) > tol).astype(np.uint8)
     # 1. drop text-sized blobs (panel letters, axis labels outside panels) so they
     #    cannot bridge the gutter between neighbouring panels
@@ -196,5 +206,5 @@ def extract_panels(
     panels = []
     for i, (x, y, bw, bh) in enumerate(boxes):
         crop = gray[y : y + bh, x : x + bw]
-        panels.append(Panel(figure_id, i, x, y, bw, bh, is_photographic(crop)))
+        panels.append(Panel(figure_id, i, x, y, bw, bh, photo(crop)))
     return panels
