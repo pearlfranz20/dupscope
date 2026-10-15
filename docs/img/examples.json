@@ -1,0 +1,52 @@
+{
+ "showcase": {
+  "seed": 387,
+  "planted": [
+   "reuse_rotflip",
+   "reuse_contrast"
+  ],
+  "findings": [
+   {
+    "category": "same image reused",
+    "panel_a": "fig1#3",
+    "panel_b": "fig2#5",
+    "correlation": 0.989,
+    "detail": 0.841,
+    "rotation_deg": 0.0,
+    "mirrored": false,
+    "scale": 1.04
+   },
+   {
+    "category": "same image, rotated or mirrored",
+    "panel_a": "fig1#1",
+    "panel_b": "fig2#0",
+    "correlation": 0.982,
+    "detail": 0.84,
+    "rotation_deg": 89.9,
+    "mirrored": true,
+    "scale": 1.248
+   }
+  ]
+ },
+ "false_alarm": {
+  "seed": 299,
+  "planted": [],
+  "findings": [
+   {
+    "category": "same image reused",
+    "panel_a": "fig3#8",
+    "panel_b": "fig3#9",
+    "correlation": 0.906,
+    "detail": 0.704,
+    "rotation_deg": 0.0,
+    "mirrored": false,
+    "scale": 1.078
+   }
+  ]
+ },
+ "missed": {
+  "seed": 9,
+  "kind": "reuse_rotflip",
+  "detail": "rot180+mirror"
+ }
+}

@@ -1,0 +1,671 @@
+{
+  "thresholds": {
+    "dup_min_inliers": 8,
+    "dup_min_correlation": 0.7,
+    "dup_min_overlap": 0.1,
+    "clone_min_inliers": 8,
+    "clone_min_correlation": 0.8,
+    "dense_min_blocks": 60,
+    "clones": false,
+    "template": false,
+    "min_detail": 0.0
+  },
+  "max_clean_flag_rate": 0.05,
+  "dev": {
+    "recall": 0.631,
+    "recall_by_kind": {
+      "blot_reuse": {
+        "found": 8,
+        "planted": 9,
+        "recall": 0.889
+      },
+      "overlap_crop": {
+        "found": 5,
+        "planted": 14,
+        "recall": 0.357
+      },
+      "reuse_contrast": {
+        "found": 12,
+        "planted": 20,
+        "recall": 0.6
+      },
+      "reuse_exact": {
+        "found": 12,
+        "planted": 14,
+        "recall": 0.857
+      },
+      "reuse_rotflip": {
+        "found": 16,
+        "planted": 27,
+        "recall": 0.593
+      }
+    },
+    "precision": 0.911,
+    "false_positives": 5,
+    "hard_negative_hits": 0,
+    "hard_negatives_total": 191,
+    "clean_papers": 109,
+    "clean_papers_flagged": 4,
+    "manipulated_papers": 69,
+    "manipulated_papers_caught": 46
+  },
+  "test": {
+    "recall": 0.738,
+    "recall_by_kind": {
+      "blot_reuse": {
+        "found": 8,
+        "planted": 9,
+        "recall": 0.889
+      },
+      "overlap_crop": {
+        "found": 2,
+        "planted": 8,
+        "recall": 0.25
+      },
+      "reuse_contrast": {
+        "found": 15,
+        "planted": 26,
+        "recall": 0.577
+      },
+      "reuse_exact": {
+        "found": 17,
+        "planted": 20,
+        "recall": 0.85
+      },
+      "reuse_rotflip": {
+        "found": 17,
+        "planted": 17,
+        "recall": 1.0
+      }
+    },
+    "precision": 0.935,
+    "false_positives": 4,
+    "hard_negative_hits": 0,
+    "hard_negatives_total": 181,
+    "clean_papers": 111,
+    "clean_papers_flagged": 3,
+    "manipulated_papers": 70,
+    "manipulated_papers_caught": 51
+  },
+  "clone_search_experimental_test": [
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.6,
+      "clone_found": 21,
+      "clone_planted": 35,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.543,
+      "clone_found": 19,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.982
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.257,
+      "clone_found": 9,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.73
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.114,
+      "clone_found": 4,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.153
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.571,
+      "clone_found": 20,
+      "clone_planted": 35,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.514,
+      "clone_found": 18,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.982
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.257,
+      "clone_found": 9,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.712
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.114,
+      "clone_found": 4,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.153
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.571,
+      "clone_found": 20,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.991
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.457,
+      "clone_found": 16,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.946
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.229,
+      "clone_found": 8,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.568
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.114,
+      "clone_found": 4,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.117
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.343,
+      "clone_found": 12,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.946
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.257,
+      "clone_found": 9,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.757
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.171,
+      "clone_found": 6,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.279
+    },
+    {
+      "clone_min_inliers": 8,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.086,
+      "clone_found": 3,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.063
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.6,
+      "clone_found": 21,
+      "clone_planted": 35,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.543,
+      "clone_found": 19,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.982
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.257,
+      "clone_found": 9,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.73
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.114,
+      "clone_found": 4,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.153
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.571,
+      "clone_found": 20,
+      "clone_planted": 35,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.514,
+      "clone_found": 18,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.982
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.257,
+      "clone_found": 9,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.712
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.114,
+      "clone_found": 4,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.153
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.571,
+      "clone_found": 20,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.991
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.457,
+      "clone_found": 16,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.946
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.229,
+      "clone_found": 8,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.568
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.114,
+      "clone_found": 4,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.117
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.343,
+      "clone_found": 12,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.946
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.257,
+      "clone_found": 9,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.757
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.171,
+      "clone_found": 6,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.279
+    },
+    {
+      "clone_min_inliers": 12,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.086,
+      "clone_found": 3,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.063
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.6,
+      "clone_found": 21,
+      "clone_planted": 35,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.543,
+      "clone_found": 19,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.982
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.229,
+      "clone_found": 8,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.73
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.086,
+      "clone_found": 3,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.153
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.571,
+      "clone_found": 20,
+      "clone_planted": 35,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.514,
+      "clone_found": 18,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.982
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.229,
+      "clone_found": 8,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.712
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.086,
+      "clone_found": 3,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.153
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.571,
+      "clone_found": 20,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.991
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.429,
+      "clone_found": 15,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.946
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.2,
+      "clone_found": 7,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.568
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.086,
+      "clone_found": 3,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.117
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.343,
+      "clone_found": 12,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.946
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.229,
+      "clone_found": 8,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.757
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.143,
+      "clone_found": 5,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.279
+    },
+    {
+      "clone_min_inliers": 20,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.057,
+      "clone_found": 2,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.063
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.6,
+      "clone_found": 21,
+      "clone_planted": 35,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.543,
+      "clone_found": 19,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.982
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.229,
+      "clone_found": 8,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.73
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.8,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.086,
+      "clone_found": 3,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.153
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.571,
+      "clone_found": 20,
+      "clone_planted": 35,
+      "clean_flag_rate": 1.0
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.514,
+      "clone_found": 18,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.982
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.229,
+      "clone_found": 8,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.712
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.85,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.086,
+      "clone_found": 3,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.153
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.571,
+      "clone_found": 20,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.991
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.429,
+      "clone_found": 15,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.946
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.2,
+      "clone_found": 7,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.568
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.9,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.086,
+      "clone_found": 3,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.117
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 40,
+      "clone_recall": 0.343,
+      "clone_found": 12,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.946
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 80,
+      "clone_recall": 0.229,
+      "clone_found": 8,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.757
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 160,
+      "clone_recall": 0.143,
+      "clone_found": 5,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.279
+    },
+    {
+      "clone_min_inliers": 30,
+      "clone_min_correlation": 0.95,
+      "dense_min_blocks": 320,
+      "clone_recall": 0.057,
+      "clone_found": 2,
+      "clone_planted": 35,
+      "clean_flag_rate": 0.063
+    }
+  ],
+  "n_dev": 200,
+  "n_test": 200,
+  "pool_size": 506
+}

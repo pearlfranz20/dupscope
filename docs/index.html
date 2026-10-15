@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>dupscope</title>
+<meta name="description" content="Finds reused image panels in scientific figures for human review, with an honest benchmark.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@600&family=IBM+Plex+Sans:wght@400;600&display=swap">
+<style>
+:root {
+  --bg: #f7f8fa; --surface: #ffffff; --fg: #141a22; --muted: #586274; --faint: #8a93a3;
+  --line: #e1e5eb; --accent: #2a5ea8; --accent-soft: #e6eef9; --series: #2a78d6; --flag: #b4462a;
+  --code-bg: #eef1f5;
+  --font-display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0f1318; --surface: #161b22; --fg: #e4e8ee; --muted: #a2acbb; --faint: #7c8696;
+  --line: #2a323d; --accent: #86afe6; --accent-soft: #1b2738; --series: #3987e5; --flag: #f08a6c;
+  --code-bg: #1d242d; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0f1318; --surface: #161b22; --fg: #e4e8ee; --muted: #a2acbb; --faint: #7c8696;
+  --line: #2a323d; --accent: #86afe6; --accent-soft: #1b2738; --series: #3987e5; --flag: #f08a6c;
+  --code-bg: #1d242d; color-scheme: dark; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 16px; line-height: 1.6; margin: 0; }
+main { max-width: 760px; margin: 0 auto; padding-block: 40px 72px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 44px; }
+section, header { display: grid; gap: 14px; min-width: 0; }
+h1, h2 { font-family: var(--font-display); font-weight: 600; text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+h1 { font-size: clamp(1.9rem, 5vw, 2.6rem); line-height: 1.12; }
+h2 { font-size: 1.4rem; line-height: 1.25; }
+p, ul, ol { margin: 0; max-width: 68ch; }
+ul, ol { padding-left: 1.2em; display: grid; gap: 6px; }
+.eyebrow { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+.lede { font-size: 1.12rem; color: var(--muted); }
+.sub { color: var(--muted); font-size: 0.86rem; }
+code { font-family: var(--font-mono); font-size: 0.86em; background: var(--code-bg); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+pre { background: var(--code-bg); padding: 12px 14px; border-radius: 6px; overflow-x: auto; margin: 0; font-size: 0.86rem; }
+pre code { background: none; padding: 0; }
+a { color: var(--accent); }
+.callout { background: var(--accent-soft); border-left: 3px solid var(--accent); padding: 10px 14px; border-radius: 4px; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; font-size: 0.9rem; color: var(--muted); }
+.stat .big { font-family: var(--font-display); font-size: 1.7rem; color: var(--fg); line-height: 1.2; font-variant-numeric: tabular-nums; }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+th, td { text-align: left; padding: 7px 10px 7px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-weight: 600; color: var(--muted); font-size: 0.82rem; }
+.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bar-cell { width: 35%; vertical-align: middle; }
+.bar { display: block; height: 10px; background: var(--series); border-radius: 2px; }
+figure { margin: 0; display: grid; gap: 6px; }
+figure img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 4px; background: #fff; }
+figcaption { color: var(--muted); font-size: 0.86rem; max-width: 68ch; }
+.figs { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+.tag { color: var(--flag); font-weight: 600; }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div class="eyebrow">dupscope</div>
+  <h1>Finding reused images in scientific figures</h1>
+  <p class="lede">A tool that checks a paper's figures for image panels that appear more than once, even when
+  rotated, mirrored, resized, cropped or re-toned, and writes a report for a person to review. It was measured on
+  synthetic papers with known answers, and is set up to run on real papers retracted for image problems.</p>
+</header>
+
+<section>
+  <h2>Why this matters</h2>
+  <p>Duplicated images are a common reason papers in biology and neuroscience are corrected or retracted. Some reuse is an honest mistake, some is deliberate, and a little is legitimate. Spotting it by eye
+  means comparing every image panel with every other one, which nobody does reliably across a paper with dozens of
+  panels. Software can do the comparing, and a person can do the judging.</p>
+</section>
+
+<section>
+  <h2>How it works</h2>
+  <ol>
+    <li><strong>Split figures into panels.</strong> Labels are removed, then each figure is cut along its white
+    gutters. Each panel is classed as an image (microscopy, blots) or a graphic (charts, diagrams). Only images are
+    compared.</li>
+    <li><strong>Compare every pair of image panels.</strong> Distinctive points are matched between the two panels
+    (SIFT features). A geometric check keeps only matches that agree on one rotation, mirroring and resizing.</li>
+    <li><strong>Check the pixels.</strong> The second panel is warped onto the first, and the overlapping pixels are
+    compared. Copies agree on fine grain and noise, not just on shapes. Two different cells that look alike do not.</li>
+    <li><strong>Report.</strong> Each finding shows the two regions side by side, labelled with what kind of reuse it
+    looks like, for a person to judge.</li>
+  </ol>
+</section>
+
+<section id="example">
+  <h2>What a report shows</h2>
+  <p>A synthetic test paper with two planted reuses. The detector found both and nothing else.</p>
+  <div class="figs">
+    <figure><img src="img/showcase_fig1.png" alt="Figure 1 with two panels outlined" loading="lazy"><figcaption>Figure 1, with the flagged panels outlined.</figcaption></figure>
+    <figure><img src="img/showcase_fig2.png" alt="Figure 2 with two panels outlined" loading="lazy"><figcaption>Figure 2.</figcaption></figure>
+  </div>
+  <figure><img src="img/showcase_1.png" alt="A panel and its rotated, mirrored copy" loading="lazy"><figcaption><span class="tag">same image, rotated or mirrored.</span> fig1#1 and fig2#0: rotated 90°, mirrored, resized ×1.25. Pixel correlation 0.98, fine-detail correlation 0.84.</figcaption></figure>
+  <figure><img src="img/showcase_0.png" alt="A panel and a copy with changed brightness" loading="lazy"><figcaption><span class="tag">same image reused.</span> fig1#3 and fig2#5: same orientation. Pixel correlation 0.99, fine-detail correlation 0.84. The planted copy had its brightness and contrast changed.</figcaption></figure>
+</section>
+
+<section id="benchmark">
+  <h2>How well it works on papers with known answers</h2>
+  <p>Real manipulated papers do not come with an answer key, so the first test uses synthetic papers. Each one has
+  2 to 3 figures built from real microscopy images (the
+  <a href="https://github.com/stardist/stardist/releases">Data Science Bowl 2018 nuclei set</a> and scikit-image
+  samples), generated western blots and charts. Figures are saved as compressed JPEG, and half are shrunk, as
+  happens in a real PDF. Half the papers get planted reuse. Every paper also gets look-alikes: two different
+  regions of the same sample, which look similar but share no pixels. Those are the cases a careless detector
+  flags.</p>
+  <p>Thresholds were chosen on 200 development papers, with a rule that at most
+  5% of clean papers may be flagged. Wrongly flagging an honest paper is the costly
+  mistake. The numbers below are from 200 separate test papers that played no part in tuning.</p>
+  <div class="stats">
+    <div class="stat"><div class="big">59 of 80</div><div>planted reuses found (74%)</div></div>
+    <div class="stat"><div class="big">3 of 111</div><div>clean papers wrongly flagged (3%)</div></div>
+    <div class="stat"><div class="big">0 of 181</div><div>look-alike pairs wrongly flagged</div></div>
+    <div class="stat"><div class="big">94%</div><div>of findings were real reuse</div></div>
+  </div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Kind of reuse</th><th class="num">Found</th><th></th></tr></thead>
+    <tbody><tr><td>Same image, rotated or mirrored</td><td class="num">17 of 17</td><td class="bar-cell"><span class="bar" style="width:100%"></span></td></tr><tr><td>Same western blot strip twice</td><td class="num">8 of 9</td><td class="bar-cell"><span class="bar" style="width:89%"></span></td></tr><tr><td>Same image in two panels</td><td class="num">17 of 20</td><td class="bar-cell"><span class="bar" style="width:85%"></span></td></tr><tr><td>Same image, brightness or contrast changed</td><td class="num">15 of 26</td><td class="bar-cell"><span class="bar" style="width:58%"></span></td></tr><tr><td>Two crops of one image that partly overlap</td><td class="num">2 of 8</td><td class="bar-cell"><span class="bar" style="width:25%"></span></td></tr></tbody>
+  </table></div>
+  <p class="sub">Counts are small, so a few cases move each rate a lot. On the development papers the same
+  thresholds flagged 4 of 109 clean papers.</p>
+</section>
+
+<section id="limits">
+  <h2>Where it falls short</h2>
+  <ul>
+    <li><strong>Mostly dark images.</strong> Of the 21 reuses the test missed,
+    20 were microscopy panels in which at most
+    10% of pixels rose above the dark background. A field with a few nuclei
+    on black has little to match, and after JPEG compression the background is mostly noise.
+    <figure><img src="img/missed.png" alt="Two mostly dark panels that are the same image, missed" loading="lazy"><figcaption>A missed copy, rotated 180° and mirrored. Shown six times brighter than in the figure.</figcaption></figure></li>
+    <li><strong>Small overlaps.</strong> Two crops that share a strip of their area are the hardest case
+    (2 of 8 found).</li>
+    <li><strong>Bar charts.</strong> The panel splitter can cut a bar chart into bars, and two plain grey bars can
+    look like a reused image. This caused the test's worst false alarm, two bars from one chart (correlation
+    0.91).
+    <figure><img src="img/false_alarm_0.png" alt="Two bars from one chart, wrongly flagged" loading="lazy"><figcaption>Two bars from one chart, wrongly flagged.</figcaption></figure></li>
+    <li><strong>Copies within one panel are not searched by default.</strong> The tool can look for a region pasted
+    elsewhere in the same image, but on the benchmark it could not tell real pastes from natural repetition (similar
+    nuclei, evenly spaced blot lanes). At its strictest it found 3 of
+    35 pastes and still flagged 6% of clean papers. At
+    its loosest it found 21 of 35 and flagged
+    100%. It is available as an experimental option.</li>
+    <li><strong>Synthetic papers are not real papers.</strong> Real figures have insets, arrows, scale bars,
+    composite colour images and stranger layouts. The retracted-paper check below is the test on real figures.</li>
+  </ul>
+</section>
+
+<section id="retracted">
+  <h2>Papers retracted for image problems</h2>
+  <p>The second test uses real papers. The <a href="https://gitlab.com/crossref/retraction-watch-data">Retraction
+  Watch database</a> lists neuroscience papers retracted because of duplicated or manipulated images. The check
+  downloads their figures from PubMed Central's open-access collection and runs the detector on them. As a
+  comparison, it also runs on papers from the same journal and year that were never retracted. Those are reported
+  only as counts and are never named.</p>
+  <p class="callout">This run has not happened yet. It needs internet access that the build machine lacked, so it
+  runs as a GitHub Actions job (<code>.github/workflows/validate.yml</code>) and the results will appear here.</p>
+</section>
+<section id="use">
+  <h2>Using it</h2>
+<pre><code>pip install git+https://github.com/pearlfranz20/dupscope
+dupscope scan fig1.png fig2.png fig3.png --out report/</code></pre>
+  <p>Open <code>report/report.html</code>. Every finding is a lead for a person to check, not a verdict.
+  Benchmark thresholds: at least 8 geometrically consistent matched points, pixel
+  correlation of at least 0.7, and at least 10% of a panel
+  overlapping. Code, benchmark generator and tests are on
+  <a href="https://github.com/pearlfranz20/dupscope">GitHub</a>.</p>
+</section>
+</main>
+</body>
+</html>
