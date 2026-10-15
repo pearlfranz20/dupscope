@@ -38,7 +38,7 @@ def _blocks(gray: np.ndarray, size: int, stride: int):
 
 def find_dense_clones(
     p: PanelImage,
-    min_blocks: int = 12,
+    min_blocks: int = 60,
     min_correlation: float = 0.8,
     max_clones: int = 3,
     max_side: int = 400,
@@ -50,7 +50,9 @@ def find_dense_clones(
         gray = cv2.resize(gray, (int(w * s), int(h * s)), interpolation=cv2.INTER_AREA)
     gh, gw = gray.shape
     size = int(np.clip(round(min(gh, gw) * 0.09), 10, 24))
-    stride = max(2, size // 5)
+    # a copy lands at any offset, so a coarse grid splits it across misaligned blocks;
+    # a 2-pixel stride keeps every copied block within a pixel of a grid block
+    stride = 2
     feats, pos = _blocks(gray, size, stride)
     if len(feats) < 2 * min_blocks:
         return []
@@ -74,9 +76,7 @@ def find_dense_clones(
             break
     # Resampling and JPEG jitter a true shift by a pixel or two, splitting its votes;
     # sum each shift's votes over a 5x5 neighbourhood and keep local maxima.
-    summed = {
-        k: sum(votes.get((k[0] + i, k[1] + j), 0) for i in range(-2, 3) for j in range(-2, 3)) for k in votes
-    }
+    summed = {k: sum(votes.get((k[0] + i, k[1] + j), 0) for i in range(-2, 3) for j in range(-2, 3)) for k in votes}
     peaks = []
     for k, n in sorted(summed.items(), key=lambda kv: -kv[1]):
         if n < min_blocks:
@@ -109,9 +109,24 @@ def find_dense_clones(
         qa = [[bx, by], [bx + bw, by], [bx + bw, by + bh], [bx, by + bh]]
         qb = [[x + dx_full, y + dy_full] for x, y in qa]
         found.append(
-            Match("clone", p.panel_id, p.panel_id, int(n), round(corr, 3), round(min(overlap, 1.0), 3),
-                  0.0, 1.0, False, qa, qb, M.round(3).tolist(), detail=round(detail, 3), texture=round(texture, 3),
-                  extent=round(float(region.mean()), 4))
+            Match(
+                "clone",
+                p.panel_id,
+                p.panel_id,
+                int(n),
+                round(corr, 3),
+                round(min(overlap, 1.0), 3),
+                0.0,
+                1.0,
+                False,
+                qa,
+                qb,
+                M.round(3).tolist(),
+                detail=round(detail, 3),
+                texture=round(texture, 3),
+                extent=round(float(region.mean()), 4),
+                method="dense",
+            )
         )
     # strongest pixel evidence first, not most votes
     found.sort(key=lambda m: -(m.correlation + m.detail))

@@ -235,7 +235,12 @@ def make_paper(seed: int, pool: list[tuple[str, np.ndarray]], manipulated: bool)
         elif kind == "blot":
             specs.append({"kind": "blot", "blot": make_blot(rng), "source": f"blot-{seed}-{len(specs)}"})
         else:
-            specs.append({"kind": "chart", "chart": charts[int(rng.integers(len(charts)))], "source": "chart"})
+            # each pre-rendered chart at most once per paper (a repeated chart would be a
+            # genuine duplicate, which is not what charts are here for)
+            used_charts = {sp.get("chart_id") for sp in specs}
+            free = [i for i in range(len(charts)) if i not in used_charts]
+            cid = int(rng.choice(free))
+            specs.append({"kind": "chart", "chart": charts[cid], "chart_id": cid, "source": "chart"})
 
     micro = [i for i, s in enumerate(specs) if s["kind"] == "micro"]
     blots = [i for i, s in enumerate(specs) if s["kind"] == "blot"]

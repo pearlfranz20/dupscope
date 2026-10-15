@@ -14,8 +14,14 @@ from ..detect import Thresholds, analyse
 from .compose import PAIR_KINDS, Paper
 
 PERMISSIVE = Thresholds(
-    dup_min_inliers=6, dup_min_correlation=0.3, dup_min_overlap=0.05,
-    clone_min_inliers=6, clone_min_correlation=0.4, dense_min_blocks=6, min_detail=-1.0,
+    dup_min_inliers=6,
+    dup_min_correlation=0.3,
+    dup_min_overlap=0.05,
+    clone_min_inliers=6,
+    clone_min_correlation=0.4,
+    dense_min_blocks=24,
+    min_detail=-1.0,
+    clones=True,
 )
 
 
@@ -42,6 +48,7 @@ class Candidate:
     overlap_frac: float
     scale: float
     label: str  # planted kind it matches, "hard_negative", or "none"
+    method: str = "keypoints"
 
 
 def run_paper(paper: Paper) -> dict:
@@ -98,7 +105,21 @@ def run_paper(paper: Paper) -> dict:
         elif f.kind == "duplicate" and a and b and frozenset((a, b)) in hard:
             label = "hard_negative"
         cands.append(
-            Candidate(paper.paper_id, f.kind, a, b, f.inliers, f.correlation, f.detail, f.texture, f.extent, f.overlap_frac, f.scale, label).__dict__
+            Candidate(
+                paper.paper_id,
+                f.kind,
+                a,
+                b,
+                f.inliers,
+                f.correlation,
+                f.detail,
+                f.texture,
+                f.extent,
+                f.overlap_frac,
+                f.scale,
+                label,
+                f.method,
+            ).__dict__
         )
     detected_panels = sum(1 for v in det_to_gt.values() if v is not None)
     return {
@@ -118,38 +139,47 @@ def passes(c: dict, t: Thresholds) -> bool:
     if c["detail"] < t.min_detail:
         return False
     if c["kind"] == "duplicate":
-        return (
-            c["inliers"] >= t.dup_min_inliers
-            and c["correlation"] >= t.dup_min_correlation
-            and c["overlap_frac"] >= t.dup_min_overlap
-        )
-    return c["inliers"] >= t.clone_min_inliers and c["correlation"] >= t.clone_min_correlation
+        if c.get("method") == "template":
+            if not t.template:
+                return False
+        elif c["inliers"] < t.dup_min_inliers:
+            return False
+        return c["correlation"] >= t.dup_min_correlation and c["overlap_frac"] >= t.dup_min_overlap
+    if not t.clones:
+        return False
+    need = t.dense_min_blocks if c.get("method") == "dense" else t.clone_min_inliers
+    return c["inliers"] >= need and c["correlation"] >= t.clone_min_correlation
 
 
 def score(results: list[dict], t: Thresholds) -> dict:
-    """Recall per planted kind, false positives, and paper-level rates."""
+    """Recall per planted kind, false positives, and paper-level rates.
+
+    With within-panel clone search off, planted clones are outside what is searched:
+    they are left out of recall, and papers whose only manipulation is a clone count
+    as neither clean nor manipulated."""
     per_kind: dict[str, list[int]] = {}
     fp = hard_fp = flagged_clean = flagged_manip = n_clean = n_manip = hard_total = 0
     tp_findings = 0
     for r in results:
         kept = [c for c in r["candidates"] if passes(c, t)]
         hits = {c["label"] for c in kept}
-        for kind in r["planted"]:
+        searched = [k for k in r["planted"] if t.clones or k in PAIR_KINDS]
+        for kind in searched:
             per_kind.setdefault(kind, [0, 0])
             per_kind[kind][1] += 1
         # a kind planted twice in one paper is rare; count it found if any hit has that label
-        for kind in set(r["planted"]):
+        for kind in set(searched):
             if kind in hits:
-                per_kind[kind][0] += r["planted"].count(kind)
+                per_kind[kind][0] += searched.count(kind)
         fp += sum(c["label"] == "none" for c in kept)
         # duplicates that genuinely share pixels are neither hits nor false alarms
         hard_fp += sum(c["label"] == "hard_negative" for c in kept)
         tp_findings += sum(c["label"] not in ("none", "hard_negative", "incidental_duplicate") for c in kept)
         hard_total += r["n_hard_negatives"]
-        if r["manipulated"]:
+        if searched:
             n_manip += 1
             flagged_manip += any(c["label"] not in ("none", "hard_negative") for c in kept)
-        else:
+        elif not r["manipulated"]:
             n_clean += 1
             flagged_clean += any(c["label"] != "incidental_duplicate" for c in kept)
     planted_total = sum(v[1] for v in per_kind.values())
@@ -157,8 +187,10 @@ def score(results: list[dict], t: Thresholds) -> dict:
     total_kept = tp_findings + fp + hard_fp
     return {
         "recall": round(planted_found / max(1, planted_total), 3),
-        "recall_by_kind": {k: {"found": v[0], "planted": v[1], "recall": round(v[0] / max(1, v[1]), 3)}
-                           for k, v in sorted(per_kind.items())},
+        "recall_by_kind": {
+            k: {"found": v[0], "planted": v[1], "recall": round(v[0] / max(1, v[1]), 3)}
+            for k, v in sorted(per_kind.items())
+        },
         "precision": round(tp_findings / max(1, total_kept), 3),
         "false_positives": fp,
         "hard_negative_hits": hard_fp,

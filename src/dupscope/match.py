@@ -67,11 +67,14 @@ class Match:
     # size of the matched region as a share of the panel: a coincidental look-alike
     # is one small structure, a pasted patch carries several in the same arrangement
     extent: float = 0.0
+    # how the pair was found: "keypoints", "template" (low-texture fallback) or "dense"
+    method: str = "keypoints"
 
     @property
     def score(self) -> float:
-        # both components in [0, 1]; correlation carries most of the evidence
-        return round(0.75 * max(self.correlation, 0) + 0.25 * min(1.0, self.inliers / 60), 3)
+        # pixel evidence only, so findings from different search methods rank on one
+        # scale; fine detail separates copies from look-alikes better than raw intensity
+        return round(0.5 * max(self.correlation, 0) + 0.5 * max(self.detail, 0), 3)
 
 
 _sift = None
@@ -80,15 +83,17 @@ _sift = None
 def _detector():
     global _sift
     if _sift is None:
-        _sift = cv2.SIFT_create(nfeatures=MAX_KEYPOINTS, contrastThreshold=0.02)
+        _sift = cv2.SIFT_create(nfeatures=MAX_KEYPOINTS, contrastThreshold=0.01)
     return _sift
 
 
 def _prep(gray: np.ndarray) -> tuple[np.ndarray, float]:
     h, w = gray.shape
-    s = min(1.0, MAX_SIDE / max(h, w))
-    if s < 1.0:
-        gray = cv2.resize(gray, (int(round(w * s)), int(round(h * s))), interpolation=cv2.INTER_AREA)
+    # small panels are upsampled so fine structure yields keypoints; big ones capped
+    s = min(MAX_SIDE / max(h, w), 2.0 if max(h, w) < 320 else 1.0)
+    if s != 1.0:
+        interp = cv2.INTER_AREA if s < 1 else cv2.INTER_CUBIC
+        gray = cv2.resize(gray, (int(round(w * s)), int(round(h * s))), interpolation=interp)
     # equalise so dim fluorescence and faint blots still yield keypoints
     clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
     return clahe.apply(gray), s
@@ -206,6 +211,94 @@ def _to_original(M_small: np.ndarray, sa: float, sb: float) -> np.ndarray:
     return (S_b_inv @ M3 @ S_a)[:2]
 
 
+def _similarity_from(src: np.ndarray, dst: np.ndarray) -> np.ndarray:
+    """Least-squares similarity (rotation, uniform scale, translation), Umeyama-style."""
+    ms, md = src.mean(0), dst.mean(0)
+    a, b = src - ms, dst - md
+    sxx = (a * a).sum()
+    if sxx < 1e-9:
+        return np.array([[1, 0, md[0] - ms[0]], [0, 1, md[1] - ms[1]]], np.float64)
+    c = (a[:, 0] * b[:, 0] + a[:, 1] * b[:, 1]).sum() / sxx
+    d = (a[:, 0] * b[:, 1] - a[:, 1] * b[:, 0]).sum() / sxx
+    R = np.array([[c, -d], [d, c]])
+    t = md - R @ ms
+    return np.hstack([R, t[:, None]])
+
+
+def ransac_similarity(
+    src: np.ndarray,
+    dst: np.ndarray,
+    thresh: float = 3.0,
+    iters: int = 1500,
+    scale_range: tuple[float, float] = (0.25, 4.0),
+    seed: int = 0,
+) -> tuple[np.ndarray | None, np.ndarray]:
+    """RANSAC for a similarity transform that rejects degenerate hypotheses.
+
+    With many-to-one tentative matches (every nucleus resembles several others),
+    OpenCV's estimator can settle on a collapsed model that maps everything to one
+    point; here each 2-point hypothesis must have a plausible scale and the two
+    sample points must be distinct in both images."""
+    n = len(src)
+    if n < 2:
+        return None, np.zeros(n, bool)
+    rng = np.random.default_rng(seed)
+    i = rng.integers(0, n, iters)
+    j = rng.integers(0, n, iters)
+    ps, pd = src[j] - src[i], dst[j] - dst[i]
+    den = (ps**2).sum(1)
+    ok = (i != j) & (den > 4.0) & ((pd**2).sum(1) > 4.0)
+    c = np.where(ok, (ps[:, 0] * pd[:, 0] + ps[:, 1] * pd[:, 1]) / np.maximum(den, 1e-9), 0)
+    d = np.where(ok, (ps[:, 0] * pd[:, 1] - ps[:, 1] * pd[:, 0]) / np.maximum(den, 1e-9), 0)
+    scale = np.hypot(c, d)
+    ok &= (scale >= scale_range[0]) & (scale <= scale_range[1])
+    if not ok.any():
+        return None, np.zeros(n, bool)
+    c, d, i = c[ok], d[ok], i[ok]
+    tx = dst[i, 0] - (c * src[i, 0] - d * src[i, 1])
+    ty = dst[i, 1] - (d * src[i, 0] + c * src[i, 1])
+    # project all points under every hypothesis (hypotheses x points)
+    px = c[:, None] * src[None, :, 0] - d[:, None] * src[None, :, 1] + tx[:, None]
+    py = d[:, None] * src[None, :, 0] + c[:, None] * src[None, :, 1] + ty[:, None]
+    err = (px - dst[None, :, 0]) ** 2 + (py - dst[None, :, 1]) ** 2
+    inl = err < thresh * thresh
+    best = int(inl.sum(1).argmax())
+    mask = inl[best]
+    # refine on the inliers, then recount once
+    for _ in range(2):
+        if mask.sum() < 2:
+            break
+        M = _similarity_from(src[mask], dst[mask])
+        proj = src @ M[:, :2].T + M[:, 2]
+        mask = ((proj - dst) ** 2).sum(1) < thresh * thresh
+    M = _similarity_from(src[mask], dst[mask]) if mask.sum() >= 2 else None
+    if M is not None and not (scale_range[0] <= math.hypot(M[0, 0], M[1, 0]) <= scale_range[1]):
+        return None, np.zeros(n, bool)
+    # one keypoint in b may not explain several in a: count distinct targets only
+    if M is not None:
+        _, first = np.unique(np.round(dst[mask], 1), axis=0, return_index=True)
+        keep = np.zeros(mask.sum(), bool)
+        keep[first] = True
+        idx = np.flatnonzero(mask)
+        mask = np.zeros(n, bool)
+        mask[idx[keep]] = True
+    return M, mask
+
+
+def _tentative_matches(da: np.ndarray, db: np.ndarray, want: int) -> list[tuple[int, int]]:
+    """Ratio-test matches; when those are scarce (blob-like content such as nuclei,
+    where every descriptor resembles several others), also the two nearest
+    neighbours of every keypoint, leaving it to robust geometry to pick the
+    consistent ones (RANSAC needs only two points per similarity hypothesis)."""
+    pairs = _ratio_matches(da, db)
+    if len(pairs) >= want or len(da) < 2 or len(db) < 2:
+        return pairs
+    knn = cv2.BFMatcher(cv2.NORM_L2).knnMatch(da, db, k=2)
+    # closest first, capped: RANSAC cost grows with the number of candidates
+    extra = sorted((m for row in knn for m in row), key=lambda m: m.distance)[:1000]
+    return list(dict.fromkeys(pairs + [(m.queryIdx, m.trainIdx) for m in extra]))
+
+
 def compare_panels(
     pa: PanelImage,
     pb: PanelImage,
@@ -217,15 +310,13 @@ def compare_panels(
     best: Match | None = None
     fa = pa.features
     for mirrored, fb in ((False, pb.features), (True, pb.mirrored)):
-        pairs = _ratio_matches(fa.descriptors, fb.descriptors)
+        pairs = _tentative_matches(fa.descriptors, fb.descriptors, want=4 * min_inliers)
         if len(pairs) < min_inliers:
             continue
         src = fa.keypoints[[i for i, _ in pairs]]
         dst = fb.keypoints[[j for _, j in pairs]]
-        M, inl = cv2.estimateAffinePartial2D(
-            src, dst, method=cv2.RANSAC, ransacReprojThreshold=3.0, maxIters=4000, confidence=0.995
-        )
-        if M is None or inl is None or int(inl.sum()) < min_inliers:
+        M, inl = ransac_similarity(src, dst)
+        if M is None or int(inl.sum()) < min_inliers:
             continue
         M = _to_original(M, fa.scale, fb.scale)
         target = pb.gray[:, ::-1] if mirrored else pb.gray
@@ -239,10 +330,21 @@ def compare_panels(
         quad_b[:, 0] = quad_b[:, 0].clip(0, pb.gray.shape[1] - 1)
         quad_b[:, 1] = quad_b[:, 1].clip(0, pb.gray.shape[0] - 1)
         m = Match(
-            "duplicate", pa.panel_id, pb.panel_id, int(inl.sum()), round(corr, 3), round(min(overlap, 1.0), 3),
-            round(rot, 1), round(scale, 3), mirrored,
-            _quad(pa.gray.shape[1], pa.gray.shape[0]).tolist(), quad_b.tolist(), M.round(4).tolist(),
-            detail=round(detail, 3), texture=round(texture, 3), extent=round(min(overlap, 1.0), 3),
+            "duplicate",
+            pa.panel_id,
+            pb.panel_id,
+            int(inl.sum()),
+            round(corr, 3),
+            round(min(overlap, 1.0), 3),
+            round(rot, 1),
+            round(scale, 3),
+            mirrored,
+            _quad(pa.gray.shape[1], pa.gray.shape[0]).tolist(),
+            quad_b.tolist(),
+            M.round(4).tolist(),
+            detail=round(detail, 3),
+            texture=round(texture, 3),
+            extent=round(min(overlap, 1.0), 3),
         )
         if best is None or m.score > best.score:
             best = m
@@ -319,10 +421,21 @@ def find_clones(
             q = hull.reshape(-1, 2)
             found.append(
                 Match(
-                    "clone", p.panel_id, p.panel_id, int(inl.sum()), round(corr, 3), round(min(overlap, 1.0), 3),
-                    round(rot, 1), round(scale, 3), False,
-                    q.tolist(), cv2.transform(q[None].astype(np.float32), M)[0].tolist(), M.round(4).tolist(),
-                    detail=round(detail, 3), texture=round(texture, 3), extent=round(float(region.mean()), 4),
+                    "clone",
+                    p.panel_id,
+                    p.panel_id,
+                    int(inl.sum()),
+                    round(corr, 3),
+                    round(min(overlap, 1.0), 3),
+                    round(rot, 1),
+                    round(scale, 3),
+                    False,
+                    q.tolist(),
+                    cv2.transform(q[None].astype(np.float32), M)[0].tolist(),
+                    M.round(4).tolist(),
+                    detail=round(detail, 3),
+                    texture=round(texture, 3),
+                    extent=round(float(region.mean()), 4),
                 )
             )
         pairs = [pr for pr, keep in zip(pairs, inl, strict=True) if not keep]
