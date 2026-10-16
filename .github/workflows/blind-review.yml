@@ -1,0 +1,53 @@
+name: Blinded review bundle
+
+# Collects the strongest finding of each flagged paper (retracted and comparison) as an
+# anonymous image pair for a blinded human review, encrypts the set to
+# review/recipient.pem and pushes only the ciphertext to the review-bundle branch.
+# Nothing else from this run is committed. Started by hand.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    env:
+      CONTACT: ${{ vars.CONTACT_EMAIL || format('{0}@users.noreply.github.com', github.repository_owner) }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - run: pip install -e .
+      - uses: actions/cache/restore@v4
+        with:
+          path: ${{ runner.temp }}/dupscope-cache
+          key: dupscope-cache-${{ github.run_id }}
+          restore-keys: dupscope-cache-
+      - run: git clone --depth 1 https://gitlab.com/crossref/retraction-watch-data rw || true
+      - name: Collect review pairs
+        timeout-minutes: 330
+        env:
+          DUPSCOPE_REVIEW_DIR: ${{ runner.temp }}/review
+        run: |
+          CSV=$(ls rw/*.csv 2>/dev/null | head -1)
+          if [ -n "$CSV" ] && head -c 100 "$CSV" | grep -q "git-lfs"; then CSV=""; fi
+          dupscope validate-retractions --mailto "$CONTACT" ${CSV:+--csv-path "$CSV"} \
+            --workers 4 --cache-dir "$RUNNER_TEMP/dupscope-cache" --out "$RUNNER_TEMP/out"
+      - name: Encrypt and push
+        run: |
+          cd "$RUNNER_TEMP"
+          tar -cf review.tar review
+          openssl cms -encrypt -binary -aes256 -in review.tar -outform DER -out bundle.cms \
+            "$GITHUB_WORKSPACE/review/recipient.pem"
+          rm -rf review review.tar
+          mkdir push && cd push && git init -q -b review-bundle
+          cp ../bundle.cms .
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add bundle.cms && git commit -qm "Encrypted blinded-review bundle"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" review-bundle

@@ -26,6 +26,7 @@ import hashlib
 import io
 import json
 import logging
+import os
 import random
 import re
 import shutil
@@ -330,7 +331,7 @@ def run_on_pmcid(
         json.dumps([pmcid, doi, asdict(thresholds), _classifier_hash(), MAX_PHOTO_PANELS]).encode()
     ).hexdigest()
     cached = client.cache / "results" / f"{key}.json"
-    if report_dir is not None and cached.exists():
+    if report_dir is not None and cached.exists() and not os.environ.get("DUPSCOPE_REVIEW_DIR"):
         result = PaperResult(**json.loads(cached.read_text()))
         if not result.n_findings or (report_dir / "report.html").exists():
             return result
@@ -365,6 +366,8 @@ def _analyse_pmcid(
             return PaperResult(pmcid, len(figures), n_photo, 0, 0.0, error="too many image panels")
         panels, findings = analyse(figures, thresholds)
         dup = [f for f in findings if f.kind == "duplicate"]
+        if dup and os.environ.get("DUPSCOPE_REVIEW_DIR"):
+            _save_review_item(Path(os.environ["DUPSCOPE_REVIEW_DIR"]), figures, dup[0], pmcid, report_dir is not None)
         if report_dir is not None and dup:
             from ..detect import draw_overlay, findings_to_dicts
             from ..report import write_report
@@ -384,6 +387,39 @@ def _analyse_pmcid(
         )
     except Exception as exc:  # one broken article must not stop the run
         return PaperResult(pmcid, 0, 0, 0, 0.0, error=f"{type(exc).__name__}: {exc}")
+
+
+def _save_review_item(review_dir: Path, figures: dict, f, pmcid: str, retracted: bool, h: int = 260) -> None:
+    """For a blinded review: the strongest finding as an anonymous side-by-side crop.
+    Written only to a directory that the workflow encrypts before it leaves the runner."""
+    import uuid
+
+    from ..report import _crop_quad
+
+    def crop(panel_id, quad):
+        fig = figures[panel_id.rsplit("#", 1)[0]]
+        c = _crop_quad(fig, quad)
+        return cv2.resize(c, (max(1, int(c.shape[1] * h / c.shape[0])), h), interpolation=cv2.INTER_AREA)
+
+    a, b = crop(f.panel_a, f.region_a), crop(f.panel_b, f.region_b)
+    pair = np.hstack([a, np.full((h, 12), 255, np.uint8), b])
+    if pair.shape[1] > 1100:
+        pair = cv2.resize(pair, (1100, int(h * 1100 / pair.shape[1])), interpolation=cv2.INTER_AREA)
+    item = uuid.uuid4().hex[:12]
+    review_dir.mkdir(parents=True, exist_ok=True)
+    cv2.imwrite(str(review_dir / f"{item}.jpg"), pair, [cv2.IMWRITE_JPEG_QUALITY, 88])
+    meta = {
+        "id": item,
+        "group": "retracted" if retracted else "comparison",
+        "score": f.score,
+        "category": f.category,
+        "rotation_deg": f.rotation_deg,
+        "mirrored": f.mirrored,
+        "scale": f.scale,
+    }
+    if retracted:  # public record; comparison papers stay unnamed even inside the encrypted bundle
+        meta["pmcid"] = pmcid
+    (review_dir / f"{item}.json").write_text(json.dumps(meta))
 
 
 def control_pmcids(client: Client, journal: str, year: str, exclude: set[str], k: int, seed: int) -> list[str]:
