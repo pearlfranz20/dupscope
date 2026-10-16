@@ -1,0 +1,23 @@
+{
+ "PMC2519786": "Looks like the same image in two panels",
+ "PMC3679144": "Looks like the same image in two panels",
+ "PMC8102527": "Looks like the same image in two panels",
+ "PMC6192070": "Looks like the same image in two panels",
+ "PMC7562732": "Looks like the same image in two panels",
+ "PMC8963558": "Looks like the same image in two panels",
+ "PMC3492275": "Looks like the same image at two brightness levels",
+ "PMC7786953": "Looks like a shared image inside two composite panels",
+ "PMC6820764": "Looks like the same image in two figures, resized",
+ "PMC4501737": "Looks like the same blot strip twice",
+ "PMC4367986": "Looks like the same blot strip twice",
+ "PMC4131889": "Looks like the same image, labelled as two time points",
+ "PMC3557229": "Looks like two overlapping crops of one field",
+ "PMC10424866": "Same image twice, once with a label (may be intended)",
+ "PMC10409850": "Looks like part of one panel reused, rotated, in another",
+ "PMC4134303": "False alarm: repeated text label",
+ "PMC10790994": "Identical plot (a graphic, not a photograph)",
+ "PMC3136522": "False alarm: a panel matched to part of itself",
+ "PMC8521584": "False alarm: a table",
+ "PMC10567954": "False alarm: scale bar strip",
+ "PMC3279427": "False alarm: text label"
+}
