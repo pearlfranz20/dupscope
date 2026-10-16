@@ -2,52 +2,52 @@
  {
   "kind": "duplicate",
   "category": "same image reused",
-  "panel_a": "fig3#15",
-  "panel_b": "fig3#17",
+  "panel_a": "fig3#16",
+  "panel_b": "fig3#18",
   "score": 0.996,
-  "inliers": 31,
-  "correlation": 0.998,
-  "detail": 0.995,
-  "texture": 0.993,
-  "extent": 1.0,
-  "overlap_frac": 1.0,
-  "rotation_deg": 0.0,
+  "inliers": 37,
+  "correlation": 1.0,
+  "detail": 0.993,
+  "texture": 0.98,
+  "extent": 0.996,
+  "overlap_frac": 0.996,
+  "rotation_deg": -0.0,
   "scale": 1.0,
   "mirrored": false,
   "region_a": [
    [
-    451.0,
-    1426.0
+    705.0,
+    1410.0
    ],
    [
-    620.0,
-    1426.0
+    969.0,
+    1410.0
    ],
    [
-    620.0,
-    1458.0
+    969.0,
+    1470.0
    ],
    [
-    451.0,
-    1458.0
+    705.0,
+    1470.0
    ]
   ],
   "region_b": [
    [
-    1706.0,
-    1426.0
+    1960.0,
+    1410.1
    ],
    [
-    1874.0,
-    1426.1
+    2223.3,
+    1410.0
    ],
    [
-    1874.0,
-    1458.0
+    2223.3,
+    1469.9
    ],
    [
-    1706.0,
-    1458.0
+    1960.0,
+    1470.0
    ]
   ],
   "method": "keypoints"

@@ -2,271 +2,6 @@
  {
   "kind": "duplicate",
   "category": "same image reused",
-  "panel_a": "fig7#11",
-  "panel_b": "fig12#13",
-  "score": 0.949,
-  "inliers": 71,
-  "correlation": 0.974,
-  "detail": 0.923,
-  "texture": 0.917,
-  "extent": 0.997,
-  "overlap_frac": 0.997,
-  "rotation_deg": -0.0,
-  "scale": 1.007,
-  "mirrored": false,
-  "region_a": [
-   [
-    657.0,
-    867.0
-   ],
-   [
-    1001.0,
-    867.0
-   ],
-   [
-    1001.0,
-    919.0
-   ],
-   [
-    657.0,
-    919.0
-   ]
-  ],
-  "region_b": [
-   [
-    754.0,
-    1001.0
-   ],
-   [
-    1099.0,
-    1001.0
-   ],
-   [
-    1099.0,
-    1052.0
-   ],
-   [
-    754.0,
-    1052.0
-   ]
-  ],
-  "method": "keypoints"
- },
- {
-  "kind": "duplicate",
-  "category": "same image reused",
-  "panel_a": "fig10#14",
-  "panel_b": "fig12#16",
-  "score": 0.882,
-  "inliers": 41,
-  "correlation": 0.955,
-  "detail": 0.809,
-  "texture": 0.834,
-  "extent": 1.0,
-  "overlap_frac": 1.0,
-  "rotation_deg": -0.0,
-  "scale": 1.035,
-  "mirrored": false,
-  "region_a": [
-   [
-    924.0,
-    1109.0
-   ],
-   [
-    1207.0,
-    1109.0
-   ],
-   [
-    1207.0,
-    1158.0
-   ],
-   [
-    924.0,
-    1158.0
-   ]
-  ],
-  "region_b": [
-   [
-    979.0,
-    1096.0
-   ],
-   [
-    1271.8,
-    1095.8
-   ],
-   [
-    1271.8,
-    1146.5
-   ],
-   [
-    979.0,
-    1146.7
-   ]
-  ],
-  "method": "keypoints"
- },
- {
-  "kind": "duplicate",
-  "category": "same image reused",
-  "panel_a": "fig5#12",
-  "panel_b": "fig5#15",
-  "score": 0.825,
-  "inliers": 29,
-  "correlation": 0.891,
-  "detail": 0.759,
-  "texture": 0.769,
-  "extent": 0.995,
-  "overlap_frac": 0.995,
-  "rotation_deg": -0.0,
-  "scale": 0.936,
-  "mirrored": false,
-  "region_a": [
-   [
-    1239.0,
-    1034.0
-   ],
-   [
-    1476.0,
-    1034.0
-   ],
-   [
-    1476.0,
-    1079.0
-   ],
-   [
-    1239.0,
-    1079.0
-   ]
-  ],
-  "region_b": [
-   [
-    1337.5,
-    1809.0
-   ],
-   [
-    1558.0,
-    1809.0
-   ],
-   [
-    1558.0,
-    1850.0
-   ],
-   [
-    1337.5,
-    1850.0
-   ]
-  ],
-  "method": "keypoints"
- },
- {
-  "kind": "duplicate",
-  "category": "same image reused",
-  "panel_a": "fig5#11",
-  "panel_b": "fig7#12",
-  "score": 0.727,
-  "inliers": 23,
-  "correlation": 0.893,
-  "detail": 0.56,
-  "texture": 0.633,
-  "extent": 1.0,
-  "overlap_frac": 1.0,
-  "rotation_deg": 1.0,
-  "scale": 1.114,
-  "mirrored": false,
-  "region_a": [
-   [
-    937.0,
-    1035.0
-   ],
-   [
-    1133.0,
-    1035.0
-   ],
-   [
-    1133.0,
-    1079.0
-   ],
-   [
-    937.0,
-    1079.0
-   ]
-  ],
-  "region_b": [
-   [
-    1073.1,
-    867.0
-   ],
-   [
-    1290.0,
-    870.2
-   ],
-   [
-    1290.0,
-    919.0
-   ],
-   [
-    1073.0,
-    915.3
-   ]
-  ],
-  "method": "keypoints"
- },
- {
-  "kind": "duplicate",
-  "category": "same image reused",
-  "panel_a": "fig12#18",
-  "panel_b": "fig12#19",
-  "score": 0.717,
-  "inliers": 20,
-  "correlation": 0.873,
-  "detail": 0.561,
-  "texture": 0.679,
-  "extent": 0.986,
-  "overlap_frac": 0.986,
-  "rotation_deg": 0.0,
-  "scale": 1.0,
-  "mirrored": false,
-  "region_a": [
-   [
-    1074.0,
-    1342.0
-   ],
-   [
-    1441.0,
-    1342.0
-   ],
-   [
-    1441.0,
-    1847.0
-   ],
-   [
-    1074.0,
-    1847.0
-   ]
-  ],
-  "region_b": [
-   [
-    1611.0,
-    1342.0
-   ],
-   [
-    1973.0,
-    1342.1
-   ],
-   [
-    1972.9,
-    1847.0
-   ],
-   [
-    1611.0,
-    1846.9
-   ]
-  ],
-  "method": "keypoints"
- },
- {
-  "kind": "duplicate",
-  "category": "same image reused",
   "panel_a": "fig5#6",
   "panel_b": "fig7#7",
   "score": 0.669,
@@ -313,6 +48,59 @@
    [
     634.4,
     748.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig1#3",
+  "panel_b": "fig1#5",
+  "score": 0.601,
+  "inliers": 49,
+  "correlation": 0.607,
+  "detail": 0.595,
+  "texture": 0.649,
+  "extent": 0.621,
+  "overlap_frac": 0.621,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    237.0,
+    878.0
+   ],
+   [
+    2190.0,
+    878.0
+   ],
+   [
+    2190.0,
+    951.0
+   ],
+   [
+    237.0,
+    951.0
+   ]
+  ],
+  "region_b": [
+   [
+    700.6,
+    1241.0
+   ],
+   [
+    2190.0,
+    1241.0
+   ],
+   [
+    2190.0,
+    1296.9
+   ],
+   [
+    700.6,
+    1296.9
    ]
   ],
   "method": "keypoints"
@@ -419,112 +207,6 @@
    [
     682.2,
     949.9
-   ]
-  ],
-  "method": "keypoints"
- },
- {
-  "kind": "duplicate",
-  "category": "same image reused",
-  "panel_a": "fig12#16",
-  "panel_b": "fig12#13",
-  "score": 0.566,
-  "inliers": 17,
-  "correlation": 0.632,
-  "detail": 0.5,
-  "texture": 0.461,
-  "extent": 0.814,
-  "overlap_frac": 0.814,
-  "rotation_deg": -0.1,
-  "scale": 1.001,
-  "mirrored": false,
-  "region_a": [
-   [
-    979.0,
-    1095.0
-   ],
-   [
-    1272.0,
-    1095.0
-   ],
-   [
-    1272.0,
-    1147.0
-   ],
-   [
-    979.0,
-    1147.0
-   ]
-  ],
-  "region_b": [
-   [
-    754.0,
-    1001.0
-   ],
-   [
-    997.3,
-    1001.0
-   ],
-   [
-    997.4,
-    1052.0
-   ],
-   [
-    754.0,
-    1052.0
-   ]
-  ],
-  "method": "keypoints"
- },
- {
-  "kind": "duplicate",
-  "category": "same image, rotated or mirrored",
-  "panel_a": "fig12#17",
-  "panel_b": "fig1#8",
-  "score": 0.564,
-  "inliers": 12,
-  "correlation": 0.523,
-  "detail": 0.605,
-  "texture": 0.611,
-  "extent": 1.0,
-  "overlap_frac": 1.0,
-  "rotation_deg": 90.0,
-  "scale": 0.806,
-  "mirrored": false,
-  "region_a": [
-   [
-    541.0,
-    1328.0
-   ],
-   [
-    907.0,
-    1328.0
-   ],
-   [
-    907.0,
-    1847.0
-   ],
-   [
-    541.0,
-    1847.0
-   ]
-  ],
-  "region_b": [
-   [
-    1186.0,
-    1425.0
-   ],
-   [
-    1186.0,
-    1500.0
-   ],
-   [
-    946.0,
-    1500.0
-   ],
-   [
-    946.0,
-    1425.0
    ]
   ],
   "method": "keypoints"
@@ -691,112 +373,6 @@
  {
   "kind": "duplicate",
   "category": "same image reused",
-  "panel_a": "fig12#16",
-  "panel_b": "fig7#11",
-  "score": 0.549,
-  "inliers": 18,
-  "correlation": 0.653,
-  "detail": 0.445,
-  "texture": 0.432,
-  "extent": 0.827,
-  "overlap_frac": 0.827,
-  "rotation_deg": -0.0,
-  "scale": 0.994,
-  "mirrored": false,
-  "region_a": [
-   [
-    979.0,
-    1095.0
-   ],
-   [
-    1272.0,
-    1095.0
-   ],
-   [
-    1272.0,
-    1147.0
-   ],
-   [
-    979.0,
-    1147.0
-   ]
-  ],
-  "region_b": [
-   [
-    657.0,
-    867.0
-   ],
-   [
-    899.7,
-    867.0
-   ],
-   [
-    899.7,
-    918.5
-   ],
-   [
-    657.0,
-    918.6
-   ]
-  ],
-  "method": "keypoints"
- },
- {
-  "kind": "duplicate",
-  "category": "same image reused",
-  "panel_a": "fig12#17",
-  "panel_b": "fig12#18",
-  "score": 0.522,
-  "inliers": 25,
-  "correlation": 0.77,
-  "detail": 0.273,
-  "texture": 0.234,
-  "extent": 0.999,
-  "overlap_frac": 0.999,
-  "rotation_deg": 0.6,
-  "scale": 1.015,
-  "mirrored": false,
-  "region_a": [
-   [
-    541.0,
-    1328.0
-   ],
-   [
-    907.0,
-    1328.0
-   ],
-   [
-    907.0,
-    1847.0
-   ],
-   [
-    541.0,
-    1847.0
-   ]
-  ],
-  "region_b": [
-   [
-    1075.0,
-    1342.0
-   ],
-   [
-    1441.0,
-    1342.0
-   ],
-   [
-    1440.7,
-    1847.0
-   ],
-   [
-    1074.0,
-    1844.7
-   ]
-  ],
-  "method": "keypoints"
- },
- {
-  "kind": "duplicate",
-  "category": "same image reused",
   "panel_a": "fig8#5",
   "panel_b": "fig12#6",
   "score": 0.508,
@@ -896,59 +472,6 @@
    [
     1169.0,
     1058.0
-   ]
-  ],
-  "method": "keypoints"
- },
- {
-  "kind": "duplicate",
-  "category": "same image reused",
-  "panel_a": "fig7#12",
-  "panel_b": "fig12#13",
-  "score": 0.5,
-  "inliers": 13,
-  "correlation": 0.581,
-  "detail": 0.419,
-  "texture": 0.433,
-  "extent": 0.969,
-  "overlap_frac": 0.969,
-  "rotation_deg": -0.5,
-  "scale": 0.997,
-  "mirrored": false,
-  "region_a": [
-   [
-    1073.0,
-    867.0
-   ],
-   [
-    1290.0,
-    867.0
-   ],
-   [
-    1290.0,
-    919.0
-   ],
-   [
-    1073.0,
-    919.0
-   ]
-  ],
-  "region_b": [
-   [
-    781.4,
-    1002.4
-   ],
-   [
-    997.7,
-    1001.0
-   ],
-   [
-    998.2,
-    1052.0
-   ],
-   [
-    781.9,
-    1052.0
    ]
   ],
   "method": "keypoints"
@@ -1115,112 +638,6 @@
  {
   "kind": "duplicate",
   "category": "same image reused",
-  "panel_a": "fig10#14",
-  "panel_b": "fig7#11",
-  "score": 0.474,
-  "inliers": 13,
-  "correlation": 0.594,
-  "detail": 0.355,
-  "texture": 0.351,
-  "extent": 0.893,
-  "overlap_frac": 0.893,
-  "rotation_deg": -0.3,
-  "scale": 1.035,
-  "mirrored": false,
-  "region_a": [
-   [
-    924.0,
-    1109.0
-   ],
-   [
-    1207.0,
-    1109.0
-   ],
-   [
-    1207.0,
-    1158.0
-   ],
-   [
-    924.0,
-    1158.0
-   ]
-  ],
-  "region_b": [
-   [
-    657.0,
-    868.6
-   ],
-   [
-    900.5,
-    867.3
-   ],
-   [
-    900.7,
-    918.0
-   ],
-   [
-    657.0,
-    919.0
-   ]
-  ],
-  "method": "keypoints"
- },
- {
-  "kind": "duplicate",
-  "category": "same image reused",
-  "panel_a": "fig7#11",
-  "panel_b": "fig12#12",
-  "score": 0.44,
-  "inliers": 15,
-  "correlation": 0.543,
-  "detail": 0.337,
-  "texture": 0.379,
-  "extent": 0.955,
-  "overlap_frac": 0.955,
-  "rotation_deg": -0.4,
-  "scale": 0.954,
-  "mirrored": false,
-  "region_a": [
-   [
-    657.0,
-    867.0
-   ],
-   [
-    1001.0,
-    867.0
-   ],
-   [
-    1001.0,
-    919.0
-   ],
-   [
-    657.0,
-    919.0
-   ]
-  ],
-  "region_b": [
-   [
-    501.0,
-    1003.8
-   ],
-   [
-    745.0,
-    1001.7
-   ],
-   [
-    745.0,
-    1051.3
-   ],
-   [
-    501.0,
-    1053.0
-   ]
-  ],
-  "method": "keypoints"
- },
- {
-  "kind": "duplicate",
-  "category": "same image reused",
   "panel_a": "fig5#6",
   "panel_b": "fig6#2",
   "score": 0.439,
@@ -1320,112 +737,6 @@
    [
     1493.0,
     1010.0
-   ]
-  ],
-  "method": "keypoints"
- },
- {
-  "kind": "duplicate",
-  "category": "same image reused",
-  "panel_a": "fig12#17",
-  "panel_b": "fig12#19",
-  "score": 0.418,
-  "inliers": 12,
-  "correlation": 0.719,
-  "detail": 0.117,
-  "texture": 0.089,
-  "extent": 0.967,
-  "overlap_frac": 0.967,
-  "rotation_deg": 0.2,
-  "scale": 0.979,
-  "mirrored": false,
-  "region_a": [
-   [
-    541.0,
-    1328.0
-   ],
-   [
-    907.0,
-    1328.0
-   ],
-   [
-    907.0,
-    1847.0
-   ],
-   [
-    541.0,
-    1847.0
-   ]
-  ],
-  "region_b": [
-   [
-    1611.0,
-    1337.7
-   ],
-   [
-    1969.4,
-    1338.9
-   ],
-   [
-    1967.7,
-    1847.1
-   ],
-   [
-    1611.0,
-    1846.0
-   ]
-  ],
-  "method": "keypoints"
- },
- {
-  "kind": "duplicate",
-  "category": "same image reused",
-  "panel_a": "fig10#14",
-  "panel_b": "fig12#13",
-  "score": 0.367,
-  "inliers": 13,
-  "correlation": 0.564,
-  "detail": 0.171,
-  "texture": 0.235,
-  "extent": 0.756,
-  "overlap_frac": 0.756,
-  "rotation_deg": 0.2,
-  "scale": 0.938,
-  "mirrored": false,
-  "region_a": [
-   [
-    924.0,
-    1109.0
-   ],
-   [
-    1207.0,
-    1109.0
-   ],
-   [
-    1207.0,
-    1158.0
-   ],
-   [
-    924.0,
-    1158.0
-   ]
-  ],
-  "region_b": [
-   [
-    754.0,
-    1003.2
-   ],
-   [
-    982.0,
-    1004.3
-   ],
-   [
-    981.8,
-    1050.3
-   ],
-   [
-    754.0,
-    1049.2
    ]
   ],
   "method": "keypoints"

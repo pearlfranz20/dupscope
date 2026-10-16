@@ -55,59 +55,6 @@
  {
   "kind": "duplicate",
   "category": "same image reused",
-  "panel_a": "fig7#8",
-  "panel_b": "fig7#15",
-  "score": 0.44,
-  "inliers": 22,
-  "correlation": 0.773,
-  "detail": 0.106,
-  "texture": 0.114,
-  "extent": 0.943,
-  "overlap_frac": 0.943,
-  "rotation_deg": -0.2,
-  "scale": 1.011,
-  "mirrored": false,
-  "region_a": [
-   [
-    2768.0,
-    1303.0
-   ],
-   [
-    3143.0,
-    1303.0
-   ],
-   [
-    3143.0,
-    1621.0
-   ],
-   [
-    2768.0,
-    1621.0
-   ]
-  ],
-  "region_b": [
-   [
-    2770.0,
-    1762.0
-   ],
-   [
-    3145.0,
-    1762.0
-   ],
-   [
-    3145.0,
-    2047.9
-   ],
-   [
-    2770.2,
-    2049.1
-   ]
-  ],
-  "method": "keypoints"
- },
- {
-  "kind": "duplicate",
-  "category": "same image reused",
   "panel_a": "fig6#27",
   "panel_b": "fig6#28",
   "score": 0.428,
