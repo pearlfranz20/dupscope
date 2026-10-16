@@ -1,0 +1,13 @@
+{
+ "pmcid": "PMC10409850",
+ "doi": "10.1007/s00210-023-02449-x",
+ "panel_a": "fig5#1",
+ "panel_b": "fig5#3",
+ "category": "overlapping fields of view with rotation or mirroring",
+ "correlation": 0.877,
+ "detail": 0.682,
+ "inliers": 585,
+ "rotation_deg": 162,
+ "overlap": 0.531,
+ "findings_in_paper": 1
+}

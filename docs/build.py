@@ -53,50 +53,75 @@ def retraction_section(inline: bool) -> str:
     s = json.loads((rdir / "summary.json").read_text())
     r, c = s["retracted"], s["controls"]
     cases = json.loads((rdir / "retracted.json").read_text())
+    verified = json.loads((rdir / "reviewed.json").read_text()) if (rdir / "reviewed.json").exists() else {}
     flagged = [x for x in cases if x["result"]["n_findings"] > 0]
     flagged.sort(key=lambda x: -x["result"]["max_score"])
     rows = []
     for x in flagged:
         ret, res = x["retraction"], x["result"]
         doi = ret["original_doi"]
-        link = (
-            f'<a href="https://doi.org/{html.escape(doi)}">{html.escape(ret["title"][:90])}</a>'
-            if doi
-            else html.escape(ret["title"][:90])
-        )
+        title = html.escape(ret["title"][:90])
+        link = f'<a href="https://doi.org/{html.escape(doi)}">{title}</a>' if doi else title
+        note = verified.get(res["pmcid"], "")
         rows.append(
-            f'<tr><td>{link}<div class="sub">{html.escape(ret["journal"])}, {html.escape(ret["original_year"])}</div></td>'
-            f'<td>{html.escape(", ".join(res["categories"]))}</td><td class="num">{res["n_findings"]}</td>'
-            f'<td class="num">{res["max_score"]:.2f}</td></tr>'
+            f'<tr><td>{link}<div class="sub">{html.escape(ret["journal"])}, {html.escape(ret["original_year"])}'
+            f'</div></td><td class="num">{res["max_score"]:.2f}</td><td>{html.escape(note)}</td></tr>'
         )
-    table = (
-        '<div class="table-wrap"><table><thead><tr><th>Retracted paper</th><th>What was found</th>'
-        '<th class="num">Findings</th><th class="num">Top score</th></tr></thead><tbody>'
-        + "".join(rows)
-        + "</tbody></table></div>"
-        if rows
-        else ""
+    score_rows = "".join(
+        f"<tr><td>{float(k):.1f} or more</td>"
+        f'<td class="num">{r["flagged_at_score"][k]} of {r["analysed"]} ({pct(r["flagged_at_score"][k], r["analysed"])})</td>'
+        f'<td class="num">{c["flagged_at_score"][k]} of {c["analysed"]} ({pct(c["flagged_at_score"][k], c["analysed"])})</td></tr>'
+        for k in sorted(r["flagged_at_score"], key=float)
     )
+    cats = sorted(set(r["papers_by_category"]) | set(c["papers_by_category"]))
+    cat_rows = "".join(
+        f'<tr><td>{html.escape(k)}</td><td class="num">{r["papers_by_category"].get(k, 0)} of {r["analysed"]}</td>'
+        f'<td class="num">{c["papers_by_category"].get(k, 0)} of {c["analysed"]}</td></tr>'
+        for k in cats
+    )
+    no_images = r["skip_reasons"].get("no figure images", 0)
+    trained_on = {m["paper"] for m in json.loads((ROOT / "results" / "panel_classifier" / "labels.json").read_text())}
+    overlap = sum(
+        1
+        for x in cases
+        if x["result"]["pmcid"] in trained_on and x["result"]["n_photo_panels"] > 0 and not x["result"]["error"]
+    )
+    reviewed = sum(1 for v in verified.values() if v)
     return f"""
 <section id="retracted">
   <h2>Papers retracted for image problems</h2>
   <p>The second test uses real papers. The <a href="https://gitlab.com/crossref/retraction-watch-data">Retraction
-  Watch database</a> lists neuroscience papers retracted because of duplicated or manipulated images. The check
-  downloaded their figures from PubMed Central's open-access collection and ran the detector with the same
-  thresholds as above. As a comparison, it also ran on papers from the same journal and year that were never
-  retracted. Those are reported only as counts and are never named.</p>
+  Watch database</a> lists {r["analysed"] + r["skipped"]} papers in neuroscience, neurology and psychiatry that were
+  retracted with image problems among the reasons and that have a PubMed Central record. PubMed Central withholds
+  the images of retracted articles, so their figures came from the publisher where that was possible (PLOS and
+  Springer Nature). {no_images} papers had no reachable figures and others were skipped for the reasons listed in
+  the summary file, leaving {r["analysed"]}. For comparison, the same thresholds ran on one paper from the same
+  journal and year for each of those, never retracted. Those are reported only as counts and are never named.</p>
   <div class="stats">
-    <div class="stat"><div class="big">{r["flagged"]} of {r["analysed"]}</div><div>retracted papers flagged ({pct(r["flagged"], r["analysed"])})</div></div>
-    <div class="stat"><div class="big">{c["flagged"]} of {c["analysed"]}</div><div>comparison papers flagged ({pct(c["flagged"], c["analysed"])})</div></div>
+    <div class="stat"><div class="big">{r["flagged"]} of {r["analysed"]}</div><div>retracted papers with a finding ({pct(r["flagged"], r["analysed"])})</div></div>
+    <div class="stat"><div class="big">{c["flagged"]} of {c["analysed"]}</div><div>comparison papers with a finding ({pct(c["flagged"], c["analysed"])})</div></div>
   </div>
-  <p>A retraction notice says that a paper had an image problem, not which figure or what kind. Some problems are
-  outside what this tool looks for, for example a spliced blot or a duplicate of an image from another paper. So
-  the retracted share flagged is a floor on what a person could find, not a recall figure. A flag on a comparison
-  paper is also not an accusation. Reuse is sometimes legitimate (a magnified inset, a shared control that the
-  legend declares), and the detector also makes mistakes.</p>
-  {table}
-  <p class="sub">{r["skipped"]} retracted and {c["skipped"]} comparison papers were skipped because their figures
-  were not in the open-access collection or had no image panels.</p>
+  <p>Many honest papers have findings too, so a finding on its own says little about a paper. Some reuse is
+  legitimate: a magnified inset, a merged fluorescence panel built from its own channels, a control image shown
+  twice and declared in the legend. The strength of the strongest finding separates the two groups more:</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Strongest finding scores</th><th class="num">Retracted</th><th class="num">Comparison</th></tr></thead>
+    <tbody>{score_rows}</tbody>
+  </table></div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Papers with a finding of this kind</th><th class="num">Retracted</th><th class="num">Comparison</th></tr></thead>
+    <tbody>{cat_rows}</tbody>
+  </table></div>
+  <p>A retraction notice says a paper had an image problem, not where. Some problems are outside what this tool
+  checks (a spliced blot, an image reused from another paper), so the share of retracted papers flagged is not a
+  recall figure. {overlap} of the {r["analysed"]} analysed papers contributed panels to the classifier's training
+  set, with photograph or graphic labels only, never with labels about reuse.
+  {f"I looked at the top findings of {reviewed} flagged papers by eye, noted in the table." if reviewed else ""}</p>
+  <details><summary>Retracted papers with findings ({len(rows)})</summary>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Retracted paper</th><th class="num">Top score</th><th>Looked at by eye</th></tr></thead>
+    <tbody>{"".join(rows)}</tbody>
+  </table></div></details>
 </section>"""
 
 
@@ -105,6 +130,7 @@ def build(inline: bool = False) -> str:
     ex = json.loads((DOCS / "img" / "examples.json").read_text())
     ms = json.loads((ROOT / "results" / "benchmark" / "misses.json").read_text())
     cv = json.loads((ROOT / "results" / "panel_classifier" / "cv.json").read_text())
+    rx = json.loads((DOCS / "img" / "real_example.json").read_text())
     cv_old_kept = cv["old_rules_graphics_kept"]
     real_before, real_after = cv["example_paper_findings_before"], cv["example_paper_findings_after"]
     n_feat = len(json.loads((ROOT / "src" / "dupscope" / "classifier.json").read_text())["features"])
@@ -309,10 +335,18 @@ figcaption {{ color: var(--muted); font-size: 0.86rem; max-width: 68ch; }}
   {real_before} findings.</p>
   <p>The fix was a small classifier (gradient-boosted trees on {n_feat} simple image measurements), trained on
   {cv["labelled_panels"]} panels from {cv["papers"]} retracted papers that I labelled by eye as photograph or
-  graphic, plus synthetic panels. Tested with whole papers held out, it keeps
-  {cv["photo_recall"]:.1%} of photographs and lets through {cv["graphics_kept"]} of {cv["graphics"]} graphics. The
-  old rules let through {cv_old_kept} of the same {cv["graphics"]}. The bar-chart paper went to {real_after}
-  findings, one of which is a cartoon rat used twice in a study diagram: real reuse, and harmless.</p>
+  graphic, plus synthetic panels. On a random sample of {cv["random_sample_panels"]} of those panels, tested with
+  whole papers held out, it keeps {cv["photo_recall"]:.1%} of photographs and lets through
+  {cv["graphics_kept"]} of {cv["graphics"]} graphics. The old rules let through {cv_old_kept} of the same
+  {cv["graphics"]}. The synthetic benchmark above was rerun with it and did not change.</p>
+  <p>The bar-chart paper went from {real_before} findings to {real_after}, and that one is real: the right half of
+  panel (c) of its figure 5 reappears inside panel (e), turned by about {rx["rotation_deg"]}°. The "n" labels read
+  as "u" and the scale bar sits at the top. The paper was retracted, with duplication and manipulation of images
+  among the reasons given, so this is public record.</p>
+  <figure>{img("real_reuse.png", "Panel c beside the matching region of panel e, rotated back into line", inline)}
+  <figcaption>Left: panel (c). Right: panel (e), rotated back by the detector to line up with (c). Pixel
+  correlation {rx["correlation"]:.2f} over {rx["overlap"]:.0%} of the panel. From
+  <a href="https://doi.org/{rx["doi"]}">doi:{rx["doi"]}</a>, figure 5, CC BY.</figcaption></figure>
 </section>
 {retraction_section(inline)}
 <section id="use">
