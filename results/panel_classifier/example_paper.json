@@ -1,0 +1,8 @@
+{
+ "example_paper": "PMC10409850",
+ "example_paper_findings_before": 92,
+ "example_paper_findings_after": 1,
+ "note": "Findings in the retracted paper doi:10.1007/s00210-023-02449-x with the shipped thresholds: with the earlier hand-written panel rules (commit 2fa8904) and with the classifier (commit 1696d4c), counted by running dupscope on its figures from the devdata branch.",
+ "benchmark_panels_changed_by_retraining": 3,
+ "benchmark_note": "Retraining (commit 1696d4c) changed the photograph decision for 3 panels in synthetic papers 159, 337 and 394. Those papers were rerun and spliced into the saved benchmark output, and re-scoring gave a summary identical to results/benchmark/summary.json."
+}

@@ -92,8 +92,9 @@ def retraction_section(inline: bool) -> str:
     review_line = (
         f"The strongest finding of every retracted paper scoring 0.8 or more was checked by eye ({len(top)} papers). In "
         f"{looks} it looks like the same image used twice, and {len(top) - looks} are false alarms: text labels, a "
-        "table, a plot and panel-splitting slips. Notes are in the table below. These are observations about papers "
-        "already retracted, not new findings about anyone's work."
+        "table, a plot and panel-splitting slips. One person did this, knowing the papers were retracted, and no "
+        "comparison paper was looked at. Notes are in the table below. These are observations about papers already "
+        "retracted, not new findings about anyone's work."
         if top
         else ""
     )
@@ -105,15 +106,17 @@ def retraction_section(inline: bool) -> str:
   retracted with image problems among the reasons and that have a PubMed Central record. PubMed Central withholds
   the images of retracted articles, so their figures came from the publisher where that was possible (PLOS and
   Springer Nature). {no_images} papers had no reachable figures and others were skipped for the reasons listed in
-  the summary file, leaving {r["analysed"]}. For comparison, the same thresholds ran on one paper from the same
-  journal and year for each of those, never retracted. Those are reported only as counts and are never named.</p>
+  the summary file, leaving {r["analysed"]}. For comparison, the same thresholds ran on up to one paper from the
+  same journal and year for each of those, not marked as retracted, with figures from PubMed Central.
+  {c["analysed"]} of those could be analysed. They are reported only as counts and are never named.</p>
   <div class="stats">
     <div class="stat"><div class="big">{r["flagged"]} of {r["analysed"]}</div><div>retracted papers with a finding ({pct(r["flagged"], r["analysed"])})</div></div>
     <div class="stat"><div class="big">{c["flagged"]} of {c["analysed"]}</div><div>comparison papers with a finding ({pct(c["flagged"], c["analysed"])})</div></div>
   </div>
-  <p>Many honest papers have findings too, so a finding on its own says little about a paper. Some reuse is
-  legitimate: a magnified inset, a merged fluorescence panel built from its own channels, a control image shown
-  twice and declared in the legend. The strongest finding's score separates the groups somewhat better, though not cleanly:</p>
+  <p>Many papers not marked as retracted have findings too, so a finding on its own says little about a paper.
+  Some reuse is legitimate: a magnified inset, a merged fluorescence panel built from its own channels, a control
+  image shown twice and declared in the legend. Higher score cut-offs flag fewer papers in both groups, and at
+  0.8 or 0.9 the gap between the groups is small enough to be chance at this sample size:</p>
   <div class="table-wrap"><table>
     <thead><tr><th>Strongest finding scores</th><th class="num">Retracted</th><th class="num">Comparison</th></tr></thead>
     <tbody>{score_rows}</tbody>
@@ -125,7 +128,10 @@ def retraction_section(inline: bool) -> str:
   <p>A retraction notice says a paper had an image problem, not where. Some problems are outside what this tool
   checks (a spliced blot, an image reused from another paper), so the share of retracted papers flagged is not a
   recall figure. {overlap} of the {r["analysed"]} analysed papers contributed panels to the classifier's training
-  set, with photograph or graphic labels only, never with labels about reuse.
+  set, with photograph or graphic labels only, never with labels about reuse, and no comparison paper did. That
+  likely removes more graphic false alarms in the retracted group than in the comparison group, so the gap
+  between the groups is probably somewhat smaller than these numbers suggest. The two groups' figures also come
+  from different places (publishers versus PubMed Central).
   {review_line}</p>
   <details><summary>Retracted papers with findings ({len(rows)})</summary>
   <div class="table-wrap"><table>
@@ -142,7 +148,9 @@ def build(inline: bool = False) -> str:
     cv = json.loads((ROOT / "results" / "panel_classifier" / "cv.json").read_text())
     rx = json.loads((DOCS / "img" / "real_example.json").read_text())
     cv_old_kept = cv["old_rules_graphics_kept"]
-    real_before, real_after = cv["example_paper_findings_before"], cv["example_paper_findings_after"]
+    expaper = json.loads((ROOT / "results" / "panel_classifier" / "example_paper.json").read_text())
+    bench_changed = expaper["benchmark_panels_changed_by_retraining"]
+    real_before, real_after = expaper["example_paper_findings_before"], expaper["example_paper_findings_after"]
     n_feat = len(json.loads((ROOT / "src" / "dupscope" / "classifier.json").read_text())["features"])
     wg = json.loads((ROOT / "results" / "benchmark" / "summary_wider_grid.json").read_text())
     test, dev = s["test"], s["dev"]
@@ -348,8 +356,11 @@ figcaption {{ color: var(--muted); font-size: 0.86rem; max-width: 68ch; }}
   graphic, plus synthetic panels. On a random sample of {cv["random_sample_panels"]} of those panels, tested with
   whole papers held out, it keeps {cv["photo_recall"]:.1%} of photographs and lets through
   {cv["graphics_kept"]} of {cv["graphics"]} graphics. The old rules let through {cv_old_kept} of the same
-  {cv["graphics"]}. The synthetic benchmark above was rerun with it and did not change.</p>
-  <p>The bar-chart paper went from {real_before} findings to {real_after}, and that one is real: the right half of
+  {cv["graphics"]}. The synthetic benchmark was rerun with a first version of the classifier: the test results did
+  not change, and one false alarm on the development papers went away. Retraining it with more labels changed
+  the decision for {bench_changed} panels across the {s["n_dev"] + s["n_test"]} synthetic papers. Those papers
+  were rerun, and the results did not change.</p>
+  <p>The bar-chart paper went from {real_before} findings to {real_after}, and that one looks real: the right half of
   panel (c) of its figure 5 reappears inside panel (e), turned by about {rx["rotation_deg"]}°. The "n" labels read
   as "u" and the scale bar sits at the top. The paper was retracted, with duplication and manipulation of images
   among the reasons given, so this is public record.</p>

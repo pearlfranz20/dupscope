@@ -8,9 +8,5 @@
  "graphics_kept": 33,
  "graphics": 416,
  "threshold": 0.3,
- "old_rules_graphics_kept": 234,
- "example_paper": "PMC10409850",
- "example_paper_findings_before": 92,
- "example_paper_findings_after": 1,
- "note": "Scores are on the random sample. old_rules_graphics_kept: random-sample graphics the earlier hand-written rules called photographs. Example paper: findings with the old rules and with the classifier, same thresholds."
+ "old_rules_graphics_kept": 234
 }

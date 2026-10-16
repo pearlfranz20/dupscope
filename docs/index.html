@@ -175,8 +175,11 @@ figcaption { color: var(--muted); font-size: 0.86rem; max-width: 68ch; }
   graphic, plus synthetic panels. On a random sample of 768 of those panels, tested with
   whole papers held out, it keeps 96.9% of photographs and lets through
   33 of 416 graphics. The old rules let through 234 of the same
-  416. The synthetic benchmark above was rerun with it and did not change.</p>
-  <p>The bar-chart paper went from 92 findings to 1, and that one is real: the right half of
+  416. The synthetic benchmark was rerun with a first version of the classifier: the test results did
+  not change, and one false alarm on the development papers went away. Retraining it with more labels changed
+  the decision for 3 panels across the 400 synthetic papers. Those papers
+  were rerun, and the results did not change.</p>
+  <p>The bar-chart paper went from 92 findings to 1, and that one looks real: the right half of
   panel (c) of its figure 5 reappears inside panel (e), turned by about 162°. The "n" labels read
   as "u" and the scale bar sits at the top. The paper was retracted, with duplication and manipulation of images
   among the reasons given, so this is public record.</p>
@@ -193,15 +196,17 @@ figcaption { color: var(--muted); font-size: 0.86rem; max-width: 68ch; }
   retracted with image problems among the reasons and that have a PubMed Central record. PubMed Central withholds
   the images of retracted articles, so their figures came from the publisher where that was possible (PLOS and
   Springer Nature). 204 papers had no reachable figures and others were skipped for the reasons listed in
-  the summary file, leaving 79. For comparison, the same thresholds ran on one paper from the same
-  journal and year for each of those, never retracted. Those are reported only as counts and are never named.</p>
+  the summary file, leaving 79. For comparison, the same thresholds ran on up to one paper from the
+  same journal and year for each of those, not marked as retracted, with figures from PubMed Central.
+  64 of those could be analysed. They are reported only as counts and are never named.</p>
   <div class="stats">
     <div class="stat"><div class="big">59 of 79</div><div>retracted papers with a finding (75%)</div></div>
     <div class="stat"><div class="big">28 of 64</div><div>comparison papers with a finding (44%)</div></div>
   </div>
-  <p>Many honest papers have findings too, so a finding on its own says little about a paper. Some reuse is
-  legitimate: a magnified inset, a merged fluorescence panel built from its own channels, a control image shown
-  twice and declared in the legend. The strongest finding's score separates the groups somewhat better, though not cleanly:</p>
+  <p>Many papers not marked as retracted have findings too, so a finding on its own says little about a paper.
+  Some reuse is legitimate: a magnified inset, a merged fluorescence panel built from its own channels, a control
+  image shown twice and declared in the legend. Higher score cut-offs flag fewer papers in both groups, and at
+  0.8 or 0.9 the gap between the groups is small enough to be chance at this sample size:</p>
   <div class="table-wrap"><table>
     <thead><tr><th>Strongest finding scores</th><th class="num">Retracted</th><th class="num">Comparison</th></tr></thead>
     <tbody><tr><td>0.5 or more</td><td class="num">52 of 79 (66%)</td><td class="num">24 of 64 (38%)</td></tr><tr><td>0.7 or more</td><td class="num">34 of 79 (43%)</td><td class="num">15 of 64 (23%)</td></tr><tr><td>0.8 or more</td><td class="num">20 of 79 (25%)</td><td class="num">11 of 64 (17%)</td></tr><tr><td>0.9 or more</td><td class="num">12 of 79 (15%)</td><td class="num">5 of 64 (8%)</td></tr></tbody>
@@ -213,8 +218,11 @@ figcaption { color: var(--muted); font-size: 0.86rem; max-width: 68ch; }
   <p>A retraction notice says a paper had an image problem, not where. Some problems are outside what this tool
   checks (a spliced blot, an image reused from another paper), so the share of retracted papers flagged is not a
   recall figure. 47 of the 79 analysed papers contributed panels to the classifier's training
-  set, with photograph or graphic labels only, never with labels about reuse.
-  The strongest finding of every retracted paper scoring 0.8 or more was checked by eye (20 papers). In 14 it looks like the same image used twice, and 6 are false alarms: text labels, a table, a plot and panel-splitting slips. Notes are in the table below. These are observations about papers already retracted, not new findings about anyone's work.</p>
+  set, with photograph or graphic labels only, never with labels about reuse, and no comparison paper did. That
+  likely removes more graphic false alarms in the retracted group than in the comparison group, so the gap
+  between the groups is probably somewhat smaller than these numbers suggest. The two groups' figures also come
+  from different places (publishers versus PubMed Central).
+  The strongest finding of every retracted paper scoring 0.8 or more was checked by eye (20 papers). In 14 it looks like the same image used twice, and 6 are false alarms: text labels, a table, a plot and panel-splitting slips. One person did this, knowing the papers were retracted, and no comparison paper was looked at. Notes are in the table below. These are observations about papers already retracted, not new findings about anyone's work.</p>
   <details><summary>Retracted papers with findings (59)</summary>
   <div class="table-wrap"><table>
     <thead><tr><th>Retracted paper</th><th class="num">Top score</th><th>Looked at by eye</th></tr></thead>

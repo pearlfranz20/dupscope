@@ -104,7 +104,12 @@ def main(devdata, dsb, dedupe):
     # scored on the random sample of panels only: panels added because they took part in
     # a finding are a biased sample
     pred, yr = prob[rs] >= THRESHOLD, y[rs]
+    labels = json.loads((ROOT / "results" / "panel_classifier" / "labels.json").read_text())
+    sample = [m for m in labels if m.get("source", "random_sample") == "random_sample"]
     cv = {
+        # graphics in the random sample that the earlier hand-written rules called
+        # photographs (their decision is stored with each label as "photo")
+        "old_rules_graphics_kept": sum(1 for m in sample if str(m["photo"]) == "1" and m["label"] == 0),
         "labelled_panels": int(len(y)),
         "random_sample_panels": int(rs.sum()),
         "finding_panels": int((~rs).sum()),
@@ -118,7 +123,6 @@ def main(devdata, dsb, dedupe):
     (ROOT / "results" / "panel_classifier" / "cv.json").write_text(json.dumps(cv, indent=1))
     clf = GradientBoostingClassifier(**PARAMS).fit(np.vstack([X, SX]), np.concatenate([y, Sy]))
     (ROOT / "src" / "dupscope" / "classifier.json").write_text(json.dumps(export(clf)))
-    np.savez("/tmp/clf_check.npz", X=X, p=clf.predict_proba(X)[:, 1])
     print(cv)
 
 
