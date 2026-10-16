@@ -25,7 +25,7 @@ concurrency:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 340
+    timeout-minutes: 350
     env:
       LIMIT: ${{ inputs.limit }}
       CONTROLS: ${{ inputs.controls }}
@@ -36,11 +36,21 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -e .
+      # downloads and per-paper results from earlier runs, so a rerun resumes; Actions
+      # caches are private to the repository's workflows
+      - uses: actions/cache/restore@v4
+        with:
+          path: ${{ runner.temp }}/dupscope-cache
+          key: dupscope-cache-${{ github.run_id }}
+          restore-keys: dupscope-cache-
       - name: Retraction Watch data (Crossref)
         run: |
           git clone --depth 1 https://gitlab.com/crossref/retraction-watch-data rw || true
           ls -la rw || true
       - name: Check papers
+        # leaves time for the cache and results to be saved if this runs long; a rerun
+        # resumes from the cache
+        timeout-minutes: 320
         run: |
           CSV=$(ls rw/*.csv 2>/dev/null | head -1)
           if [ -n "$CSV" ] && head -c 100 "$CSV" | grep -q "git-lfs"; then CSV=""; fi
@@ -50,6 +60,11 @@ jobs:
             --limit "$LIMIT" --controls "$CONTROLS" \
             --workers 4 --cache-dir "$RUNNER_TEMP/dupscope-cache" \
             --out results/retractions
+      - uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: ${{ runner.temp }}/dupscope-cache
+          key: dupscope-cache-${{ github.run_id }}
       - name: Commit results
         if: always()
         run: |
