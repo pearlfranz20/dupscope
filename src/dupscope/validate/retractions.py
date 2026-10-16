@@ -54,7 +54,7 @@ EPMC_SEARCH_URL = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
 # substrings ("Duplication of/in Image", "Manipulation of Images",
 # "Concerns/Issues about Image", ...)
 IMAGE_REASONS = ("image",)
-MAX_PHOTO_PANELS = 150
+MAX_PHOTO_PANELS = 80
 RATE_LIMITED = ("ncbi.nlm.nih.gov", "ebi.ac.uk", "plos.org", "springernature.com")
 FIGURE_EXT = (".jpg", ".jpeg", ".png", ".tif", ".tiff", ".gif")
 
@@ -436,34 +436,37 @@ def validate(
         cases = cases[:limit]
     log.info("%d retracted papers with PMC records", len(cases))
 
-    # controls: same journal and year, never retracted; reported as counts only
+    def run_jobs(jobs: list[tuple]) -> list[PaperResult]:
+        if workers > 1:
+            import multiprocessing
+            from concurrent.futures import ProcessPoolExecutor
+
+            with ProcessPoolExecutor(
+                workers,
+                mp_context=multiprocessing.get_context("spawn"),  # forking a threaded parent can deadlock
+                initializer=_init_worker,
+                initargs=(str(client.cache), mailto, min_interval, t),
+            ) as ex:
+                return list(ex.map(_job, jobs))
+        return [run_on_pmcid(client, pmcid, t, Path(rd) if rd else None, doi) for pmcid, rd, doi in jobs]
+
+    # 1. retracted papers; the DOI lets them fall back to the publisher's images,
+    #    since PMC withholds the images of retracted articles
+    results = run_jobs([(c.pmcid, str(out / "reports" / c.pmcid), c.original_doi) for c in cases])
+    retracted = [{"retraction": asdict(c), "result": asdict(r)} for c, r in zip(cases, results, strict=True)]
+    # 2. controls, only for retracted papers that could be analysed: same journal and
+    #    year, never retracted, reported as counts only
     seen = {c.pmcid for c in cases}
     controls = []
-    for c in cases:
-        if not (c.journal and c.original_year):
+    for c, r in zip(cases, results, strict=True):
+        if r.error or not r.n_photo_panels or not (c.journal and c.original_year):
             continue
         for pmcid in control_pmcids(client, c.journal, c.original_year, seen, controls_per_paper, seed):
             seen.add(pmcid)
             controls.append(pmcid)
-    # the DOI lets retracted papers fall back to the publisher's images; controls are
-    # not retracted, so PMC provides their images
-    jobs = [(c.pmcid, str(out / "reports" / c.pmcid), c.original_doi) for c in cases]
-    jobs += [(pmcid, None, "") for pmcid in controls]
-    if workers > 1:
-        import multiprocessing
-        from concurrent.futures import ProcessPoolExecutor
-
-        with ProcessPoolExecutor(
-            workers,
-            mp_context=multiprocessing.get_context("spawn"),  # forking a threaded parent can deadlock
-            initializer=_init_worker,
-            initargs=(str(client.cache), mailto, min_interval, t),
-        ) as ex:
-            results = list(ex.map(_job, jobs))
-    else:
-        results = [run_on_pmcid(client, pmcid, t, Path(rd) if rd else None, doi) for pmcid, rd, doi in jobs]
-    retracted = [{"retraction": asdict(c), "result": asdict(r)} for c, r in zip(cases, results, strict=False)]
-    control_results = [{k: v for k, v in asdict(r).items() if k != "pmcid"} for r in results[len(cases) :]]
+    control_results = [
+        {k: v for k, v in asdict(r).items() if k != "pmcid"} for r in run_jobs([(p, None, "") for p in controls])
+    ]
 
     def summarise(results: list[dict]) -> dict:
         ok = [r for r in results if not r["error"] and r["n_photo_panels"] > 0]
