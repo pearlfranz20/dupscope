@@ -86,7 +86,17 @@ def retraction_section(inline: bool) -> str:
         for x in cases
         if x["result"]["pmcid"] in trained_on and x["result"]["n_photo_panels"] > 0 and not x["result"]["error"]
     )
-    reviewed = sum(1 for v in verified.values() if v)
+    score = {x["result"]["pmcid"]: x["result"]["max_score"] for x in cases}
+    top = [k for k, v in verified.items() if v and score.get(k, 0) >= 0.8]
+    looks = sum(1 for k in top if verified[k].startswith(("Looks like", "Same image")))
+    review_line = (
+        f"The strongest finding of every retracted paper scoring 0.8 or more was checked by eye ({len(top)} papers). In "
+        f"{looks} it looks like the same image used twice, and {len(top) - looks} are false alarms: text labels, a "
+        "table, a plot and panel-splitting slips. Notes are in the table below. These are observations about papers "
+        "already retracted, not new findings about anyone's work."
+        if top
+        else ""
+    )
     return f"""
 <section id="retracted">
   <h2>Papers retracted for image problems</h2>
@@ -103,7 +113,7 @@ def retraction_section(inline: bool) -> str:
   </div>
   <p>Many honest papers have findings too, so a finding on its own says little about a paper. Some reuse is
   legitimate: a magnified inset, a merged fluorescence panel built from its own channels, a control image shown
-  twice and declared in the legend. The strength of the strongest finding separates the two groups more:</p>
+  twice and declared in the legend. The strongest finding's score separates the groups somewhat better, though not cleanly:</p>
   <div class="table-wrap"><table>
     <thead><tr><th>Strongest finding scores</th><th class="num">Retracted</th><th class="num">Comparison</th></tr></thead>
     <tbody>{score_rows}</tbody>
@@ -116,7 +126,7 @@ def retraction_section(inline: bool) -> str:
   checks (a spliced blot, an image reused from another paper), so the share of retracted papers flagged is not a
   recall figure. {overlap} of the {r["analysed"]} analysed papers contributed panels to the classifier's training
   set, with photograph or graphic labels only, never with labels about reuse.
-  {f"I looked at the top findings of {reviewed} flagged papers by eye, noted in the table." if reviewed else ""}</p>
+  {review_line}</p>
   <details><summary>Retracted papers with findings ({len(rows)})</summary>
   <div class="table-wrap"><table>
     <thead><tr><th>Retracted paper</th><th class="num">Top score</th><th>Looked at by eye</th></tr></thead>
@@ -229,7 +239,7 @@ figcaption {{ color: var(--muted); font-size: 0.86rem; max-width: 68ch; }}
   <h1>Finding reused images in scientific figures</h1>
   <p class="lede">A tool that checks a paper's figures for image panels that appear more than once, even when
   rotated, mirrored, resized, cropped or re-toned, and writes a report for a person to review. It was measured on
-  synthetic papers with known answers, and is set up to run on real papers retracted for image problems.</p>
+  synthetic papers with known answers, and run on real papers retracted for image problems.</p>
 </header>
 
 <section>

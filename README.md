@@ -78,17 +78,43 @@ Reproduce: download the StarDist `dsb2018.zip` release asset, then
 `dupscope bench --dsb path/to/dsb2018 --out bench_out --dedupe-file results/benchmark/pool_dedupe.json`.
 `dupscope bench --out bench_out --rescore` re-scores saved output without rerunning the detector.
 
+## Real figures
+
+Real figures broke the first version: hatched bar fills, text and plots were read as photographs. A small
+gradient-boosted classifier, trained on 1106 hand-labelled panels from 60 retracted
+papers plus synthetic panels, now decides photograph or graphic. On a random sample of 768
+labelled panels, with whole papers held out, it keeps 96.9% of photographs and lets through
+33 of 416 graphics (the old rules let through 234).
+Retrain with `bench/train_panel_classifier.py`.
+
 ## Retracted papers
 
-`dupscope validate-retractions` runs on neuroscience papers that Retraction Watch lists as retracted for image
-duplication or manipulation (a public record), with figures from the PubMed Central open-access dataset. It also
-runs on matched papers from the same journal and year that were not retracted, and reports those only as counts:
-their identifiers are never written to the output. The HTTP cache, which does hold them, lives outside the output
-folder (`~/.cache/dupscope` by default) and should not be published.
+`dupscope validate-retractions` runs on papers in neuroscience, neurology and psychiatry that Retraction Watch lists
+as retracted with image problems among the reasons (a public record). PubMed Central withholds the images of
+retracted articles, so figures come from the publisher where possible (PLOS and Springer Nature). It also runs on
+one matched paper per analysed retracted paper (same journal and year, not retracted) and reports those only as
+counts: their identifiers are never written to the output. The HTTP and result cache, which does hold them, lives
+outside the output folder (`~/.cache/dupscope` by default) and should not be published.
+
+Latest run (`results/retractions/summary.json`):
+
+| | Retracted | Comparison |
+|---|---|---|
+| Analysed | 79 | 64 |
+| Any finding | 59 | 28 |
+| Strongest finding 0.5 or more | 52 | 24 |
+| Strongest finding 0.7 or more | 34 | 15 |
+| Strongest finding 0.8 or more | 20 | 11 |
+| Strongest finding 0.9 or more | 12 | 5 |
+
+Many honest papers have findings (insets, merged fluorescence channels, declared reused controls), so a single
+finding says little. The strongest finding of each of the 20 retracted papers scoring 0.8 or more was checked
+by eye: 14 look like the same image used twice and 6 are false alarms (`results/retractions/reviewed.json`).
+A retraction notice says a paper had an image problem, not where, so the share of retracted papers flagged is not a
+recall figure.
 
 It runs as a GitHub Actions job (Actions tab, "Retraction check"), which commits results to
-`results/retractions/`. A retraction notice says a paper had an image problem, not where, and some problems are
-outside what this tool checks, so the share of retracted papers flagged is not a recall figure.
+`results/retractions/`. Reruns resume from a cache.
 
 ## Development
 
