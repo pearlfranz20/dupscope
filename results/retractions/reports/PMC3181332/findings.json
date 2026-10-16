@@ -1,0 +1,55 @@
+[
+ {
+  "kind": "duplicate",
+  "category": "same image, rotated or mirrored",
+  "panel_a": "fig7#15",
+  "panel_b": "fig7#14",
+  "score": 0.645,
+  "inliers": 13,
+  "correlation": 0.768,
+  "detail": 0.522,
+  "texture": 0.395,
+  "extent": 0.998,
+  "overlap_frac": 0.998,
+  "rotation_deg": 179.6,
+  "scale": 1.014,
+  "mirrored": false,
+  "region_a": [
+   [
+    1072.0,
+    1654.0
+   ],
+   [
+    1235.0,
+    1654.0
+   ],
+   [
+    1235.0,
+    1726.0
+   ],
+   [
+    1072.0,
+    1726.0
+   ]
+  ],
+  "region_b": [
+   [
+    850.0,
+    1726.7
+   ],
+   [
+    689.4,
+    1727.0
+   ],
+   [
+    688.9,
+    1654.7
+   ],
+   [
+    850.0,
+    1654.0
+   ]
+  ],
+  "method": "keypoints"
+ }
+]

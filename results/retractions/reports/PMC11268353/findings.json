@@ -1,0 +1,214 @@
+[
+ {
+  "kind": "duplicate",
+  "category": "magnified region (often a legitimate inset)",
+  "panel_a": "gr3#4",
+  "panel_b": "gr3#5",
+  "score": 0.545,
+  "inliers": 170,
+  "correlation": 0.768,
+  "detail": 0.323,
+  "texture": 0.643,
+  "extent": 0.872,
+  "overlap_frac": 0.872,
+  "rotation_deg": -0.0,
+  "scale": 1.999,
+  "mirrored": false,
+  "region_a": [
+   [
+    1.0,
+    514.0
+   ],
+   [
+    354.0,
+    514.0
+   ],
+   [
+    354.0,
+    766.0
+   ],
+   [
+    1.0,
+    766.0
+   ]
+  ],
+  "region_b": [
+   [
+    368.0,
+    546.2
+   ],
+   [
+    721.0,
+    545.9
+   ],
+   [
+    721.0,
+    765.0
+   ],
+   [
+    368.0,
+    765.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "overlapping fields of view with rotation or mirroring",
+  "panel_a": "gr2#3",
+  "panel_b": "gr2#1",
+  "score": 0.494,
+  "inliers": 12,
+  "correlation": 0.574,
+  "detail": 0.414,
+  "texture": 0.19,
+  "extent": 0.258,
+  "overlap_frac": 0.258,
+  "rotation_deg": -0.1,
+  "scale": 0.999,
+  "mirrored": true,
+  "region_a": [
+   [
+    531.0,
+    276.0
+   ],
+   [
+    786.0,
+    276.0
+   ],
+   [
+    786.0,
+    488.0
+   ],
+   [
+    531.0,
+    488.0
+   ]
+  ],
+  "region_b": [
+   [
+    65.9,
+    277.0
+   ],
+   [
+    1.0,
+    277.0
+   ],
+   [
+    1.0,
+    487.4
+   ],
+   [
+    65.5,
+    487.9
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "gr4#0",
+  "panel_b": "gr6#0",
+  "score": 0.403,
+  "inliers": 20,
+  "correlation": 0.749,
+  "detail": 0.057,
+  "texture": 0.039,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": -0.1,
+  "scale": 1.014,
+  "mirrored": false,
+  "region_a": [
+   [
+    4.0,
+    2.0
+   ],
+   [
+    721.0,
+    2.0
+   ],
+   [
+    721.0,
+    1018.0
+   ],
+   [
+    4.0,
+    1018.0
+   ]
+  ],
+  "region_b": [
+   [
+    3.0,
+    3.0
+   ],
+   [
+    720.0,
+    3.0
+   ],
+   [
+    720.0,
+    1031.0
+   ],
+   [
+    3.2,
+    1031.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "magnified region (often a legitimate inset)",
+  "panel_a": "gr3#0",
+  "panel_b": "gr3#1",
+  "score": 0.379,
+  "inliers": 32,
+  "correlation": 0.731,
+  "detail": 0.027,
+  "texture": 0.026,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": -0.0,
+  "scale": 2.189,
+  "mirrored": false,
+  "region_a": [
+   [
+    1.0,
+    1.0
+   ],
+   [
+    354.0,
+    1.0
+   ],
+   [
+    354.0,
+    247.0
+   ],
+   [
+    1.0,
+    247.0
+   ]
+  ],
+  "region_b": [
+   [
+    368.0,
+    2.0
+   ],
+   [
+    721.0,
+    2.0
+   ],
+   [
+    721.0,
+    246.0
+   ],
+   [
+    368.0,
+    246.0
+   ]
+  ],
+  "method": "keypoints"
+ }
+]

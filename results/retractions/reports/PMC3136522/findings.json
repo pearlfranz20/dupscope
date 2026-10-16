@@ -1,0 +1,55 @@
+[
+ {
+  "kind": "duplicate",
+  "category": "overlapping fields of view",
+  "panel_a": "fig1#0",
+  "panel_b": "fig1#2",
+  "score": 0.949,
+  "inliers": 97,
+  "correlation": 0.999,
+  "detail": 0.899,
+  "texture": 0.989,
+  "extent": 0.487,
+  "overlap_frac": 0.487,
+  "rotation_deg": -0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    151.0,
+    93.0
+   ],
+   [
+    2307.0,
+    93.0
+   ],
+   [
+    2307.0,
+    1967.0
+   ],
+   [
+    151.0,
+    1967.0
+   ]
+  ],
+  "region_b": [
+   [
+    151.0,
+    1055.0
+   ],
+   [
+    2306.9,
+    1055.0
+   ],
+   [
+    2307.0,
+    1967.1
+   ],
+   [
+    151.0,
+    1967.2
+   ]
+  ],
+  "method": "keypoints"
+ }
+]

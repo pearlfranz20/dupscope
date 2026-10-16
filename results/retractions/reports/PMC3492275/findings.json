@@ -1,0 +1,479 @@
+[
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig2#13",
+  "panel_b": "fig2#16",
+  "score": 0.925,
+  "inliers": 246,
+  "correlation": 0.973,
+  "detail": 0.878,
+  "texture": 0.779,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    1843.0,
+    999.0
+   ],
+   [
+    2085.0,
+    999.0
+   ],
+   [
+    2085.0,
+    1235.0
+   ],
+   [
+    1843.0,
+    1235.0
+   ]
+  ],
+  "region_b": [
+   [
+    2598.0,
+    999.0
+   ],
+   [
+    2839.6,
+    999.0
+   ],
+   [
+    2839.5,
+    1235.0
+   ],
+   [
+    2598.0,
+    1234.9
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig2#22",
+  "panel_b": "fig2#24",
+  "score": 0.857,
+  "inliers": 122,
+  "correlation": 0.908,
+  "detail": 0.806,
+  "texture": 0.757,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": -0.0,
+  "scale": 0.999,
+  "mirrored": false,
+  "region_a": [
+   [
+    2092.0,
+    1248.0
+   ],
+   [
+    2336.0,
+    1248.0
+   ],
+   [
+    2336.0,
+    1485.0
+   ],
+   [
+    2092.0,
+    1485.0
+   ]
+  ],
+  "region_b": [
+   [
+    2598.0,
+    1247.0
+   ],
+   [
+    2840.0,
+    1247.0
+   ],
+   [
+    2840.0,
+    1483.5
+   ],
+   [
+    2598.0,
+    1483.6
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig2#33",
+  "panel_b": "fig2#35",
+  "score": 0.818,
+  "inliers": 33,
+  "correlation": 0.786,
+  "detail": 0.849,
+  "texture": 0.614,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": -0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    2092.0,
+    1497.0
+   ],
+   [
+    2334.0,
+    1497.0
+   ],
+   [
+    2334.0,
+    1734.0
+   ],
+   [
+    2092.0,
+    1734.0
+   ]
+  ],
+  "region_b": [
+   [
+    2598.0,
+    1497.1
+   ],
+   [
+    2839.7,
+    1497.0
+   ],
+   [
+    2839.8,
+    1734.0
+   ],
+   [
+    2598.0,
+    1734.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig2#32",
+  "panel_b": "fig2#35",
+  "score": 0.804,
+  "inliers": 39,
+  "correlation": 0.826,
+  "detail": 0.782,
+  "texture": 0.523,
+  "extent": 0.998,
+  "overlap_frac": 0.998,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    1843.0,
+    1497.0
+   ],
+   [
+    2085.0,
+    1497.0
+   ],
+   [
+    2085.0,
+    1734.0
+   ],
+   [
+    1843.0,
+    1734.0
+   ]
+  ],
+  "region_b": [
+   [
+    2598.0,
+    1497.0
+   ],
+   [
+    2839.5,
+    1497.0
+   ],
+   [
+    2839.5,
+    1734.0
+   ],
+   [
+    2598.0,
+    1733.9
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig2#35",
+  "panel_b": "fig2#34",
+  "score": 0.672,
+  "inliers": 14,
+  "correlation": 0.772,
+  "detail": 0.572,
+  "texture": 0.32,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": -0.3,
+  "scale": 1.006,
+  "mirrored": false,
+  "region_a": [
+   [
+    2598.0,
+    1497.0
+   ],
+   [
+    2840.0,
+    1497.0
+   ],
+   [
+    2840.0,
+    1734.0
+   ],
+   [
+    2598.0,
+    1734.0
+   ]
+  ],
+  "region_b": [
+   [
+    2347.8,
+    1497.7
+   ],
+   [
+    2591.2,
+    1497.0
+   ],
+   [
+    2592.0,
+    1734.0
+   ],
+   [
+    2349.1,
+    1734.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig4#12",
+  "panel_b": "fig4#14",
+  "score": 0.55,
+  "inliers": 107,
+  "correlation": 0.785,
+  "detail": 0.315,
+  "texture": 0.56,
+  "extent": 0.965,
+  "overlap_frac": 0.965,
+  "rotation_deg": 0.2,
+  "scale": 0.983,
+  "mirrored": false,
+  "region_a": [
+   [
+    1617.0,
+    1255.0
+   ],
+   [
+    1949.0,
+    1255.0
+   ],
+   [
+    1949.0,
+    1583.0
+   ],
+   [
+    1617.0,
+    1583.0
+   ]
+  ],
+  "region_b": [
+   [
+    2309.0,
+    1255.3
+   ],
+   [
+    2635.3,
+    1256.4
+   ],
+   [
+    2634.2,
+    1578.8
+   ],
+   [
+    2309.0,
+    1577.8
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig4#19",
+  "panel_b": "fig4#21",
+  "score": 0.485,
+  "inliers": 33,
+  "correlation": 0.641,
+  "detail": 0.329,
+  "texture": 0.426,
+  "extent": 0.965,
+  "overlap_frac": 0.965,
+  "rotation_deg": 0.2,
+  "scale": 0.982,
+  "mirrored": false,
+  "region_a": [
+   [
+    1617.0,
+    1605.0
+   ],
+   [
+    1949.0,
+    1605.0
+   ],
+   [
+    1949.0,
+    1933.0
+   ],
+   [
+    1617.0,
+    1933.0
+   ]
+  ],
+  "region_b": [
+   [
+    2309.5,
+    1603.4
+   ],
+   [
+    2635.7,
+    1604.8
+   ],
+   [
+    2634.3,
+    1927.1
+   ],
+   [
+    2309.0,
+    1925.6
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image, rotated or mirrored",
+  "panel_a": "fig2#18",
+  "panel_b": "fig2#19",
+  "score": 0.434,
+  "inliers": 17,
+  "correlation": 0.854,
+  "detail": 0.014,
+  "texture": 0.113,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 5.8,
+  "scale": 1.098,
+  "mirrored": false,
+  "region_a": [
+   [
+    510.0,
+    1091.0
+   ],
+   [
+    643.0,
+    1091.0
+   ],
+   [
+    643.0,
+    1247.0
+   ],
+   [
+    510.0,
+    1247.0
+   ]
+  ],
+  "region_b": [
+   [
+    1178.6,
+    1086.0
+   ],
+   [
+    1323.9,
+    1086.0
+   ],
+   [
+    1306.4,
+    1233.0
+   ],
+   [
+    1168.0,
+    1233.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig4#20",
+  "panel_b": "fig4#21",
+  "score": 0.411,
+  "inliers": 13,
+  "correlation": 0.554,
+  "detail": 0.267,
+  "texture": 0.199,
+  "extent": 0.95,
+  "overlap_frac": 0.95,
+  "rotation_deg": 0.6,
+  "scale": 0.975,
+  "mirrored": false,
+  "region_a": [
+   [
+    1965.0,
+    1605.0
+   ],
+   [
+    2297.0,
+    1605.0
+   ],
+   [
+    2297.0,
+    1933.0
+   ],
+   [
+    1965.0,
+    1933.0
+   ]
+  ],
+  "region_b": [
+   [
+    2310.7,
+    1603.0
+   ],
+   [
+    2634.5,
+    1606.0
+   ],
+   [
+    2631.2,
+    1925.9
+   ],
+   [
+    2309.0,
+    1922.6
+   ]
+  ],
+  "method": "keypoints"
+ }
+]

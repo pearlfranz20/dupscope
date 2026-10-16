@@ -1,0 +1,161 @@
+[
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig1#0",
+  "panel_b": "fig1#1",
+  "score": 0.747,
+  "inliers": 161,
+  "correlation": 0.768,
+  "detail": 0.726,
+  "texture": 0.387,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    195.0,
+    57.0
+   ],
+   [
+    930.0,
+    57.0
+   ],
+   [
+    930.0,
+    178.0
+   ],
+   [
+    195.0,
+    178.0
+   ]
+  ],
+  "region_b": [
+   [
+    1369.0,
+    57.0
+   ],
+   [
+    2070.0,
+    57.0
+   ],
+   [
+    2070.0,
+    154.0
+   ],
+   [
+    1369.0,
+    154.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig5#6",
+  "panel_b": "fig6#4",
+  "score": 0.738,
+  "inliers": 129,
+  "correlation": 0.99,
+  "detail": 0.486,
+  "texture": 0.844,
+  "extent": 0.958,
+  "overlap_frac": 0.958,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    157.0,
+    347.0
+   ],
+   [
+    866.0,
+    347.0
+   ],
+   [
+    866.0,
+    441.0
+   ],
+   [
+    157.0,
+    441.0
+   ]
+  ],
+  "region_b": [
+   [
+    155.0,
+    305.0
+   ],
+   [
+    864.0,
+    305.0
+   ],
+   [
+    864.0,
+    395.0
+   ],
+   [
+    155.0,
+    395.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig5#0",
+  "panel_b": "fig1#2",
+  "score": 0.408,
+  "inliers": 12,
+  "correlation": 0.804,
+  "detail": 0.011,
+  "texture": 0.158,
+  "extent": 0.866,
+  "overlap_frac": 0.866,
+  "rotation_deg": -0.1,
+  "scale": 0.954,
+  "mirrored": false,
+  "region_a": [
+   [
+    157.0,
+    94.0
+   ],
+   [
+    866.0,
+    94.0
+   ],
+   [
+    866.0,
+    161.0
+   ],
+   [
+    157.0,
+    161.0
+   ]
+  ],
+  "region_b": [
+   [
+    1369.0,
+    165.0
+   ],
+   [
+    2038.3,
+    165.0
+   ],
+   [
+    2038.5,
+    217.4
+   ],
+   [
+    1369.0,
+    219.1
+   ]
+  ],
+  "method": "keypoints"
+ }
+]

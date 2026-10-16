@@ -1,0 +1,55 @@
+[
+ {
+  "kind": "duplicate",
+  "category": "magnified region (often a legitimate inset)",
+  "panel_a": "fig1#2",
+  "panel_b": "fig2#4",
+  "score": 0.546,
+  "inliers": 558,
+  "correlation": 0.976,
+  "detail": 0.116,
+  "texture": 0.277,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": -0.1,
+  "scale": 3.084,
+  "mirrored": false,
+  "region_a": [
+   [
+    1187.0,
+    980.0
+   ],
+   [
+    1403.0,
+    980.0
+   ],
+   [
+    1403.0,
+    1291.0
+   ],
+   [
+    1187.0,
+    1291.0
+   ]
+  ],
+  "region_b": [
+   [
+    1110.7,
+    158.2
+   ],
+   [
+    1776.8,
+    157.3
+   ],
+   [
+    1778.2,
+    1116.3
+   ],
+   [
+    1112.1,
+    1117.3
+   ]
+  ],
+  "method": "keypoints"
+ }
+]

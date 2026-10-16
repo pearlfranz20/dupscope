@@ -1,0 +1,26 @@
+{
+ "subject": "Neuroscience,Neurology,Psychiatry",
+ "thresholds": {
+  "dup_min_inliers": 12,
+  "dup_min_correlation": 0.5,
+  "dup_min_overlap": 0.1,
+  "clone_min_inliers": 8,
+  "clone_min_correlation": 0.8,
+  "dense_min_blocks": 60,
+  "clones": false,
+  "template": false,
+  "min_detail": 0.0
+ },
+ "retracted": {
+  "analysed": 79,
+  "flagged": 63,
+  "skipped": 272,
+  "flag_rate": 0.797
+ },
+ "controls": {
+  "analysed": 65,
+  "flagged": 28,
+  "skipped": 10,
+  "flag_rate": 0.431
+ }
+}
