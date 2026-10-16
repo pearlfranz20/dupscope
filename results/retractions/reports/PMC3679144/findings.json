@@ -691,59 +691,6 @@
  {
   "kind": "duplicate",
   "category": "same image reused",
-  "panel_a": "fig5#13",
-  "panel_b": "fig3#6",
-  "score": 0.637,
-  "inliers": 14,
-  "correlation": 0.65,
-  "detail": 0.625,
-  "texture": 0.551,
-  "extent": 0.608,
-  "overlap_frac": 0.608,
-  "rotation_deg": -0.1,
-  "scale": 0.904,
-  "mirrored": false,
-  "region_a": [
-   [
-    931.0,
-    996.0
-   ],
-   [
-    1138.0,
-    996.0
-   ],
-   [
-    1138.0,
-    1286.0
-   ],
-   [
-    931.0,
-    1286.0
-   ]
-  ],
-  "region_b": [
-   [
-    726.0,
-    356.0
-   ],
-   [
-    910.0,
-    356.0
-   ],
-   [
-    910.0,
-    527.0
-   ],
-   [
-    726.0,
-    527.3
-   ]
-  ],
-  "method": "keypoints"
- },
- {
-  "kind": "duplicate",
-  "category": "same image reused",
   "panel_a": "fig5#4",
   "panel_b": "fig5#5",
   "score": 0.609,
@@ -1002,59 +949,6 @@
    [
     1536.0,
     262.0
-   ]
-  ],
-  "method": "keypoints"
- },
- {
-  "kind": "duplicate",
-  "category": "same image reused",
-  "panel_a": "fig5#12",
-  "panel_b": "fig5#13",
-  "score": 0.524,
-  "inliers": 16,
-  "correlation": 0.636,
-  "detail": 0.412,
-  "texture": 0.329,
-  "extent": 1.0,
-  "overlap_frac": 1.0,
-  "rotation_deg": 0.2,
-  "scale": 1.018,
-  "mirrored": false,
-  "region_a": [
-   [
-    625.0,
-    988.0
-   ],
-   [
-    832.0,
-    988.0
-   ],
-   [
-    832.0,
-    1286.0
-   ],
-   [
-    625.0,
-    1286.0
-   ]
-  ],
-  "region_b": [
-   [
-    931.0,
-    996.0
-   ],
-   [
-    1138.0,
-    996.0
-   ],
-   [
-    1138.0,
-    1286.0
-   ],
-   [
-    931.0,
-    1285.4
    ]
   ],
   "method": "keypoints"
