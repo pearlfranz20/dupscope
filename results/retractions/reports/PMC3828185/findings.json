@@ -1,0 +1,108 @@
+[
+ {
+  "kind": "duplicate",
+  "category": "overlapping fields of view with rotation or mirroring",
+  "panel_a": "fig3#0",
+  "panel_b": "fig4#1",
+  "score": 0.621,
+  "inliers": 129,
+  "correlation": 0.769,
+  "detail": 0.474,
+  "texture": 0.644,
+  "extent": 0.264,
+  "overlap_frac": 0.264,
+  "rotation_deg": -0.0,
+  "scale": 0.801,
+  "mirrored": true,
+  "region_a": [
+   [
+    149.0,
+    80.0
+   ],
+   [
+    581.0,
+    80.0
+   ],
+   [
+    581.0,
+    775.0
+   ],
+   [
+    149.0,
+    775.0
+   ]
+  ],
+  "region_b": [
+   [
+    324.6,
+    796.0
+   ],
+   [
+    143.0,
+    796.0
+   ],
+   [
+    143.0,
+    970.0
+   ],
+   [
+    324.6,
+    970.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "overlapping fields of view",
+  "panel_a": "fig2#0",
+  "panel_b": "fig4#0",
+  "score": 0.349,
+  "inliers": 17,
+  "correlation": 0.545,
+  "detail": 0.152,
+  "texture": 0.244,
+  "extent": 0.305,
+  "overlap_frac": 0.305,
+  "rotation_deg": 0.1,
+  "scale": 1.086,
+  "mirrored": false,
+  "region_a": [
+   [
+    57.0,
+    58.0
+   ],
+   [
+    531.0,
+    58.0
+   ],
+   [
+    531.0,
+    531.0
+   ],
+   [
+    57.0,
+    531.0
+   ]
+  ],
+  "region_b": [
+   [
+    55.0,
+    70.0
+   ],
+   [
+    297.4,
+    70.0
+   ],
+   [
+    296.6,
+    352.0
+   ],
+   [
+    55.0,
+    351.1
+   ]
+  ],
+  "method": "keypoints"
+ }
+]

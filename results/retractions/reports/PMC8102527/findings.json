@@ -1,0 +1,638 @@
+[
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig3#2",
+  "panel_b": "fig3#3",
+  "score": 0.975,
+  "inliers": 659,
+  "correlation": 0.976,
+  "detail": 0.974,
+  "texture": 0.882,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    900.0,
+    555.0
+   ],
+   [
+    1329.0,
+    555.0
+   ],
+   [
+    1329.0,
+    825.0
+   ],
+   [
+    900.0,
+    825.0
+   ]
+  ],
+  "region_b": [
+   [
+    1502.0,
+    555.0
+   ],
+   [
+    1930.9,
+    555.0
+   ],
+   [
+    1930.8,
+    825.0
+   ],
+   [
+    1502.0,
+    824.9
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig3#0",
+  "panel_b": "fig3#1",
+  "score": 0.971,
+  "inliers": 922,
+  "correlation": 0.951,
+  "detail": 0.991,
+  "texture": 0.924,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": -0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    895.0,
+    205.0
+   ],
+   [
+    1392.0,
+    205.0
+   ],
+   [
+    1392.0,
+    469.0
+   ],
+   [
+    895.0,
+    469.0
+   ]
+  ],
+  "region_b": [
+   [
+    1473.8,
+    205.0
+   ],
+   [
+    1970.7,
+    205.0
+   ],
+   [
+    1970.7,
+    469.0
+   ],
+   [
+    1473.8,
+    469.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "overlapping fields of view",
+  "panel_a": "fig2#4",
+  "panel_b": "fig2#6",
+  "score": 0.966,
+  "inliers": 37,
+  "correlation": 0.993,
+  "detail": 0.939,
+  "texture": 0.954,
+  "extent": 0.108,
+  "overlap_frac": 0.108,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    1448.0,
+    506.0
+   ],
+   [
+    1798.0,
+    506.0
+   ],
+   [
+    1798.0,
+    669.0
+   ],
+   [
+    1448.0,
+    669.0
+   ]
+  ],
+  "region_b": [
+   [
+    1457.0,
+    655.0
+   ],
+   [
+    1745.0,
+    655.0
+   ],
+   [
+    1745.0,
+    669.2
+   ],
+   [
+    1457.0,
+    669.1
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig2#1",
+  "panel_b": "fig2#2",
+  "score": 0.941,
+  "inliers": 197,
+  "correlation": 0.981,
+  "detail": 0.901,
+  "texture": 0.637,
+  "extent": 0.998,
+  "overlap_frac": 0.998,
+  "rotation_deg": -0.0,
+  "scale": 0.999,
+  "mirrored": false,
+  "region_a": [
+   [
+    866.0,
+    194.0
+   ],
+   [
+    1368.0,
+    194.0
+   ],
+   [
+    1368.0,
+    475.0
+   ],
+   [
+    866.0,
+    475.0
+   ]
+  ],
+  "region_b": [
+   [
+    1454.0,
+    194.0
+   ],
+   [
+    1955.5,
+    194.0
+   ],
+   [
+    1955.6,
+    473.0
+   ],
+   [
+    1454.0,
+    473.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig3#8",
+  "panel_b": "fig3#9",
+  "score": 0.827,
+  "inliers": 28,
+  "correlation": 0.814,
+  "detail": 0.841,
+  "texture": 0.762,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": -0.1,
+  "scale": 1.003,
+  "mirrored": false,
+  "region_a": [
+   [
+    1463.0,
+    1264.0
+   ],
+   [
+    1990.0,
+    1264.0
+   ],
+   [
+    1990.0,
+    1514.0
+   ],
+   [
+    1463.0,
+    1514.0
+   ]
+  ],
+  "region_b": [
+   [
+    653.0,
+    1398.0
+   ],
+   [
+    746.0,
+    1398.0
+   ],
+   [
+    746.0,
+    1472.0
+   ],
+   [
+    653.0,
+    1472.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig2#5",
+  "panel_b": "fig2#6",
+  "score": 0.772,
+  "inliers": 90,
+  "correlation": 0.89,
+  "detail": 0.654,
+  "texture": 0.595,
+  "extent": 0.982,
+  "overlap_frac": 0.982,
+  "rotation_deg": -0.1,
+  "scale": 0.995,
+  "mirrored": false,
+  "region_a": [
+   [
+    870.0,
+    655.0
+   ],
+   [
+    1157.0,
+    655.0
+   ],
+   [
+    1157.0,
+    793.0
+   ],
+   [
+    870.0,
+    793.0
+   ]
+  ],
+  "region_b": [
+   [
+    1457.8,
+    657.4
+   ],
+   [
+    1743.5,
+    656.8
+   ],
+   [
+    1743.8,
+    793.0
+   ],
+   [
+    1458.1,
+    793.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig3#8",
+  "panel_b": "fig3#11",
+  "score": 0.728,
+  "inliers": 44,
+  "correlation": 0.618,
+  "detail": 0.838,
+  "texture": 0.795,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    1463.0,
+    1264.0
+   ],
+   [
+    1990.0,
+    1264.0
+   ],
+   [
+    1990.0,
+    1514.0
+   ],
+   [
+    1463.0,
+    1514.0
+   ]
+  ],
+  "region_b": [
+   [
+    314.0,
+    1424.0
+   ],
+   [
+    487.0,
+    1424.0
+   ],
+   [
+    487.0,
+    1497.0
+   ],
+   [
+    314.0,
+    1497.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig2#3",
+  "panel_b": "fig2#4",
+  "score": 0.692,
+  "inliers": 83,
+  "correlation": 0.878,
+  "detail": 0.506,
+  "texture": 0.559,
+  "extent": 0.959,
+  "overlap_frac": 0.959,
+  "rotation_deg": 0.2,
+  "scale": 0.995,
+  "mirrored": false,
+  "region_a": [
+   [
+    860.0,
+    513.0
+   ],
+   [
+    1223.0,
+    513.0
+   ],
+   [
+    1223.0,
+    645.0
+   ],
+   [
+    860.0,
+    645.0
+   ]
+  ],
+  "region_b": [
+   [
+    1448.3,
+    514.0
+   ],
+   [
+    1798.0,
+    515.3
+   ],
+   [
+    1798.0,
+    646.6
+   ],
+   [
+    1448.0,
+    645.3
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig2#13",
+  "panel_b": "fig2#14",
+  "score": 0.534,
+  "inliers": 69,
+  "correlation": 0.827,
+  "detail": 0.242,
+  "texture": 0.486,
+  "extent": 0.976,
+  "overlap_frac": 0.976,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    861.0,
+    1200.0
+   ],
+   [
+    1392.0,
+    1200.0
+   ],
+   [
+    1392.0,
+    1532.0
+   ],
+   [
+    861.0,
+    1532.0
+   ]
+  ],
+  "region_b": [
+   [
+    1441.6,
+    1208.2
+   ],
+   [
+    1972.8,
+    1208.3
+   ],
+   [
+    1972.8,
+    1532.0
+   ],
+   [
+    1441.6,
+    1532.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig2#11",
+  "panel_b": "fig2#14",
+  "score": 0.51,
+  "inliers": 47,
+  "correlation": 0.63,
+  "detail": 0.39,
+  "texture": 0.623,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.1,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    302.0,
+    1200.0
+   ],
+   [
+    528.0,
+    1200.0
+   ],
+   [
+    528.0,
+    1281.0
+   ],
+   [
+    302.0,
+    1281.0
+   ]
+  ],
+  "region_b": [
+   [
+    1462.2,
+    1207.8
+   ],
+   [
+    1688.2,
+    1208.0
+   ],
+   [
+    1688.1,
+    1289.0
+   ],
+   [
+    1462.1,
+    1288.8
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig4#0",
+  "panel_b": "fig4#3",
+  "score": 0.403,
+  "inliers": 61,
+  "correlation": 0.54,
+  "detail": 0.266,
+  "texture": 0.337,
+  "extent": 0.997,
+  "overlap_frac": 0.997,
+  "rotation_deg": -0.1,
+  "scale": 0.997,
+  "mirrored": false,
+  "region_a": [
+   [
+    0.0,
+    0.0
+   ],
+   [
+    1157.0,
+    0.0
+   ],
+   [
+    1157.0,
+    780.0
+   ],
+   [
+    0.0,
+    780.0
+   ]
+  ],
+  "region_b": [
+   [
+    1603.0,
+    2.0
+   ],
+   [
+    2005.0,
+    0.1
+   ],
+   [
+    2005.0,
+    778.1
+   ],
+   [
+    1603.0,
+    780.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig2#8",
+  "panel_b": "fig2#9",
+  "score": 0.371,
+  "inliers": 325,
+  "correlation": 0.556,
+  "detail": 0.186,
+  "texture": 0.639,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    873.0,
+    879.0
+   ],
+   [
+    1380.0,
+    879.0
+   ],
+   [
+    1380.0,
+    1178.0
+   ],
+   [
+    873.0,
+    1178.0
+   ]
+  ],
+  "region_b": [
+   [
+    1465.1,
+    879.0
+   ],
+   [
+    1972.2,
+    879.1
+   ],
+   [
+    1972.1,
+    1178.1
+   ],
+   [
+    1465.1,
+    1178.0
+   ]
+  ],
+  "method": "keypoints"
+ }
+]

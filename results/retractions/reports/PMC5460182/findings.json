@@ -1,0 +1,55 @@
+[
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig8#3",
+  "panel_b": "fig8#4",
+  "score": 0.693,
+  "inliers": 33,
+  "correlation": 0.848,
+  "detail": 0.538,
+  "texture": 0.679,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": -0.0,
+  "scale": 1.063,
+  "mirrored": false,
+  "region_a": [
+   [
+    363.0,
+    255.0
+   ],
+   [
+    670.0,
+    255.0
+   ],
+   [
+    670.0,
+    447.0
+   ],
+   [
+    363.0,
+    447.0
+   ]
+  ],
+  "region_b": [
+   [
+    172.7,
+    486.3
+   ],
+   [
+    499.0,
+    486.1
+   ],
+   [
+    499.1,
+    690.1
+   ],
+   [
+    172.8,
+    690.3
+   ]
+  ],
+  "method": "keypoints"
+ }
+]
