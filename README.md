@@ -107,8 +107,10 @@ Latest run (`results/retractions/summary.json`):
 | Strongest finding 0.8 or more | 20 | 11 |
 | Strongest finding 0.9 or more | 12 | 5 |
 
-Many honest papers have findings (insets, merged fluorescence channels, declared reused controls), so a single
-finding says little. The strongest finding of each of the 20 retracted papers scoring 0.8 or more was checked
+Many papers not marked as retracted have findings too (insets, merged fluorescence channels, declared reused
+controls), so a single finding says little. At score cut-offs of 0.8 or 0.9 the gap between the groups is small
+enough to be chance at this sample size. The panel classifier was trained partly on panels from these retracted
+papers and on none of the comparison papers, which probably flatters the gap. The strongest finding of each of the 20 retracted papers scoring 0.8 or more was checked
 by eye: 14 look like the same image used twice and 6 are false alarms (`results/retractions/reviewed.json`).
 A retraction notice says a paper had an image problem, not where, so the share of retracted papers flagged is not a
 recall figure.

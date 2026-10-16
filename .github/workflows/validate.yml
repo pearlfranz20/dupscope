@@ -36,8 +36,10 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -e .
-      # downloads and per-paper results from earlier runs, so a rerun resumes; Actions
-      # caches are private to the repository's workflows
+      # downloads and retracted papers' results from earlier runs, so a rerun resumes.
+      # Controls' results are never cached: other workflows of the repository (including
+      # pull requests) could restore this cache, and it must not tie a control paper to
+      # its findings. Its downloads are public open-access files.
       - uses: actions/cache/restore@v4
         with:
           path: ${{ runner.temp }}/dupscope-cache

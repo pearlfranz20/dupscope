@@ -2,6 +2,7 @@ name: Fetch development figures
 
 # Downloads figures of papers retracted for image problems (public record) into the
 # devdata branch, for developing panel splitting on real figures. Started by hand.
+# The figures are under mixed licences: empty the branch again once they are downloaded.
 
 on:
   workflow_dispatch:

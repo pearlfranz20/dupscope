@@ -28,6 +28,7 @@ import json
 import logging
 import random
 import re
+import shutil
 import time
 from collections import Counter
 from collections.abc import Iterator
@@ -146,7 +147,10 @@ def download_retraction_watch(client: Client) -> bytes:
 
 
 def parse_retractions(csv_bytes: bytes, subject: str | None = "Neuroscience") -> list[Retraction]:
-    text = csv_bytes.decode("utf-8-sig", errors="replace")
+    try:
+        text = csv_bytes.decode("utf-8-sig")
+    except UnicodeDecodeError:  # older exports are Windows-1252
+        text = csv_bytes.decode("cp1252", errors="replace")
     out = []
     for row in csv.DictReader(io.StringIO(text)):
         if row.get("RetractionNature", "").strip() != "Retraction":
@@ -318,17 +322,21 @@ def run_on_pmcid(
     client: Client, pmcid: str, thresholds: Thresholds, report_dir: Path | None = None, doi: str = ""
 ) -> PaperResult:
     """Analyse one article. With `report_dir`, a review report is written when there
-    are findings (only ever used for retracted papers). Results are cached next to the
-    HTTP cache, keyed by article, thresholds and classifier, so an interrupted run can
-    resume."""
+    are findings (only ever used for retracted papers). Retracted papers' results are
+    cached next to the HTTP cache, keyed by article, thresholds and classifier, so an
+    interrupted run can resume. Controls' results are never cached: a stored result
+    would tie an unretracted paper's identifier to its findings."""
     key = hashlib.sha256(
         json.dumps([pmcid, doi, asdict(thresholds), _classifier_hash(), MAX_PHOTO_PANELS]).encode()
     ).hexdigest()
     cached = client.cache / "results" / f"{key}.json"
-    if cached.exists() and (report_dir is None or (report_dir / "report.html").exists()):
-        return PaperResult(**json.loads(cached.read_text()))
+    if report_dir is not None and cached.exists():
+        result = PaperResult(**json.loads(cached.read_text()))
+        if not result.n_findings or (report_dir / "report.html").exists():
+            return result
     result = _analyse_pmcid(client, pmcid, thresholds, report_dir, doi)
-    if not result.error.startswith(("HTTP", "Connect", "Read", "Remote")):  # keep transient failures retryable
+    # transient failures stay retryable
+    if report_dir is not None and not result.error.startswith(("HTTP", "Connect", "Read", "Remote")):
         cached.parent.mkdir(parents=True, exist_ok=True)
         cached.write_text(json.dumps(asdict(result)))
     return result
@@ -455,6 +463,12 @@ def validate(
     #    since PMC withholds the images of retracted articles
     results = run_jobs([(c.pmcid, str(out / "reports" / c.pmcid), c.original_doi) for c in cases])
     retracted = [{"retraction": asdict(c), "result": asdict(r)} for c, r in zip(cases, results, strict=True)]
+    # reports left from earlier runs for papers that now have no findings
+    flagged_ids = {r.pmcid for r in results if r.n_findings}
+    if (out / "reports").exists():
+        for d in (out / "reports").iterdir():
+            if d.is_dir() and d.name not in flagged_ids:
+                shutil.rmtree(d)
     # 2. controls, only for retracted papers that could be analysed: same journal and
     #    year, never retracted, reported as counts only
     seen = {c.pmcid for c in cases}
