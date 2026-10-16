@@ -54,6 +54,7 @@ EPMC_SEARCH_URL = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
 # substrings ("Duplication of/in Image", "Manipulation of Images",
 # "Concerns/Issues about Image", ...)
 IMAGE_REASONS = ("image",)
+MAX_PHOTO_PANELS = 150
 RATE_LIMITED = ("ncbi.nlm.nih.gov", "ebi.ac.uk", "plos.org", "springernature.com")
 FIGURE_EXT = (".jpg", ".jpeg", ".png", ".tif", ".tiff", ".gif")
 
@@ -316,13 +317,43 @@ def run_on_pmcid(
     client: Client, pmcid: str, thresholds: Thresholds, report_dir: Path | None = None, doi: str = ""
 ) -> PaperResult:
     """Analyse one article. With `report_dir`, a review report is written when there
-    are findings (only ever used for retracted papers)."""
+    are findings (only ever used for retracted papers). Results are cached next to the
+    HTTP cache, keyed by article, thresholds and classifier, so an interrupted run can
+    resume."""
+    key = hashlib.sha256(
+        json.dumps([pmcid, doi, asdict(thresholds), _classifier_hash(), MAX_PHOTO_PANELS]).encode()
+    ).hexdigest()
+    cached = client.cache / "results" / f"{key}.json"
+    if cached.exists() and (report_dir is None or (report_dir / "report.html").exists()):
+        return PaperResult(**json.loads(cached.read_text()))
+    result = _analyse_pmcid(client, pmcid, thresholds, report_dir, doi)
+    if not result.error.startswith(("HTTP", "Connect", "Read", "Remote")):  # keep transient failures retryable
+        cached.parent.mkdir(parents=True, exist_ok=True)
+        cached.write_text(json.dumps(asdict(result)))
+    return result
+
+
+def _classifier_hash() -> str:
+    from ..classifier import MODEL
+
+    return hashlib.sha256(MODEL.read_bytes()).hexdigest()[:16]
+
+
+def _analyse_pmcid(
+    client: Client, pmcid: str, thresholds: Thresholds, report_dir: Path | None, doi: str
+) -> PaperResult:
     try:
         figures = fetch_figures(client, pmcid, doi=doi)
         if figures is None:
             return PaperResult(pmcid, 0, 0, 0, 0.0, error="not in the PMC open-access dataset")
         if not figures:
             return PaperResult(pmcid, 0, 0, 0, 0.0, error="no figure images")
+        from ..panels import extract_panels
+
+        n_photo = sum(p.photographic for f, img in figures.items() for p in extract_panels(img, f))
+        if n_photo > MAX_PHOTO_PANELS:
+            # pairwise comparison grows with the square of this; such papers are skipped
+            return PaperResult(pmcid, len(figures), n_photo, 0, 0.0, error="too many image panels")
         panels, findings = analyse(figures, thresholds)
         dup = [f for f in findings if f.kind == "duplicate"]
         if report_dir is not None and dup:
