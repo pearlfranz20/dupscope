@@ -149,8 +149,11 @@ def test_parse_keeps_image_retractions_in_subject():
 def test_validate_end_to_end(tmp_path):
     http, calls = fake_web()
     summary = rv.validate(tmp_path / "out", "me@example.org", http=http, min_interval=0, cache_dir=tmp_path / "cache")
-    assert summary["retracted"] == {"analysed": 1, "flagged": 1, "skipped": 0, "flag_rate": 1.0}
-    assert summary["controls"] == {"analysed": 1, "flagged": 0, "skipped": 0, "flag_rate": 0.0}
+    r, c = summary["retracted"], summary["controls"]
+    assert (r["analysed"], r["flagged"], r["skipped"], r["flag_rate"]) == (1, 1, 0, 1.0)
+    assert (c["analysed"], c["flagged"], c["skipped"], c["flag_rate"]) == (1, 0, 0, 0.0)
+    assert r["flagged_at_score"]["0.9"] == 1 and r["papers_by_category"] == {"same image reused": 1}
+    assert c["flagged_at_score"]["0.5"] == 0
     detail = json.loads((tmp_path / "out" / "retracted.json").read_text())
     assert detail[0]["retraction"]["pmcid"] == "PMC100"
     assert detail[0]["result"]["n_findings"] == 1

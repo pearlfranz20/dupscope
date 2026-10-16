@@ -7,7 +7,9 @@ Training data:
 - results/panel_classifier/labels.json: panels from figures of retracted papers
   (the devdata branch, fetched by .github/workflows/devdata.yml), labelled by eye as
   photograph (micrograph, blot, gel, animal photo) or graphic (bar, fill pattern,
-  plot, text, diagram);
+  plot, text, diagram). A random sample of panels ("random_sample"), plus every
+  panel that took part in a finding on those papers in a first real run
+  ("finding_panels");
 - panels from synthetic benchmark papers with seeds 1000 to 1059, which the
   benchmark's development and test splits never use.
 
@@ -37,7 +39,7 @@ PARAMS = {"n_estimators": 150, "max_depth": 3, "random_state": 0}
 
 def real_set(devdata: Path):
     labels = json.loads((ROOT / "results" / "panel_classifier" / "labels.json").read_text())
-    X, y, groups, cache = [], [], [], {}
+    X, y, groups, random_sample, cache = [], [], [], [], {}
     for m in labels:
         key = (m["paper"], m["fig"])
         if key not in cache:
@@ -46,7 +48,8 @@ def real_set(devdata: Path):
         X.append(features(cache[key][yy : yy + h, x : x + w]))
         y.append(m["label"])
         groups.append(m["paper"])
-    return np.array(X), np.array(y), np.array(groups)
+        random_sample.append(m.get("source", "random_sample") == "random_sample")
+    return np.array(X), np.array(y), np.array(groups), np.array(random_sample)
 
 
 def synthetic_set(dsb: str, dedupe: str):
@@ -92,20 +95,24 @@ def export(clf: GradientBoostingClassifier) -> dict:
 
 
 def main(devdata, dsb, dedupe):
-    X, y, groups = real_set(Path(devdata))
+    X, y, groups, rs = real_set(Path(devdata))
     SX, Sy = synthetic_set(dsb, dedupe)
     prob = np.zeros(len(y))
     for tr, te in GroupKFold(5).split(X, y, groups):
         clf = GradientBoostingClassifier(**PARAMS).fit(np.vstack([X[tr], SX]), np.concatenate([y[tr], Sy]))
         prob[te] = clf.predict_proba(X[te])[:, 1]
-    pred = prob >= THRESHOLD
+    # scored on the random sample of panels only: panels added because they took part in
+    # a finding are a biased sample
+    pred, yr = prob[rs] >= THRESHOLD, y[rs]
     cv = {
         "labelled_panels": int(len(y)),
+        "random_sample_panels": int(rs.sum()),
+        "finding_panels": int((~rs).sum()),
         "photographs": int(y.sum()),
         "papers": int(len(set(groups))),
-        "photo_recall": round(float((pred & (y == 1)).sum() / y.sum()), 3),
-        "graphics_kept": int((pred & (y == 0)).sum()),
-        "graphics": int((y == 0).sum()),
+        "photo_recall": round(float((pred & (yr == 1)).sum() / yr.sum()), 3),
+        "graphics_kept": int((pred & (yr == 0)).sum()),
+        "graphics": int((yr == 0).sum()),
         "threshold": THRESHOLD,
     }
     (ROOT / "results" / "panel_classifier" / "cv.json").write_text(json.dumps(cv, indent=1))

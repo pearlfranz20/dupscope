@@ -29,6 +29,7 @@ import logging
 import random
 import re
 import time
+from collections import Counter
 from collections.abc import Iterator
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
@@ -471,11 +472,17 @@ def validate(
     def summarise(results: list[dict]) -> dict:
         ok = [r for r in results if not r["error"] and r["n_photo_panels"] > 0]
         flagged = [r for r in ok if r["n_findings"] > 0]
+        categories = sorted({cat for r in ok for cat in r["categories"]})
         return {
             "analysed": len(ok),
             "flagged": len(flagged),
             "skipped": len(results) - len(ok),
+            "skip_reasons": dict(Counter(r["error"] or "no image panels" for r in results if r not in ok)),
             "flag_rate": round(len(flagged) / max(1, len(ok)), 3),
+            # papers whose strongest finding reaches each score
+            "flagged_at_score": {str(x): sum(r["max_score"] >= x for r in ok) for x in (0.5, 0.7, 0.8, 0.9)},
+            # papers with at least one finding of each kind
+            "papers_by_category": {cat: sum(cat in r["categories"] for r in ok) for cat in categories},
         }
 
     summary = {
