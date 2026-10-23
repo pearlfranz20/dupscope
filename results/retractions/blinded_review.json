@@ -1,0 +1,55 @@
+{
+ "note": "Blinded review of the strongest finding of every flagged paper (retracted and comparison), shown shuffled with no group, score or paper, judged by one reviewer with a neuroscience background. 'same_pixels' merges the 'same image' and 'legitimate reuse' answers: the reviewer could not reliably tell legitimate reuse apart, so this measures whether the detector found real pixel reuse, not misconduct. Counts only, no identifiers.",
+ "reviewed": 87,
+ "retracted": {
+  "all": {
+   "pairs": 59,
+   "same_pixels": 36,
+   "different": 11,
+   "not_photo": 9,
+   "unsure": 3
+  },
+  "score_0.8_or_more": {
+   "pairs": 20,
+   "same_pixels": 14,
+   "different": 0,
+   "not_photo": 5,
+   "unsure": 1
+  },
+  "score_below_0.8": {
+   "pairs": 39,
+   "same_pixels": 22,
+   "different": 11,
+   "not_photo": 4,
+   "unsure": 2
+  }
+ },
+ "comparison": {
+  "all": {
+   "pairs": 28,
+   "same_pixels": 9,
+   "different": 2,
+   "not_photo": 16,
+   "unsure": 1
+  },
+  "score_0.8_or_more": {
+   "pairs": 11,
+   "same_pixels": 5,
+   "different": 1,
+   "not_photo": 5,
+   "unsure": 0
+  },
+  "score_below_0.8": {
+   "pairs": 17,
+   "same_pixels": 4,
+   "different": 1,
+   "not_photo": 11,
+   "unsure": 1
+  }
+ },
+ "fisher_p_same_pixels": 0.021,
+ "agreement_with_unblinded_check": {
+  "papers": 20,
+  "agree": 18
+ }
+}

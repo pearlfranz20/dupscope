@@ -89,6 +89,35 @@ def retraction_section(inline: bool) -> str:
     score = {x["result"]["pmcid"]: x["result"]["max_score"] for x in cases}
     top = [k for k, v in verified.items() if v and score.get(k, 0) >= 0.8]
     looks = sum(1 for k in top if verified[k].startswith(("Looks like", "Same image")))
+    blind_html = ""
+    if (rdir / "blinded_review.json").exists():
+        b = json.loads((rdir / "blinded_review.json").read_text())
+        br, bc = b["retracted"]["all"], b["comparison"]["all"]
+        brows = "".join(
+            f'<tr><td>{label}</td><td class="num">{br[k]} of {br["pairs"]}</td><td class="num">{bc[k]} of {bc["pairs"]}</td></tr>'
+            for k, label in (
+                ("same_pixels", "Same pixels"),
+                ("different", "Different images"),
+                ("not_photo", "Not a photograph"),
+                ("unsure", "Can't tell"),
+            )
+        )
+        ag = b["agreement_with_unblinded_check"]
+        blind_html = f"""<h3>Blinded review</h3>
+  <p>To take the reviewer's knowledge out of it, the strongest finding of every flagged paper, retracted and
+  comparison alike, was shown to a second person as an unlabelled image pair, {b["reviewed"]} pairs in shuffled order
+  with nothing to say which group a pair came from. Telling legitimate reuse (an inset, a merged channel) from the
+  rest was not reliable by eye, so the review measures whether the detector found the same pixels, not whether
+  anything was wrong.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Judged by eye, blind</th><th class="num">Retracted</th><th class="num">Comparison</th></tr></thead>
+    <tbody>{brows}</tbody>
+  </table></div>
+  <p>The same pixels turned up in {pct(br["same_pixels"], br["pairs"])} of retracted papers' findings and
+  {pct(bc["same_pixels"], bc["pairs"])} of comparison papers' (Fisher's exact test, p = {b["fisher_p_same_pixels"]}).
+  Most comparison findings were graphics the classifier let through, which fits the training bias described above.
+  On the {ag["papers"]} top retracted findings, the blind judgements agreed with the unblinded check {ag["agree"]}
+  times.</p>"""
     review_line = (
         f"The strongest finding of every retracted paper scoring 0.8 or more was checked by eye ({len(top)} papers). In "
         f"{looks} it looks like the same image used twice, and {len(top) - looks} are false alarms: text labels, a "
@@ -133,6 +162,7 @@ def retraction_section(inline: bool) -> str:
   between the groups is probably somewhat smaller than these numbers suggest. The two groups' figures also come
   from different places (publishers versus PubMed Central).
   {review_line}</p>
+  {blind_html}
   <details><summary>Retracted papers with findings ({len(rows)})</summary>
   <div class="table-wrap"><table>
     <thead><tr><th>Retracted paper</th><th class="num">Top score</th><th>Looked at by eye</th></tr></thead>

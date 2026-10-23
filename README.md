@@ -115,6 +115,12 @@ by eye: 14 look like the same image used twice and 6 are false alarms (`results/
 A retraction notice says a paper had an image problem, not where, so the share of retracted papers flagged is not a
 recall figure.
 
+A blinded review then showed the strongest finding of every flagged paper, both groups shuffled and unlabelled,
+to a second person. The same pixels were found in 36 of 59 retracted papers' findings and
+9 of 28 comparison papers' (Fisher's exact p = 0.021). 16 of the comparison
+findings were graphics, the main remaining weakness (`results/retractions/blinded_review.json`). The review
+measures pixel reuse, not misconduct.
+
 It runs as a GitHub Actions job (Actions tab, "Retraction check"), which commits results to
 `results/retractions/`. Reruns resume from a cache.
 

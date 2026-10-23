@@ -223,6 +223,21 @@ figcaption { color: var(--muted); font-size: 0.86rem; max-width: 68ch; }
   between the groups is probably somewhat smaller than these numbers suggest. The two groups' figures also come
   from different places (publishers versus PubMed Central).
   The strongest finding of every retracted paper scoring 0.8 or more was checked by eye (20 papers). In 14 it looks like the same image used twice, and 6 are false alarms: text labels, a table, a plot and panel-splitting slips. One person did this, knowing the papers were retracted, and no comparison paper was looked at. Notes are in the table below. These are observations about papers already retracted, not new findings about anyone's work.</p>
+  <h3>Blinded review</h3>
+  <p>To take the reviewer's knowledge out of it, the strongest finding of every flagged paper, retracted and
+  comparison alike, was shown to a second person as an unlabelled image pair, 87 pairs in shuffled order
+  with nothing to say which group a pair came from. Telling legitimate reuse (an inset, a merged channel) from the
+  rest was not reliable by eye, so the review measures whether the detector found the same pixels, not whether
+  anything was wrong.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Judged by eye, blind</th><th class="num">Retracted</th><th class="num">Comparison</th></tr></thead>
+    <tbody><tr><td>Same pixels</td><td class="num">36 of 59</td><td class="num">9 of 28</td></tr><tr><td>Different images</td><td class="num">11 of 59</td><td class="num">2 of 28</td></tr><tr><td>Not a photograph</td><td class="num">9 of 59</td><td class="num">16 of 28</td></tr><tr><td>Can't tell</td><td class="num">3 of 59</td><td class="num">1 of 28</td></tr></tbody>
+  </table></div>
+  <p>The same pixels turned up in 61% of retracted papers' findings and
+  32% of comparison papers' (Fisher's exact test, p = 0.021).
+  Most comparison findings were graphics the classifier let through, which fits the training bias described above.
+  On the 20 top retracted findings, the blind judgements agreed with the unblinded check 18
+  times.</p>
   <details><summary>Retracted papers with findings (59)</summary>
   <div class="table-wrap"><table>
     <thead><tr><th>Retracted paper</th><th class="num">Top score</th><th>Looked at by eye</th></tr></thead>
