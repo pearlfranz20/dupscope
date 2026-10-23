@@ -36,8 +36,9 @@ from dupscope.panelfeatures import NAMES, features
 from dupscope.panels import extract_panels, to_gray
 
 ROOT = Path(__file__).resolve().parent.parent
-THRESHOLD = 0.3
-PARAMS = {"n_estimators": 150, "max_depth": 3, "random_state": 0}
+THRESHOLD = 0.4
+PARAMS = {"n_estimators": 300, "max_depth": 3, "random_state": 0}
+# chosen among 3 model sizes x 3 cut-offs (0.3, 0.4, 0.5) on the cross-validated scores below
 
 
 def real_set(devdata: Path):
