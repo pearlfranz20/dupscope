@@ -1,0 +1,47 @@
+name: Comparison panel bundle
+
+# Samples panels from comparison papers (never retracted, distinct from the ones the
+# evaluation uses) for training the panel classifier. Thumbnails and feature vectors
+# are encrypted to review/recipient.pem before they leave the runner and only the
+# ciphertext is pushed, to the panel-bundle branch. Started by hand.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      CONTACT: ${{ vars.CONTACT_EMAIL || format('{0}@users.noreply.github.com', github.repository_owner) }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - run: pip install -e .
+      - uses: actions/cache/restore@v4
+        with:
+          path: ${{ runner.temp }}/dupscope-cache
+          key: dupscope-cache-${{ github.run_id }}
+          restore-keys: dupscope-cache-
+      - name: Collect panels
+        run: |
+          python bench/collect_comparison_panels.py --retracted results/retractions/retracted.json \
+            --mailto "$CONTACT" --cache-dir "$RUNNER_TEMP/dupscope-cache" --out "$RUNNER_TEMP/panels"
+      - name: Encrypt and push
+        run: |
+          cd "$RUNNER_TEMP"
+          tar -cf panels.tar panels
+          openssl cms -encrypt -binary -aes256 -in panels.tar -outform DER -out bundle.cms \
+            "$GITHUB_WORKSPACE/review/recipient.pem"
+          rm -rf panels panels.tar
+          mkdir push && cd push && git init -q -b panel-bundle
+          cp ../bundle.cms .
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add bundle.cms && git commit -qm "Encrypted comparison panel bundle"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" panel-bundle
