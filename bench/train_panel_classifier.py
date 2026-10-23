@@ -10,6 +10,9 @@ Training data:
   plot, text, diagram). A random sample of panels ("random_sample"), plus every
   panel that took part in a finding on those papers in a first real run
   ("finding_panels");
+- results/panel_classifier/comparison_labels.json: feature vectors of panels from
+  comparison papers (never retracted), labelled the same way, under anonymous paper
+  groups (bench/collect_comparison_panels.py);
 - panels from synthetic benchmark papers with seeds 1000 to 1059, which the
   benchmark's development and test splits never use.
 
@@ -94,36 +97,68 @@ def export(clf: GradientBoostingClassifier) -> dict:
     }
 
 
+def comparison_set():
+    """Feature vectors and labels of panels from comparison papers (never retracted),
+    under anonymous paper groups. No images or identifiers are stored."""
+    path = ROOT / "results" / "panel_classifier" / "comparison_labels.json"
+    if not path.exists():
+        return np.zeros((0, len(NAMES))), np.zeros(0, int), np.zeros(0, str), np.zeros(0, bool)
+    rows = json.loads(path.read_text())
+    return (
+        np.array([r["features"] for r in rows]),
+        np.array([r["label"] for r in rows]),
+        np.array([r["group"] for r in rows]),
+        np.array([r["current_photo"] for r in rows]),
+    )
+
+
+def _rates(pred, y) -> dict:
+    return {
+        "photo_recall": round(float((pred & (y == 1)).sum() / max(1, (y == 1).sum())), 3),
+        "graphics_kept": int((pred & (y == 0)).sum()),
+        "graphics": int((y == 0).sum()),
+        "photographs": int((y == 1).sum()),
+    }
+
+
 def main(devdata, dsb, dedupe):
     X, y, groups, rs = real_set(Path(devdata))
     SX, Sy = synthetic_set(dsb, dedupe)
-    prob = np.zeros(len(y))
-    for tr, te in GroupKFold(5).split(X, y, groups):
-        clf = GradientBoostingClassifier(**PARAMS).fit(np.vstack([X[tr], SX]), np.concatenate([y[tr], Sy]))
-        prob[te] = clf.predict_proba(X[te])[:, 1]
+    CX, Cy, Cg, Ccur = comparison_set()
+    AX, Ay, Ag = np.vstack([X, CX]), np.concatenate([y, Cy]), np.concatenate([groups, Cg])
+    prob = np.zeros(len(Ay))
+    for tr, te in GroupKFold(5).split(AX, Ay, Ag):
+        clf = GradientBoostingClassifier(**PARAMS).fit(np.vstack([AX[tr], SX]), np.concatenate([Ay[tr], Sy]))
+        prob[te] = clf.predict_proba(AX[te])[:, 1]
+    real_prob, cmp_prob = prob[: len(y)], prob[len(y) :]
     # scored on the random sample of panels only: panels added because they took part in
     # a finding are a biased sample
-    pred, yr = prob[rs] >= THRESHOLD, y[rs]
+    pred, yr = real_prob[rs] >= THRESHOLD, y[rs]
     labels = json.loads((ROOT / "results" / "panel_classifier" / "labels.json").read_text())
     sample = [m for m in labels if m.get("source", "random_sample") == "random_sample"]
     cv = {
         # graphics in the random sample that the earlier hand-written rules called
         # photographs (their decision is stored with each label as "photo")
         "old_rules_graphics_kept": sum(1 for m in sample if str(m["photo"]) == "1" and m["label"] == 0),
-        "labelled_panels": int(len(y)),
+        "labelled_panels": int(len(y) + len(Cy)),
         "random_sample_panels": int(rs.sum()),
         "finding_panels": int((~rs).sum()),
-        "photographs": int(y.sum()),
+        "comparison_panels": int(len(Cy)),
         "papers": int(len(set(groups))),
-        "photo_recall": round(float((pred & (yr == 1)).sum() / yr.sum()), 3),
-        "graphics_kept": int((pred & (yr == 0)).sum()),
-        "graphics": int((yr == 0).sum()),
+        "comparison_papers": int(len(set(Cg))),
+        **_rates(pred, yr),
         "threshold": THRESHOLD,
     }
+    if len(Cy):
+        # comparison panels, held out by paper, with this classifier and with the one
+        # before them (trained on retracted papers only), whose decision was recorded
+        # when the panels were collected
+        cv["comparison_held_out"] = _rates(cmp_prob >= THRESHOLD, Cy)
+        cv["comparison_previous_classifier"] = _rates(Ccur.astype(bool), Cy)
     (ROOT / "results" / "panel_classifier" / "cv.json").write_text(json.dumps(cv, indent=1))
-    clf = GradientBoostingClassifier(**PARAMS).fit(np.vstack([X, SX]), np.concatenate([y, Sy]))
+    clf = GradientBoostingClassifier(**PARAMS).fit(np.vstack([AX, SX]), np.concatenate([Ay, Sy]))
     (ROOT / "src" / "dupscope" / "classifier.json").write_text(json.dumps(export(clf)))
-    print(cv)
+    print(json.dumps(cv, indent=1))
 
 
 if __name__ == "__main__":
