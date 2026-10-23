@@ -1,6 +1,59 @@
 [
  {
   "kind": "duplicate",
+  "category": "overlapping fields of view",
+  "panel_a": "fig2#11",
+  "panel_b": "fig2#12",
+  "score": 1.0,
+  "inliers": 262,
+  "correlation": 1.0,
+  "detail": 0.999,
+  "texture": 0.995,
+  "extent": 0.39,
+  "overlap_frac": 0.39,
+  "rotation_deg": 0.0,
+  "scale": 1.0,
+  "mirrored": false,
+  "region_a": [
+   [
+    302.0,
+    1200.0
+   ],
+   [
+    528.0,
+    1200.0
+   ],
+   [
+    528.0,
+    1281.0
+   ],
+   [
+    302.0,
+    1281.0
+   ]
+  ],
+  "region_b": [
+   [
+    426.0,
+    1203.0
+   ],
+   [
+    517.0,
+    1203.0
+   ],
+   [
+    517.0,
+    1281.0
+   ],
+   [
+    426.0,
+    1281.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
   "category": "same image reused",
   "panel_a": "fig3#2",
   "panel_b": "fig3#3",
@@ -366,6 +419,59 @@
    [
     314.0,
     1497.0
+   ]
+  ],
+  "method": "keypoints"
+ },
+ {
+  "kind": "duplicate",
+  "category": "same image reused",
+  "panel_a": "fig2#12",
+  "panel_b": "fig2#14",
+  "score": 0.7,
+  "inliers": 30,
+  "correlation": 0.702,
+  "detail": 0.698,
+  "texture": 0.572,
+  "extent": 0.997,
+  "overlap_frac": 0.997,
+  "rotation_deg": -0.5,
+  "scale": 0.998,
+  "mirrored": false,
+  "region_a": [
+   [
+    426.0,
+    1203.0
+   ],
+   [
+    517.0,
+    1203.0
+   ],
+   [
+    517.0,
+    1456.0
+   ],
+   [
+    426.0,
+    1456.0
+   ]
+  ],
+  "region_b": [
+   [
+    1585.9,
+    1211.4
+   ],
+   [
+    1676.7,
+    1210.6
+   ],
+   [
+    1678.8,
+    1463.2
+   ],
+   [
+    1587.9,
+    1463.9
    ]
   ],
   "method": "keypoints"

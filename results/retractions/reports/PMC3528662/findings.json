@@ -108,59 +108,6 @@
  {
   "kind": "duplicate",
   "category": "same image reused",
-  "panel_a": "fig1#22",
-  "panel_b": "fig1#23",
-  "score": 0.412,
-  "inliers": 57,
-  "correlation": 0.607,
-  "detail": 0.218,
-  "texture": 0.121,
-  "extent": 0.966,
-  "overlap_frac": 0.966,
-  "rotation_deg": -0.3,
-  "scale": 0.983,
-  "mirrored": false,
-  "region_a": [
-   [
-    1384.0,
-    3771.0
-   ],
-   [
-    1856.0,
-    3771.0
-   ],
-   [
-    1856.0,
-    4068.0
-   ],
-   [
-    1384.0,
-    4068.0
-   ]
-  ],
-  "region_b": [
-   [
-    1401.6,
-    4212.2
-   ],
-   [
-    1865.6,
-    4210.0
-   ],
-   [
-    1867.0,
-    4502.0
-   ],
-   [
-    1403.0,
-    4504.1
-   ]
-  ],
-  "method": "keypoints"
- },
- {
-  "kind": "duplicate",
-  "category": "same image reused",
   "panel_a": "fig2#7",
   "panel_b": "fig2#4",
   "score": 0.401,

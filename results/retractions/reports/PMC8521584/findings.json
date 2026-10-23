@@ -1,59 +1,6 @@
 [
  {
   "kind": "duplicate",
-  "category": "overlapping fields of view",
-  "panel_a": "fig4#50",
-  "panel_b": "fig4#51",
-  "score": 0.913,
-  "inliers": 91,
-  "correlation": 0.953,
-  "detail": 0.874,
-  "texture": 0.757,
-  "extent": 0.449,
-  "overlap_frac": 0.449,
-  "rotation_deg": -0.0,
-  "scale": 1.0,
-  "mirrored": false,
-  "region_a": [
-   [
-    7.0,
-    1656.0
-   ],
-   [
-    985.0,
-    1656.0
-   ],
-   [
-    985.0,
-    1793.0
-   ],
-   [
-    7.0,
-    1793.0
-   ]
-  ],
-  "region_b": [
-   [
-    7.0,
-    1732.0
-   ],
-   [
-    985.0,
-    1732.0
-   ],
-   [
-    985.0,
-    1793.0
-   ],
-   [
-    7.0,
-    1793.0
-   ]
-  ],
-  "method": "keypoints"
- },
- {
-  "kind": "duplicate",
   "category": "same image reused",
   "panel_a": "fig4#18",
   "panel_b": "fig4#14",

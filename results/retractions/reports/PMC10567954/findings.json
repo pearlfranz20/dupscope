@@ -1,212 +1,53 @@
 [
  {
   "kind": "duplicate",
-  "category": "same image reused",
-  "panel_a": "fig6#2",
-  "panel_b": "fig6#4",
-  "score": 0.832,
-  "inliers": 23,
-  "correlation": 0.862,
-  "detail": 0.801,
-  "texture": 0.693,
-  "extent": 1.0,
-  "overlap_frac": 1.0,
-  "rotation_deg": -0.0,
-  "scale": 1.0,
-  "mirrored": false,
-  "region_a": [
-   [
-    1013.0,
-    60.0
-   ],
-   [
-    1480.0,
-    60.0
-   ],
-   [
-    1480.0,
-    406.0
-   ],
-   [
-    1013.0,
-    406.0
-   ]
-  ],
-  "region_b": [
-   [
-    492.0,
-    365.0
-   ],
-   [
-    958.5,
-    365.0
-   ],
-   [
-    958.6,
-    405.9
-   ],
-   [
-    492.0,
-    406.0
-   ]
-  ],
-  "method": "keypoints"
- },
- {
-  "kind": "duplicate",
-  "category": "same image reused",
-  "panel_a": "fig6#0",
-  "panel_b": "fig6#4",
-  "score": 0.744,
-  "inliers": 24,
-  "correlation": 0.751,
-  "detail": 0.738,
-  "texture": 0.632,
-  "extent": 1.0,
-  "overlap_frac": 1.0,
-  "rotation_deg": -0.0,
-  "scale": 1.012,
-  "mirrored": false,
-  "region_a": [
-   [
-    2.0,
-    64.0
-   ],
-   [
-    469.0,
-    64.0
-   ],
-   [
-    469.0,
-    400.0
-   ],
-   [
-    2.0,
-    400.0
-   ]
-  ],
-  "region_b": [
-   [
-    492.0,
-    365.0
-   ],
-   [
-    959.0,
-    365.0
-   ],
-   [
-    959.0,
-    406.0
-   ],
-   [
-    492.0,
-    406.0
-   ]
-  ],
-  "method": "keypoints"
- },
- {
-  "kind": "duplicate",
-  "category": "same image reused",
-  "panel_a": "fig6#4",
-  "panel_b": "fig6#13",
-  "score": 0.69,
-  "inliers": 14,
-  "correlation": 0.739,
-  "detail": 0.641,
-  "texture": 0.596,
-  "extent": 0.994,
-  "overlap_frac": 0.994,
-  "rotation_deg": 0.1,
-  "scale": 1.0,
-  "mirrored": false,
-  "region_a": [
-   [
-    492.0,
-    365.0
-   ],
-   [
-    959.0,
-    365.0
-   ],
-   [
-    959.0,
-    406.0
-   ],
-   [
-    492.0,
-    406.0
-   ]
-  ],
-  "region_b": [
-   [
-    7.0,
-    1603.0
-   ],
-   [
-    474.0,
-    1603.7
-   ],
-   [
-    474.0,
-    1644.0
-   ],
-   [
-    7.0,
-    1644.0
-   ]
-  ],
-  "method": "keypoints"
- },
- {
-  "kind": "duplicate",
   "category": "magnified region (often a legitimate inset)",
-  "panel_a": "fig2#11",
-  "panel_b": "fig2#12",
-  "score": 0.577,
-  "inliers": 40,
-  "correlation": 0.797,
-  "detail": 0.357,
-  "texture": 0.464,
-  "extent": 0.804,
-  "overlap_frac": 0.804,
-  "rotation_deg": 0.1,
-  "scale": 2.559,
+  "panel_a": "fig2#13",
+  "panel_b": "fig2#14",
+  "score": 0.62,
+  "inliers": 90,
+  "correlation": 0.788,
+  "detail": 0.451,
+  "texture": 0.483,
+  "extent": 1.0,
+  "overlap_frac": 1.0,
+  "rotation_deg": 0.0,
+  "scale": 2.487,
   "mirrored": false,
   "region_a": [
    [
-    1391.0,
-    479.0
+    692.0,
+    950.0
    ],
    [
-    2026.0,
-    479.0
+    1330.0,
+    950.0
    ],
    [
-    2026.0,
-    909.0
+    1330.0,
+    1332.0
    ],
    [
-    1391.0,
-    909.0
+    692.0,
+    1332.0
    ]
   ],
   "region_b": [
    [
-    7.0,
-    1025.4
+    1386.0,
+    952.0
    ],
    [
-    644.0,
-    1027.3
+    2008.0,
+    952.0
    ],
    [
-    644.0,
-    1328.0
+    2008.0,
+    1318.0
    ],
    [
-    7.0,
-    1328.0
+    1386.0,
+    1318.0
    ]
   ],
   "method": "keypoints"

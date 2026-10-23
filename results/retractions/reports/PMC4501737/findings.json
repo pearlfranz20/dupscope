@@ -107,59 +107,6 @@
  },
  {
   "kind": "duplicate",
-  "category": "same image, rotated or mirrored",
-  "panel_a": "fig3#12",
-  "panel_b": "fig3#22",
-  "score": 0.783,
-  "inliers": 34,
-  "correlation": 0.908,
-  "detail": 0.658,
-  "texture": 0.825,
-  "extent": 0.998,
-  "overlap_frac": 0.998,
-  "rotation_deg": -180.0,
-  "scale": 1.0,
-  "mirrored": false,
-  "region_a": [
-   [
-    311.0,
-    888.0
-   ],
-   [
-    948.0,
-    888.0
-   ],
-   [
-    948.0,
-    981.0
-   ],
-   [
-    311.0,
-    981.0
-   ]
-  ],
-  "region_b": [
-   [
-    945.0,
-    2115.0
-   ],
-   [
-    309.0,
-    2115.0
-   ],
-   [
-    309.0,
-    2022.2
-   ],
-   [
-    945.0,
-    2022.5
-   ]
-  ],
-  "method": "keypoints"
- },
- {
-  "kind": "duplicate",
   "category": "same image reused",
   "panel_a": "fig1#3",
   "panel_b": "fig3#21",
@@ -691,59 +638,6 @@
  {
   "kind": "duplicate",
   "category": "same image reused",
-  "panel_a": "fig3#22",
-  "panel_b": "fig4#4",
-  "score": 0.396,
-  "inliers": 15,
-  "correlation": 0.65,
-  "detail": 0.142,
-  "texture": 0.577,
-  "extent": 0.936,
-  "overlap_frac": 0.936,
-  "rotation_deg": -0.3,
-  "scale": 0.977,
-  "mirrored": false,
-  "region_a": [
-   [
-    309.0,
-    2021.0
-   ],
-   [
-    945.0,
-    2021.0
-   ],
-   [
-    945.0,
-    2115.0
-   ],
-   [
-    309.0,
-    2115.0
-   ]
-  ],
-  "region_b": [
-   [
-    244.7,
-    342.5
-   ],
-   [
-    866.0,
-    339.3
-   ],
-   [
-    866.0,
-    426.0
-   ],
-   [
-    245.2,
-    426.0
-   ]
-  ],
-  "method": "keypoints"
- },
- {
-  "kind": "duplicate",
-  "category": "same image reused",
   "panel_a": "fig4#17",
   "panel_b": "fig4#24",
   "score": 0.395,
@@ -896,59 +790,6 @@
    [
     866.0,
     340.4
-   ]
-  ],
-  "method": "keypoints"
- },
- {
-  "kind": "duplicate",
-  "category": "same image, rotated or mirrored",
-  "panel_a": "fig4#0",
-  "panel_b": "fig4#1",
-  "score": 0.32,
-  "inliers": 26,
-  "correlation": 0.613,
-  "detail": 0.027,
-  "texture": 0.157,
-  "extent": 0.68,
-  "overlap_frac": 0.68,
-  "rotation_deg": 0.2,
-  "scale": 0.976,
-  "mirrored": true,
-  "region_a": [
-   [
-    235.0,
-    95.0
-   ],
-   [
-    866.0,
-    95.0
-   ],
-   [
-    866.0,
-    185.0
-   ],
-   [
-    235.0,
-    185.0
-   ]
-  ],
-  "region_b": [
-   [
-    854.5,
-    239.0
-   ],
-   [
-    238.8,
-    241.0
-   ],
-   [
-    239.1,
-    302.0
-   ],
-   [
-    854.8,
-    302.0
    ]
   ],
   "method": "keypoints"

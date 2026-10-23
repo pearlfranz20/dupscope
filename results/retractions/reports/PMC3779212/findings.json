@@ -160,59 +160,6 @@
  },
  {
   "kind": "duplicate",
-  "category": "overlapping fields of view with rotation or mirroring",
-  "panel_a": "fig3#13",
-  "panel_b": "fig3#0",
-  "score": 0.326,
-  "inliers": 12,
-  "correlation": 0.518,
-  "detail": 0.134,
-  "texture": 0.352,
-  "extent": 0.563,
-  "overlap_frac": 0.563,
-  "rotation_deg": -0.5,
-  "scale": 0.75,
-  "mirrored": true,
-  "region_a": [
-   [
-    1265.0,
-    972.0
-   ],
-   [
-    1396.0,
-    972.0
-   ],
-   [
-    1396.0,
-    1060.0
-   ],
-   [
-    1265.0,
-    1060.0
-   ]
-  ],
-  "region_b": [
-   [
-    272.5,
-    236.4
-   ],
-   [
-    174.3,
-    235.5
-   ],
-   [
-    173.7,
-    301.5
-   ],
-   [
-    271.9,
-    302.4
-   ]
-  ],
-  "method": "keypoints"
- },
- {
-  "kind": "duplicate",
   "category": "same image, rotated or mirrored",
   "panel_a": "fig1#3",
   "panel_b": "fig3#7",

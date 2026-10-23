@@ -12,51 +12,51 @@
   "min_detail": 0.0
  },
  "retracted": {
-  "analysed": 79,
-  "flagged": 59,
-  "skipped": 272,
+  "analysed": 80,
+  "flagged": 56,
+  "skipped": 271,
   "skip_reasons": {
    "no figure images": 204,
    "not in the PMC open-access dataset": 49,
-   "too many image panels": 17,
+   "too many image panels": 16,
    "no image panels": 2
   },
-  "flag_rate": 0.747,
+  "flag_rate": 0.7,
   "flagged_at_score": {
-   "0.5": 52,
-   "0.7": 34,
-   "0.8": 20,
-   "0.9": 12
+   "0.5": 47,
+   "0.7": 29,
+   "0.8": 17,
+   "0.9": 9
   },
   "papers_by_category": {
    "magnified region (often a legitimate inset)": 16,
-   "overlapping fields of view": 18,
-   "overlapping fields of view with rotation or mirroring": 10,
-   "same image reused": 55,
+   "overlapping fields of view": 17,
+   "overlapping fields of view with rotation or mirroring": 9,
+   "same image reused": 50,
    "same image, rotated or mirrored": 18
   }
  },
  "controls": {
-  "analysed": 64,
-  "flagged": 28,
-  "skipped": 11,
+  "analysed": 51,
+  "flagged": 17,
+  "skipped": 25,
   "skip_reasons": {
-   "no image panels": 8,
+   "no image panels": 22,
    "no figure images": 3
   },
-  "flag_rate": 0.438,
+  "flag_rate": 0.333,
   "flagged_at_score": {
-   "0.5": 24,
-   "0.7": 15,
-   "0.8": 11,
+   "0.5": 14,
+   "0.7": 10,
+   "0.8": 9,
    "0.9": 5
   },
   "papers_by_category": {
    "magnified region (often a legitimate inset)": 3,
    "overlapping fields of view": 1,
-   "overlapping fields of view with rotation or mirroring": 4,
-   "same image reused": 25,
-   "same image, rotated or mirrored": 6
+   "overlapping fields of view with rotation or mirroring": 2,
+   "same image reused": 14,
+   "same image, rotated or mirrored": 5
   }
  }
 }
